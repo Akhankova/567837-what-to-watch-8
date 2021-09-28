@@ -1,7 +1,7 @@
 # Личный проект «Что посмотреть»
 
 * Студент: [Alina Akhankova](https://up.htmlacademy.ru/react/8/user/567837).
-* Наставник: `Неизвестно`.
+* Наставник: [Артур Галимов](https://up.htmlacademy.ru/react/8/user/1237543).
 
 ---
 
