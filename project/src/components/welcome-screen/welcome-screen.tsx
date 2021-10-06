@@ -1,5 +1,6 @@
 import React from 'react';
 import CardFilmScreen from '../card-film-screen/card-film-screen';
+import Logo from '../logo/logo';
 
 type WelcomeScreenProps = {
   year: number;
@@ -22,11 +23,7 @@ function WelcomeScreen({year, genre, cardsCount, headCardTitle}: WelcomeScreenPr
 
         <header className="page-header film-card__head">
           <div className="logo">
-            <a className="logo__link" href="/">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
+            <Logo />
           </div>
 
           <ul className="user-block">
