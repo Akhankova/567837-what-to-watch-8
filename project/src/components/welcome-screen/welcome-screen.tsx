@@ -1,16 +1,18 @@
 import React from 'react';
 import CardFilmScreen from '../card-film-screen/card-film-screen';
 import Logo from '../logo/logo';
+import {smallCardFilm} from '../../mocks/films';
+//import {SmallFilmCard} from '../../types/small-film-card';
 
 type WelcomeScreenProps = {
   year: number;
   genre: string;
-  cardsCount: number;
   headCardTitle: string;
 }
 
+//{new Array(cardsCount).fill(CardFilmScreen).map((filmCard, i) => filmCard(i))}
+function WelcomeScreen({genre, year, headCardTitle}: WelcomeScreenProps): JSX.Element {
 
-function WelcomeScreen({year, genre, cardsCount, headCardTitle}: WelcomeScreenProps): JSX.Element {
   return (
 
     <React.Fragment>
@@ -108,8 +110,14 @@ function WelcomeScreen({year, genre, cardsCount, headCardTitle}: WelcomeScreenPr
           </ul>
 
           <div className="catalog__films-list">
-            {new Array(cardsCount).fill(CardFilmScreen).map((filmCard, i) => filmCard(i))}
 
+            {smallCardFilm.map((film) => (
+              <CardFilmScreen
+                key={film.id}
+                name={film.title}
+                imgSrc={film.imgSrc}
+              />
+            ))}
 
           </div>
 

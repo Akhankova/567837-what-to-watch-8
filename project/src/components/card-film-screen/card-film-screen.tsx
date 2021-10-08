@@ -1,11 +1,16 @@
-function CardFilmScreen(): JSX.Element {
+type Props = {
+  name: string;
+  imgSrc: string;
+}
+
+function CardFilmScreen({name, imgSrc}: Props): JSX.Element {
   return (
     <article className="small-film-card catalog__films-card">
       <div className="small-film-card__image">
-        <img src="img/war-of-the-worlds.jpg" alt="War of the Worlds" width="280" height="175" />
+        <img src={imgSrc} alt={name} width="280" height="175" />
       </div>
       <h3 className="small-film-card__title">
-        <a className="small-film-card__link" href="film-page.html">War of the Worlds</a>
+        <a className="small-film-card__link" href="film-page.html">{name}</a>
       </h3>
     </article>
   );

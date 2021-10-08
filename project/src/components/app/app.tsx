@@ -8,20 +8,21 @@ import MovieScreen from '../movie-screen/movie-screen';
 import AddScreen from '../add-screen/add-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
+//import {SmallFilmCard} from '../../types/small-film-card';
 
 type AppScreenProps = {
   year: number;
   genre: string;
-  cardsCount: number;
   headCardTitle: string;
 }
 
-function App({year, genre, cardsCount, headCardTitle}: AppScreenProps): JSX.Element {
+//<WelcomeScreen year={year} genre={genre} headCardTitle={headCardTitle}/>
+function App({year, genre, headCardTitle}: AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Main}>
-          <WelcomeScreen year={year} genre={genre} cardsCount={cardsCount} headCardTitle={headCardTitle} />
+          <WelcomeScreen year={year} genre={genre} headCardTitle={headCardTitle}/>
         </Route>
         <PrivateRoute
           exact
