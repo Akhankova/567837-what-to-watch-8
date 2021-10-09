@@ -11,9 +11,10 @@ type WelcomeScreenProps = {
   movie: SmallFilmCard;
 }
 
-function MovieScreen(props: WelcomeScreenProps): JSX.Element {
+function MovieReviewsScreen(props: WelcomeScreenProps): JSX.Element {
   const {movie} = props;
-  const {released, genre, title, backgroundImage, previewImage, rating, scoresCount, director, starring, description} = movie;
+  const {released, genre, title, backgroundImage, previewImage, comments } = movie;
+
   return (
     <React.Fragment>
       <section className="film-card film-card--full">
@@ -77,32 +78,36 @@ function MovieScreen(props: WelcomeScreenProps): JSX.Element {
             <div className="film-card__desc">
               <nav className="film-nav film-card__nav">
                 <ul className="film-nav__list">
-                  <li className="film-nav__item film-nav__item--active">
+                  <li className="film-nav__item">
                     <a href="/" className="film-nav__link">Overview</a>
                   </li>
                   <li className="film-nav__item">
                     <a href="/" className="film-nav__link">Details</a>
                   </li>
-                  <li className="film-nav__item">
+                  <li className="film-nav__item film-nav__item--active">
                     <a href="/" className="film-nav__link">Reviews</a>
                   </li>
                 </ul>
               </nav>
 
-              <div className="film-rating">
-                <div className="film-rating__score">{rating}</div>
-                <p className="film-rating__meta">
-                  <span className="film-rating__level">Very good</span>
-                  <span className="film-rating__count">{scoresCount} ratings</span>
-                </p>
-              </div>
+              <div className="film-card__reviews film-card__row">
+                <div className="film-card__reviews-col">
+                  {comments.map((comment, id) => {
+                    const keyValue = comment.id;
+                    id = keyValue;
+                    return (
+                      <div key={keyValue} className="review">
+                        <blockquote className="review__quote">
+                          <p className="review__text">{comment.comment}</p>
 
-              <div className="film-card__text">
-                {description}
-
-                <p className="film-card__director"><strong>Director: {director}</strong></p>
-
-                <p className="film-card__starring"><strong>Starring: {starring} and other</strong></p>
+                          <footer className="review__details">
+                            <cite className="review__author">{comment.user.name}</cite>
+                            <time className="review__date" dateTime="2016-12-24">{comment.date}</time>
+                          </footer>
+                        </blockquote>
+                        <div className="review__rating">{comment.rating}</div>
+                      </div>);})}
+                </div>
               </div>
             </div>
           </div>
@@ -142,4 +147,4 @@ function MovieScreen(props: WelcomeScreenProps): JSX.Element {
   );
 }
 
-export default MovieScreen;
+export default MovieReviewsScreen;

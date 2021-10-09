@@ -2,23 +2,25 @@ import React from 'react';
 import CardFilmScreen from '../card-film-screen/card-film-screen';
 import Logo from '../logo/logo';
 import {smallCardFilm} from '../../mocks/films';
-//import {SmallFilmCard} from '../../types/small-film-card';
+import {SmallFilmCard} from '../../types/small-film-card';
 
 type WelcomeScreenProps = {
-  year: number;
-  genre: string;
-  headCardTitle: string;
+  //year: number;
+  //genre: string;
+  //headCardTitle: string;
+  movie: SmallFilmCard;
 }
 
 //{new Array(cardsCount).fill(CardFilmScreen).map((filmCard, i) => filmCard(i))}
-function WelcomeScreen({genre, year, headCardTitle}: WelcomeScreenProps): JSX.Element {
-
+function WelcomeScreen(props: WelcomeScreenProps): JSX.Element {
+  const {movie} = props;
+  const {released, genre, title, backgroundImage, previewImage} = movie;
   return (
 
     <React.Fragment>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={backgroundImage} alt={title} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -43,14 +45,14 @@ function WelcomeScreen({genre, year, headCardTitle}: WelcomeScreenProps): JSX.El
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={previewImage} alt={title} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{headCardTitle}</h2>
+              <h2 className="film-card__title">{title}</h2>
               <p className="film-card__meta">
                 <span className="film-card__genre">{genre}</span>
-                <span className="film-card__year">{year}</span>
+                <span className="film-card__year">{released}</span>
               </p>
 
               <div className="film-card__buttons">

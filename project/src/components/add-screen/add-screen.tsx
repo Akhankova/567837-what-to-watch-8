@@ -1,10 +1,20 @@
 import Logo from '../logo/logo';
-function AddScreen(): JSX.Element {
+import {SmallFilmCard} from '../../types/small-film-card';
+
+type WelcomeScreenProps = {
+  //year: number;
+  //genre: string;
+  //headCardTitle: string;
+  movie: SmallFilmCard;
+}
+function AddScreen(props: WelcomeScreenProps): JSX.Element {
+  const {movie} = props;
+  const {title, backgroundImage, previewImage} = movie;
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={backgroundImage} alt={title} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -17,7 +27,7 @@ function AddScreen(): JSX.Element {
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <a href="film-page.html" className="breadcrumbs__link">The Grand Budapest Hotel</a>
+                <a href='film-page.html' className="breadcrumbs__link">{title}</a>
               </li>
               <li className="breadcrumbs__item">
                 <a className="breadcrumbs__link" href='/'>Add review</a>
@@ -38,7 +48,7 @@ function AddScreen(): JSX.Element {
         </header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+          <img src={previewImage} alt={title} width="218" height="327" />
         </div>
       </div>
 

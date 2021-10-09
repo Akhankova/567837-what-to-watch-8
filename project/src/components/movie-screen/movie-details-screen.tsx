@@ -11,9 +11,15 @@ type WelcomeScreenProps = {
   movie: SmallFilmCard;
 }
 
-function MovieScreen(props: WelcomeScreenProps): JSX.Element {
+function MovieDetailsScreen(props: WelcomeScreenProps): JSX.Element {
+  const MINUTES = 60;
   const {movie} = props;
-  const {released, genre, title, backgroundImage, previewImage, rating, scoresCount, director, starring, description} = movie;
+  const {released, genre, title, backgroundImage, previewImage, director, starring, runTime} = movie;
+  const getTime = () => {
+    const hours: number = Math.floor(runTime/MINUTES);
+    const minutes: number = runTime%MINUTES;
+    return hours > 0 ? `${hours}h ${minutes}m` : `$${minutes}m`;
+  };
   return (
     <React.Fragment>
       <section className="film-card film-card--full">
@@ -88,21 +94,33 @@ function MovieScreen(props: WelcomeScreenProps): JSX.Element {
                   </li>
                 </ul>
               </nav>
-
-              <div className="film-rating">
-                <div className="film-rating__score">{rating}</div>
-                <p className="film-rating__meta">
-                  <span className="film-rating__level">Very good</span>
-                  <span className="film-rating__count">{scoresCount} ratings</span>
-                </p>
-              </div>
-
-              <div className="film-card__text">
-                {description}
-
-                <p className="film-card__director"><strong>Director: {director}</strong></p>
-
-                <p className="film-card__starring"><strong>Starring: {starring} and other</strong></p>
+              <div className="film-card__text film-card__row">
+                <div className="film-card__text-col">
+                  <p className="film-card__details-item">
+                    <strong className="film-card__details-name">Director</strong>
+                    <span className="film-card__details-value">{director}</span>
+                  </p>
+                  <p className="film-card__details-item">
+                    <strong className="film-card__details-name">Starring</strong>
+                    <span className="film-card__details-value">
+                      {starring}
+                    </span>
+                  </p>
+                </div>
+                <div className="film-card__text-col">
+                  <p className="film-card__details-item">
+                    <strong className="film-card__details-name">Run Time</strong>
+                    <span className="film-card__details-value">{getTime()}</span>
+                  </p>
+                  <p className="film-card__details-item">
+                    <strong className="film-card__details-name">Genre</strong>
+                    <span className="film-card__details-value">{genre}</span>
+                  </p>
+                  <p className="film-card__details-item">
+                    <strong className="film-card__details-name">Released</strong>
+                    <span className="film-card__details-value">{released}</span>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -142,4 +160,4 @@ function MovieScreen(props: WelcomeScreenProps): JSX.Element {
   );
 }
 
-export default MovieScreen;
+export default MovieDetailsScreen;

@@ -16,15 +16,20 @@ export type SmallFilmCard = {
   genre: string,
   released: number,
   isFavorite: boolean,
+  comments: CardComments,
 };
 
-export type Movie = {
-  id: number;
-  name: string;
-  previewImage: string;
-  posterImage: string;
-  backgroundImage: string;
-  genre: string;
-  released: number;
-  isFavorite: boolean;
+export type Comment = {
+  id: number,
+  user: {
+    id: number,
+    name: string
+  },
+  rating: number,
+  comment: string,
+  date : string,
 };
+
+export type CardComments = Comment[];
+
+export type SmallCards = SmallFilmCard[];
