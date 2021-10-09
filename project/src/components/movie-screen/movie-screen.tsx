@@ -3,6 +3,9 @@ import Logo from '../logo/logo';
 import {SmallFilmCard} from '../../types/small-film-card';
 import CardFilmScreen from '../card-film-screen/card-film-screen';
 import {smallCardFilm} from '../../mocks/films';
+import {AppRoute} from '../../const';
+import {Link} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 
 type WelcomeScreenProps = {
   //year: number;
@@ -14,6 +17,7 @@ type WelcomeScreenProps = {
 function MovieScreen(props: WelcomeScreenProps): JSX.Element {
   const {movie} = props;
   const {released, genre, title, backgroundImage, previewImage, rating, scoresCount, director, starring, description} = movie;
+  const history = useHistory();
   return (
     <React.Fragment>
       <section className="film-card film-card--full">
@@ -54,15 +58,15 @@ function MovieScreen(props: WelcomeScreenProps): JSX.Element {
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
-                  <span>Play</span>
+                  <span onClick={() => history.push(AppRoute.Player)}>Play</span>
                 </button>
                 <button className="btn btn--list film-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
                   </svg>
-                  <span>My list</span>
+                  <span onClick={() => history.push(AppRoute.MyList)}>My list</span>
                 </button>
-                <a href="add-review.html" className="btn film-card__button">Add review</a>
+                <Link to={AppRoute.AddReview} className="btn film-card__button">Add review</Link>
               </div>
             </div>
           </div>
@@ -78,13 +82,13 @@ function MovieScreen(props: WelcomeScreenProps): JSX.Element {
               <nav className="film-nav film-card__nav">
                 <ul className="film-nav__list">
                   <li className="film-nav__item film-nav__item--active">
-                    <a href="/" className="film-nav__link">Overview</a>
+                    <Link to={AppRoute.Film} className="film-nav__link">Overview</Link>
                   </li>
                   <li className="film-nav__item">
-                    <a href="/" className="film-nav__link">Details</a>
+                    <Link to={AppRoute.FilmDetails} className="film-nav__link">Details</Link>
                   </li>
                   <li className="film-nav__item">
-                    <a href="/" className="film-nav__link">Reviews</a>
+                    <Link to={AppRoute.FilmReviews} className="film-nav__link">Reviews</Link>
                   </li>
                 </ul>
               </nav>
