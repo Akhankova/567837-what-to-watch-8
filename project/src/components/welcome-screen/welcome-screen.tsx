@@ -5,16 +5,13 @@ import {smallCardFilm} from '../../mocks/films';
 import {SmallFilmCard} from '../../types/small-film-card';
 import {useHistory} from 'react-router-dom';
 import {AppRoute} from '../../const';
-
+import {Link} from 'react-router-dom';
 
 type WelcomeScreenProps = {
-  //year: number;
-  //genre: string;
-  //headCardTitle: string;
   movie: SmallFilmCard;
 }
 
-//{new Array(cardsCount).fill(CardFilmScreen).map((filmCard, i) => filmCard(i))}
+
 function WelcomeScreen(props: WelcomeScreenProps): JSX.Element {
   const {movie} = props;
   const {released, genre, title, backgroundImage, previewImage} = movie;
@@ -123,6 +120,8 @@ function WelcomeScreen(props: WelcomeScreenProps): JSX.Element {
                 key={film.id}
                 name={film.title}
                 imgSrc={film.imgSrc}
+                id={film.id}
+
               />
             ))}
 
@@ -135,11 +134,11 @@ function WelcomeScreen(props: WelcomeScreenProps): JSX.Element {
 
         <footer className="page-footer">
           <div className="logo">
-            <a className="logo__link logo__link--light" href="/">
+            <Link to={AppRoute.Main} className="logo__link logo__link--light">
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>
-            </a>
+            </Link>
           </div>
 
           <div className="copyright">

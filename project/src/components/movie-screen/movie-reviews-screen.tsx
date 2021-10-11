@@ -6,6 +6,7 @@ import {smallCardFilm} from '../../mocks/films';
 import {AppRoute} from '../../const';
 import {Link} from 'react-router-dom';
 import {useHistory} from 'react-router-dom';
+import dayjs from 'dayjs';
 
 
 type WelcomeScreenProps = {
@@ -106,7 +107,7 @@ function MovieReviewsScreen(props: WelcomeScreenProps): JSX.Element {
 
                           <footer className="review__details">
                             <cite className="review__author">{comment.user.name}</cite>
-                            <time className="review__date" dateTime="2016-12-24">{comment.date}</time>
+                            <time className="review__date" dateTime="2016-12-24">{dayjs(comment.date).format('MMMM DD, YYYY')}</time>
                           </footer>
                         </blockquote>
                         <div className="review__rating">{comment.rating}</div>
@@ -123,11 +124,12 @@ function MovieReviewsScreen(props: WelcomeScreenProps): JSX.Element {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            {smallCardFilm.splice(0, 4).map((film) => (
+            {smallCardFilm.slice().splice(0, 4).map((film) => (
               <CardFilmScreen
                 key={film.id}
                 name={film.title}
                 imgSrc={film.imgSrc}
+                id={film.id}
               />
             ))}
           </div>
@@ -135,11 +137,11 @@ function MovieReviewsScreen(props: WelcomeScreenProps): JSX.Element {
 
         <footer className="page-footer">
           <div className="logo">
-            <a href="main.html" className="logo__link logo__link--light">
+            <Link to={AppRoute.Main} className="logo__link logo__link--light">
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>
-            </a>
+            </Link>
           </div>
 
           <div className="copyright">

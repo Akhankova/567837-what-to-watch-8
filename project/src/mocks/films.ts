@@ -1,4 +1,3 @@
-//import {SmallFilmCard} from '../types/small-film-card';
 import {SmallCards} from '../types/small-film-card';
 
 export const smallCardFilm: SmallCards = [
@@ -12,7 +11,7 @@ export const smallCardFilm: SmallCards = [
     videoLink: 'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4',
     previewVideoLink: 'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4',
     description: 'In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustaves friend and protege.',
-    rating: 8.9,
+    rating: 5,
     scoresCount: 240,
     director: 'Wes Anderson',
     starring: ['Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
@@ -28,7 +27,7 @@ export const smallCardFilm: SmallCards = [
       },
       rating: 8.9,
       comment: 'Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the directors funniest and most exquisitely designed movies in years.',
-      date : '2019-05-08T14:13:56.569Z',
+      date : '2019-04-08T14:13:56.569Z',
     },
     {
       id: 2,
@@ -38,7 +37,7 @@ export const smallCardFilm: SmallCards = [
       },
       rating: 5.9,
       comment: 'I have not had chance to see this film yet, but from the trailer and review, it seems like a perfect tonic for this terrible times.',
-      date : '2019-05-08T14:13:56.569Z',
+      date : '2018-01-06T14:13:56.569Z',
     },
     {
       id: 32,
@@ -48,7 +47,7 @@ export const smallCardFilm: SmallCards = [
       },
       rating: 7.1,
       comment: 'It sounds very similar to the Flight of the Doves, which was on the vintage film channel recently.',
-      date : '2019-05-08T14:13:56.569Z',
+      date : '2020-11-16T14:13:56.569Z',
     }],
   },
   {
@@ -77,7 +76,7 @@ export const smallCardFilm: SmallCards = [
       },
       rating: 8.9,
       comment: 'Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the directors funniest and most exquisitely designed movies in years.',
-      date : '2019-05-08T14:13:56.569Z',
+      date : '2019-01-01T14:13:56.569Z',
     },
     {
       id: 4,
@@ -87,7 +86,7 @@ export const smallCardFilm: SmallCards = [
       },
       rating: 5.9,
       comment: 'Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the directors funniest and most exquisitely designed movies in years.',
-      date : '2019-05-08T14:13:56.569Z',
+      date : '2019-04-04T14:13:56.569Z',
     },
     {
       id: 5,
@@ -97,7 +96,7 @@ export const smallCardFilm: SmallCards = [
       },
       rating: 5.9,
       comment: 'Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the directors funniest and most exquisitely designed movies in years.',
-      date : '2019-05-08T14:13:56.569Z',
+      date : '2019-07-09T14:13:56.569Z',
     }],
   },
   {
@@ -126,7 +125,7 @@ export const smallCardFilm: SmallCards = [
       },
       rating: 9.9,
       comment: 'Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the directors funniest and most exquisitely designed movies in years.',
-      date : '2019-05-08T14:13:56.569Z',
+      date : '2019-12-11T14:13:56.569Z',
     },
     {
       id: 8,
@@ -136,7 +135,7 @@ export const smallCardFilm: SmallCards = [
       },
       rating: 8.9,
       comment: 'Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the directors funniest and most exquisitely designed movies in years.',
-      date : '2019-05-08T14:13:56.569Z',
+      date : '2019-11-22T14:13:56.569Z',
     }],
   },
   {
@@ -165,7 +164,7 @@ export const smallCardFilm: SmallCards = [
       },
       rating: 8.9,
       comment: 'Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the directors funniest and most exquisitely designed movies in years.',
-      date : '2019-05-08T14:13:56.569Z',
+      date : '2019-07-09T14:13:56.569Z',
     },
     {
       id: 11,
@@ -175,7 +174,7 @@ export const smallCardFilm: SmallCards = [
       },
       rating: 5.9,
       comment: 'Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the directors funniest and most exquisitely designed movies in years.',
-      date : '2019-05-08T14:13:56.569Z',
+      date : '2021-01-01T14:13:56.569Z',
     }],
   },
   {
@@ -204,7 +203,7 @@ export const smallCardFilm: SmallCards = [
       },
       rating: 8.9,
       comment: 'Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the directors funniest and most exquisitely designed movies in years.',
-      date : '2019-05-08T14:13:56.569Z',
+      date : '2019-09-08T14:13:56.569Z',
     },
     {
       id: 13,
@@ -214,7 +213,7 @@ export const smallCardFilm: SmallCards = [
       },
       rating: 5.9,
       comment: 'Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the directors funniest and most exquisitely designed movies in years.',
-      date : '2019-05-08T14:13:56.569Z',
+      date : '2019-05-11T14:13:56.569Z',
     }],
   },
   {
@@ -243,7 +242,7 @@ export const smallCardFilm: SmallCards = [
       },
       rating: 8.9,
       comment: 'Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the directors funniest and most exquisitely designed movies in years.',
-      date : '2019-05-08T14:13:56.569Z',
+      date : '2019-09-08T14:13:56.569Z',
     },
     {
       id: 15,
@@ -253,7 +252,7 @@ export const smallCardFilm: SmallCards = [
       },
       rating: 5.9,
       comment: 'Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the directors funniest and most exquisitely designed movies in years.',
-      date : '2019-05-08T14:13:56.569Z',
+      date : '2019-03-08T14:13:56.569Z',
     },
     {
       id: 20,
@@ -292,7 +291,7 @@ export const smallCardFilm: SmallCards = [
       },
       rating: 8.9,
       comment: 'Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the directors funniest and most exquisitely designed movies in years.',
-      date : '2019-05-08T14:13:56.569Z',
+      date : '2019-02-08T14:13:56.569Z',
     },
     {
       id: 17,
@@ -302,7 +301,7 @@ export const smallCardFilm: SmallCards = [
       },
       rating: 5.9,
       comment: 'Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the directors funniest and most exquisitely designed movies in years.',
-      date : '2019-05-08T14:13:56.569Z',
+      date : '2019-03-08T14:13:56.569Z',
     }],
   },
   {
@@ -331,7 +330,7 @@ export const smallCardFilm: SmallCards = [
       },
       rating: 4.9,
       comment: 'Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the directors funniest and most exquisitely designed movies in years.',
-      date : '2019-05-08T14:13:56.569Z',
+      date : '2019-01-08T14:13:56.569Z',
     },
     {
       id: 19,
@@ -341,7 +340,7 @@ export const smallCardFilm: SmallCards = [
       },
       rating: 6.9,
       comment: 'Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the directors funniest and most exquisitely designed movies in years.',
-      date : '2019-05-08T14:13:56.569Z',
+      date : '2019-02-08T14:13:56.569Z',
     }],
   },
 ];

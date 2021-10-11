@@ -8,9 +8,6 @@ import {Link} from 'react-router-dom';
 import {useHistory} from 'react-router-dom';
 
 type WelcomeScreenProps = {
-  //year: number;
-  //genre: string;
-  //headCardTitle: string;
   movie: SmallFilmCard;
 }
 
@@ -18,6 +15,22 @@ function MovieScreen(props: WelcomeScreenProps): JSX.Element {
   const {movie} = props;
   const {released, genre, title, backgroundImage, previewImage, rating, scoresCount, director, starring, description} = movie;
   const history = useHistory();
+
+  const getRatingText = (element:number) => {
+    if (element<3) {
+      return 'Bad';
+    } else if (element < 5) {
+      return 'Normal';
+    } else if (element < 8) {
+      return 'Good';
+    } else if (element < 10) {
+      return 'Very good';
+    } else if (element === 10) {
+      return 'Awesome';
+    }
+  };
+
+
   return (
     <React.Fragment>
       <section className="film-card film-card--full">
@@ -96,7 +109,7 @@ function MovieScreen(props: WelcomeScreenProps): JSX.Element {
               <div className="film-rating">
                 <div className="film-rating__score">{rating}</div>
                 <p className="film-rating__meta">
-                  <span className="film-rating__level">Very good</span>
+                  <span className="film-rating__level">{getRatingText(rating)}</span>
                   <span className="film-rating__count">{scoresCount} ratings</span>
                 </p>
               </div>
@@ -118,11 +131,12 @@ function MovieScreen(props: WelcomeScreenProps): JSX.Element {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            {smallCardFilm.splice(0, 4).map((film) => (
+            {smallCardFilm.slice().splice(0, 4).map((film) => (
               <CardFilmScreen
                 key={film.id}
                 name={film.title}
                 imgSrc={film.imgSrc}
+                id={film.id}
               />
             ))}
           </div>
@@ -130,11 +144,11 @@ function MovieScreen(props: WelcomeScreenProps): JSX.Element {
 
         <footer className="page-footer">
           <div className="logo">
-            <a href="main.html" className="logo__link logo__link--light">
+            <Link to={AppRoute.Main} className="logo__link logo__link--light">
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>
-            </a>
+            </Link>
           </div>
 
           <div className="copyright">
