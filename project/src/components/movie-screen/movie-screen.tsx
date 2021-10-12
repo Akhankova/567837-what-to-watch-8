@@ -6,6 +6,7 @@ import {smallCardFilm} from '../../mocks/films';
 import {AppRoute} from '../../const';
 import {Link} from 'react-router-dom';
 import {useHistory} from 'react-router-dom';
+import LogoFooter from '../logo/logo-footer';
 
 type WelcomeScreenProps = {
   movie: SmallFilmCard;
@@ -144,11 +145,7 @@ function MovieScreen(props: WelcomeScreenProps): JSX.Element {
 
         <footer className="page-footer">
           <div className="logo">
-            <Link to={AppRoute.Main} className="logo__link logo__link--light">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </Link>
+            <LogoFooter/>
           </div>
 
           <div className="copyright">

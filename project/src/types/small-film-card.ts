@@ -21,13 +21,15 @@ export type SmallFilmCard = {
 
 export type Comment = {
   id: number,
-  user: {
-    id: number,
-    name: string
-  },
+  user: CommentUser,
   rating: number,
-  comment: string,
+  value: string,
   date : string,
+};
+
+export type CommentUser = {
+  id: number,
+  name: string
 };
 
 export type CardComments = Comment[];

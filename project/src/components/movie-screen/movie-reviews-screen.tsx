@@ -7,12 +7,10 @@ import {AppRoute} from '../../const';
 import {Link} from 'react-router-dom';
 import {useHistory} from 'react-router-dom';
 import dayjs from 'dayjs';
+import LogoFooter from '../logo/logo-footer';
 
 
 type WelcomeScreenProps = {
-  //year: number;
-  //genre: string;
-  //headCardTitle: string;
   movie: SmallFilmCard;
 }
 
@@ -103,7 +101,7 @@ function MovieReviewsScreen(props: WelcomeScreenProps): JSX.Element {
                     return (
                       <div key={keyValue} className="review">
                         <blockquote className="review__quote">
-                          <p className="review__text">{comment.comment}</p>
+                          <p className="review__text">{comment.value}</p>
 
                           <footer className="review__details">
                             <cite className="review__author">{comment.user.name}</cite>
@@ -137,11 +135,7 @@ function MovieReviewsScreen(props: WelcomeScreenProps): JSX.Element {
 
         <footer className="page-footer">
           <div className="logo">
-            <Link to={AppRoute.Main} className="logo__link logo__link--light">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </Link>
+            <LogoFooter/>
           </div>
 
           <div className="copyright">

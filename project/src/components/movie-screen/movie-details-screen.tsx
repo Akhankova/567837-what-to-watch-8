@@ -6,12 +6,10 @@ import {smallCardFilm} from '../../mocks/films';
 import {AppRoute} from '../../const';
 import {Link} from 'react-router-dom';
 import {useHistory} from 'react-router-dom';
+import LogoFooter from '../logo/logo-footer';
 
 
 type WelcomeScreenProps = {
-  //year: number;
-  //genre: string;
-  //headCardTitle: string;
   movie: SmallFilmCard;
 }
 
@@ -88,10 +86,10 @@ function MovieDetailsScreen(props: WelcomeScreenProps): JSX.Element {
             <div className="film-card__desc">
               <nav className="film-nav film-card__nav">
                 <ul className="film-nav__list">
-                  <li className="film-nav__item film-nav__item--active">
+                  <li className="film-nav__item">
                     <Link to={AppRoute.Film} className="film-nav__link">Overview</Link>
                   </li>
-                  <li className="film-nav__item">
+                  <li className="film-nav__item film-nav__item--active">
                     <Link to={AppRoute.FilmDetails} className="film-nav__link">Details</Link>
                   </li>
                   <li className="film-nav__item">
@@ -150,11 +148,7 @@ function MovieDetailsScreen(props: WelcomeScreenProps): JSX.Element {
 
         <footer className="page-footer">
           <div className="logo">
-            <Link to={AppRoute.Main} className="logo__link logo__link--light">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </Link>
+            <LogoFooter/>
           </div>
 
           <div className="copyright">

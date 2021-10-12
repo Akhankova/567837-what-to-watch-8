@@ -13,13 +13,9 @@ import PrivateRoute from '../private-route/private-route';
 import {SmallCards, SmallFilmCard} from '../../types/small-film-card';
 
 type AppScreenProps = {
-  //year: number;
-  //genre: string;
-  //headCardTitle: string;
   movies: SmallCards;
 }
 
-//<WelcomeScreen movie={firstMovie as SmallFilmCard}/>
 function App({movies}: AppScreenProps): JSX.Element {
   const [firstMovie] = movies;
   return (
