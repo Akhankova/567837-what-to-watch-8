@@ -8,6 +8,7 @@ import {useHistory} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import { generatePath } from 'react-router-dom';
 
+const COUNT_CARDS_STEP = 8;
 type WelcomeScreenProps = {
   movie: SmallFilmCard;
 }
@@ -23,6 +24,15 @@ function WelcomeScreen(props: WelcomeScreenProps): JSX.Element {
   const onCardClickMyListHandler = () => {
     history.push(AppRoute.MyList);
   };
+
+  const genres: string[] = [];
+  smallCardFilm.filter((element) => genres.push(element.genre));
+  const genresUning: string[]  = [];
+  for (let index = 0; index < genres.length; index++) {
+    if (!genresUning.includes(genres[index])) {
+      genresUning.push(genres[index]);
+    }
+  }
 
   return (
 
@@ -91,46 +101,27 @@ function WelcomeScreen(props: WelcomeScreenProps): JSX.Element {
             <li className="catalog__genres-item catalog__genres-item--active">
               <a href="/" className="catalog__genres-link">All genres</a>
             </li>
-            <li className="catalog__genres-item">
-              <a href="/" className="catalog__genres-link">Comedies</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="/" className="catalog__genres-link">Crime</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="/" className="catalog__genres-link">Documentary</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="/" className="catalog__genres-link">Dramas</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="/" className="catalog__genres-link">Horror</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="/" className="catalog__genres-link">Kids & Family</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="/" className="catalog__genres-link">Romance</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="/" className="catalog__genres-link">Sci-Fi</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="/" className="catalog__genres-link">Thrillers</a>
-            </li>
+            {genresUning.map((filmGenre, idGenre) => {
+              const keyValue = `${idGenre}-${filmGenre}`;
+              return (
+                <li key={keyValue} className="catalog__genres-item">
+                  <a href="/" className="catalog__genres-link">{filmGenre}</a>
+                </li>
+              );
+            })}
+
           </ul>
 
           <div className="catalog__films-list">
 
-            {smallCardFilm.map((film) => (
+            {smallCardFilm.slice().splice(0, COUNT_CARDS_STEP).map((film) => (
               <CardFilmScreen
                 key={film.id}
                 name={film.title}
                 imgSrc={film.imgSrc}
                 id={film.id}
               />
-            ))}
-
+            ))};
           </div>
 
           <div className="catalog__more">
