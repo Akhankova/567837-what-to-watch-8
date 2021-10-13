@@ -1,9 +1,13 @@
 import CardFilmScreen from '../card-film-screen/card-film-screen';
 import Logo from '../logo/logo';
-import {smallCardFilm} from '../../mocks/films';
 import LogoFooter from '../logo/logo-footer';
+import {SmallCards} from '../../types/small-film-card';
 
-function MyListScreen(): JSX.Element {
+type WelcomeScreenProps = {
+  movies: SmallCards;
+}
+
+function MyListScreen({movies}: WelcomeScreenProps): JSX.Element {
 
   return (
     <div className="user-page">
@@ -30,7 +34,7 @@ function MyListScreen(): JSX.Element {
         <h2 className="catalog__title visually-hidden">Catalog</h2>
 
         <div className="catalog__films-list">
-          {smallCardFilm.map((film) => (
+          {movies.map((film) => (
             <CardFilmScreen
               key={film.id}
               name={film.title}

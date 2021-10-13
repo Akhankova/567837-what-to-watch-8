@@ -1,20 +1,22 @@
+
 import React from 'react';
 import CardFilmScreen from '../card-film-screen/card-film-screen';
 import Logo from '../logo/logo';
 import LogoFooter from '../logo/logo-footer';
-import {smallCardFilm} from '../../mocks/films';
-import {SmallFilmCard} from '../../types/small-film-card';
+import {SmallCards, SmallFilmCard} from '../../types/small-film-card';
 import {useHistory} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import { generatePath } from 'react-router-dom';
 
 const COUNT_CARDS_STEP = 8;
 type WelcomeScreenProps = {
+  movies: SmallCards;
   movie: SmallFilmCard;
 }
+const uniqueItems = (items: string[]) => [...new Set(items)];
 
-function WelcomeScreen(props: WelcomeScreenProps): JSX.Element {
-  const {movie} = props;
+function WelcomeScreen({movies, movie}: WelcomeScreenProps): JSX.Element {
+  //const {movie} = props;
   const {released, genre, title, backgroundImage, previewImage, id} = movie;
   const history = useHistory();
 
@@ -26,13 +28,8 @@ function WelcomeScreen(props: WelcomeScreenProps): JSX.Element {
   };
 
   const genres: string[] = [];
-  smallCardFilm.filter((element) => genres.push(element.genre));
-  const genresUning: string[]  = [];
-  for (let index = 0; index < genres.length; index++) {
-    if (!genresUning.includes(genres[index])) {
-      genresUning.push(genres[index]);
-    }
-  }
+  movies.filter((element) => genres.push(element.genre));
+  const genresUning: string[]  = uniqueItems(genres);
 
   return (
 
@@ -114,7 +111,7 @@ function WelcomeScreen(props: WelcomeScreenProps): JSX.Element {
 
           <div className="catalog__films-list">
 
-            {smallCardFilm.slice().splice(0, COUNT_CARDS_STEP).map((film) => (
+            {movies.slice().splice(0, COUNT_CARDS_STEP).map((film) => (
               <CardFilmScreen
                 key={film.id}
                 name={film.title}

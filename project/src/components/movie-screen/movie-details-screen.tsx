@@ -1,16 +1,20 @@
 import React from 'react';
 import Logo from '../logo/logo';
 import CardFilmScreen from '../card-film-screen/card-film-screen';
-import {smallCardFilm} from '../../mocks/films';
 import {AppRoute} from '../../const';
 import {Link} from 'react-router-dom';
 import {useHistory} from 'react-router-dom';
 import LogoFooter from '../logo/logo-footer';
 import { generatePath, useParams } from 'react-router-dom';
+import {SmallCards} from '../../types/small-film-card';
 
 const INDEX_FILM_ID = 0;
 const MINUTES = 60;
 const COUNT_CARDS_WITH_MORE_LIKES = 4;
+
+type WelcomeScreenProps = {
+  movies: SmallCards;
+}
 
 const getTime = (time:number) => {
   const hours: number = Math.floor(time/MINUTES);
@@ -18,7 +22,7 @@ const getTime = (time:number) => {
   return hours > 0 ? `${hours}h ${minutes}m` : `$${minutes}m`;
 };
 
-function MovieDetailsScreen(): JSX.Element {
+function MovieDetailsScreen({movies}:WelcomeScreenProps): JSX.Element {
   const history = useHistory();
 
   const onCardClickPlayHandler = () => {
@@ -31,7 +35,7 @@ function MovieDetailsScreen(): JSX.Element {
   const filmId: any = useParams();
   const currentFilmId = filmId.id;
   const numberCurrentFilmId = +currentFilmId;
-  const activeFilmCard = smallCardFilm.filter((element) => element.id === numberCurrentFilmId);
+  const activeFilmCard = movies.filter((element) => element.id === numberCurrentFilmId);
 
   return (
     <React.Fragment>
@@ -145,7 +149,7 @@ function MovieDetailsScreen(): JSX.Element {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            {smallCardFilm.slice().splice(0, COUNT_CARDS_WITH_MORE_LIKES).map((film) => (
+            {movies.slice().splice(0, COUNT_CARDS_WITH_MORE_LIKES).map((film) => (
               <CardFilmScreen
                 key={film.id}
                 name={film.title}

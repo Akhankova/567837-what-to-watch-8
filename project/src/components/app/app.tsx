@@ -22,12 +22,12 @@ function App({movies}: AppScreenProps): JSX.Element {
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Main}>
-          <WelcomeScreen movie={firstMovie as SmallFilmCard}/>
+          <WelcomeScreen movie={firstMovie as SmallFilmCard} movies={movies}/>
         </Route>
         <PrivateRoute
           exact
           path={AppRoute.MyList}
-          render={() => <MyListScreen />}
+          render={() => <MyListScreen movies={movies}/>}
           authorizationStatus={AuthorizationStatus.NoAuth}
         >
         </PrivateRoute>
@@ -38,16 +38,16 @@ function App({movies}: AppScreenProps): JSX.Element {
           <PlayerScreen />
         </Route>
         <Route exact path={AppRoute.Film}>
-          <MovieScreen />
+          <MovieScreen movies={movies}/>
         </Route>
         <Route exact path={AppRoute.AddReview}>
           <AddScreen />
         </Route>
         <Route exact path={AppRoute.FilmDetails}>
-          <MovieDetailsScreen />
+          <MovieDetailsScreen movies={movies}/>
         </Route>
         <Route exact path={AppRoute.FilmReviews}>
-          <MovieReviewsScreen />
+          <MovieReviewsScreen movies={movies}/>
         </Route>
         <Route>
           <NotFoundScreen />
