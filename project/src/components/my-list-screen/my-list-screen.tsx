@@ -1,4 +1,3 @@
-import React from 'react';
 import CardFilmScreen from '../card-film-screen/card-film-screen';
 import Logo from '../logo/logo';
 import {smallCardFilm} from '../../mocks/films';

@@ -1,22 +1,18 @@
 import React from 'react';
 import Logo from '../logo/logo';
-import {SmallFilmCard} from '../../types/small-film-card';
 import CardFilmScreen from '../card-film-screen/card-film-screen';
 import {smallCardFilm} from '../../mocks/films';
 import {AppRoute} from '../../const';
 import {Link} from 'react-router-dom';
 import {useHistory} from 'react-router-dom';
 import LogoFooter from '../logo/logo-footer';
+import { generatePath, useParams } from 'react-router-dom';
 
-type WelcomeScreenProps = {
-  movie: SmallFilmCard;
-}
+const COUNT_CARDS_WITH_MORE_LIKES = 4;
+const INDEX_FILM_ID = 0;
 
-function MovieScreen(props: WelcomeScreenProps): JSX.Element {
-  const {movie} = props;
-  const {released, genre, title, backgroundImage, previewImage, rating, scoresCount, director, starring, description} = movie;
+function MovieScreen(): JSX.Element {
   const history = useHistory();
-
   const getRatingText = (element:number) => {
     if (element<3) {
       return 'Bad';
@@ -31,13 +27,24 @@ function MovieScreen(props: WelcomeScreenProps): JSX.Element {
     }
   };
 
+  const onCardClickPlayHandler = () => {
+    history.push(generatePath(AppRoute.Player, {id: activeFilmCard[INDEX_FILM_ID].id}));
+  };
+  const onCardClickMyListHandler = () => {
+    history.push(AppRoute.MyList);
+  };
+
+  const filmId: any = useParams();
+  const currentFilmId = filmId.id;
+  const numberCurrentFilmId = +currentFilmId;
+  const activeFilmCard = smallCardFilm.filter((element) => element.id === numberCurrentFilmId);
 
   return (
     <React.Fragment>
-      <section className="film-card film-card--full">
+      <section className="film-card film-card--full" style={{backgroundColor:activeFilmCard[INDEX_FILM_ID].backgroundColor}}>
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={backgroundImage} alt={title} />
+            <img src={activeFilmCard[INDEX_FILM_ID].backgroundImage} alt={activeFilmCard[INDEX_FILM_ID].title} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -61,10 +68,10 @@ function MovieScreen(props: WelcomeScreenProps): JSX.Element {
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{title}</h2>
+              <h2 className="film-card__title">{activeFilmCard[INDEX_FILM_ID].title}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{genre}</span>
-                <span className="film-card__year">{released}</span>
+                <span className="film-card__genre">{activeFilmCard[INDEX_FILM_ID].genre}</span>
+                <span className="film-card__year">{activeFilmCard[INDEX_FILM_ID].released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -72,15 +79,15 @@ function MovieScreen(props: WelcomeScreenProps): JSX.Element {
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
-                  <span onClick={() => history.push(AppRoute.Player)}>Play</span>
+                  <span onClick={onCardClickPlayHandler}>Play</span>
                 </button>
                 <button className="btn btn--list film-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
                   </svg>
-                  <span onClick={() => history.push(AppRoute.MyList)}>My list</span>
+                  <span onClick={onCardClickMyListHandler}>My list</span>
                 </button>
-                <Link to={AppRoute.AddReview} className="btn film-card__button">Add review</Link>
+                <Link to={generatePath(AppRoute.AddReview, {id: activeFilmCard[INDEX_FILM_ID].id})} className="btn film-card__button">Add review</Link>
               </div>
             </div>
           </div>
@@ -89,38 +96,38 @@ function MovieScreen(props: WelcomeScreenProps): JSX.Element {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src={previewImage} alt={title} width="218" height="327" />
+              <img src={activeFilmCard[0].previewImage} alt={activeFilmCard[INDEX_FILM_ID].title} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
               <nav className="film-nav film-card__nav">
                 <ul className="film-nav__list">
                   <li className="film-nav__item film-nav__item--active">
-                    <Link to={AppRoute.Film} className="film-nav__link">Overview</Link>
+                    <Link to={generatePath(AppRoute.Film, {id: activeFilmCard[INDEX_FILM_ID].id})} className="film-nav__link">Overview</Link>
                   </li>
                   <li className="film-nav__item">
-                    <Link to={AppRoute.FilmDetails} className="film-nav__link">Details</Link>
+                    <Link to={generatePath(AppRoute.FilmDetails, {id: activeFilmCard[INDEX_FILM_ID].id})} className="film-nav__link">Details</Link>
                   </li>
                   <li className="film-nav__item">
-                    <Link to={AppRoute.FilmReviews} className="film-nav__link">Reviews</Link>
+                    <Link to={generatePath(AppRoute.FilmReviews, {id: activeFilmCard[INDEX_FILM_ID].id})} className="film-nav__link">Reviews</Link>
                   </li>
                 </ul>
               </nav>
 
               <div className="film-rating">
-                <div className="film-rating__score">{rating}</div>
+                <div className="film-rating__score">{activeFilmCard[INDEX_FILM_ID].rating}</div>
                 <p className="film-rating__meta">
-                  <span className="film-rating__level">{getRatingText(rating)}</span>
-                  <span className="film-rating__count">{scoresCount} ratings</span>
+                  <span className="film-rating__level">{getRatingText(activeFilmCard[INDEX_FILM_ID].rating)}</span>
+                  <span className="film-rating__count">{activeFilmCard[INDEX_FILM_ID].scoresCount} ratings</span>
                 </p>
               </div>
 
               <div className="film-card__text">
-                {description}
+                {activeFilmCard[0].description}
 
-                <p className="film-card__director"><strong>Director: {director}</strong></p>
+                <p className="film-card__director"><strong>Director: {activeFilmCard[INDEX_FILM_ID].director}</strong></p>
 
-                <p className="film-card__starring"><strong>Starring: {starring} and other</strong></p>
+                <p className="film-card__starring"><strong>Starring: {activeFilmCard[INDEX_FILM_ID].starring} and other</strong></p>
               </div>
             </div>
           </div>
@@ -132,7 +139,7 @@ function MovieScreen(props: WelcomeScreenProps): JSX.Element {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            {smallCardFilm.slice().splice(0, 4).map((film) => (
+            {smallCardFilm.slice().splice(0, COUNT_CARDS_WITH_MORE_LIKES).map((film) => (
               <CardFilmScreen
                 key={film.id}
                 name={film.title}

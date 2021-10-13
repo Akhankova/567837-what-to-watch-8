@@ -1,34 +1,44 @@
 import React from 'react';
 import Logo from '../logo/logo';
-import {SmallFilmCard} from '../../types/small-film-card';
 import CardFilmScreen from '../card-film-screen/card-film-screen';
 import {smallCardFilm} from '../../mocks/films';
 import {AppRoute} from '../../const';
 import {Link} from 'react-router-dom';
 import {useHistory} from 'react-router-dom';
 import LogoFooter from '../logo/logo-footer';
+import { generatePath, useParams } from 'react-router-dom';
 
+const INDEX_FILM_ID = 0;
+const MINUTES = 60;
+const COUNT_CARDS_WITH_MORE_LIKES = 4;
 
-type WelcomeScreenProps = {
-  movie: SmallFilmCard;
-}
+const getTime = (time:number) => {
+  const hours: number = Math.floor(time/MINUTES);
+  const minutes: number = time%MINUTES;
+  return hours > 0 ? `${hours}h ${minutes}m` : `$${minutes}m`;
+};
 
-function MovieDetailsScreen(props: WelcomeScreenProps): JSX.Element {
-  const MINUTES = 60;
-  const {movie} = props;
-  const {released, genre, title, backgroundImage, previewImage, director, starring, runTime} = movie;
-  const getTime = () => {
-    const hours: number = Math.floor(runTime/MINUTES);
-    const minutes: number = runTime%MINUTES;
-    return hours > 0 ? `${hours}h ${minutes}m` : `$${minutes}m`;
-  };
+function MovieDetailsScreen(): JSX.Element {
   const history = useHistory();
+
+  const onCardClickPlayHandler = () => {
+    history.push(generatePath(AppRoute.Player, {id: activeFilmCard[INDEX_FILM_ID].id}));
+  };
+  const onCardClickMyListHandler = () => {
+    history.push(AppRoute.MyList);
+  };
+
+  const filmId: any = useParams();
+  const currentFilmId = filmId.id;
+  const numberCurrentFilmId = +currentFilmId;
+  const activeFilmCard = smallCardFilm.filter((element) => element.id === numberCurrentFilmId);
+
   return (
     <React.Fragment>
-      <section className="film-card film-card--full">
+      <section className="film-card film-card--full" style={{backgroundColor:activeFilmCard[INDEX_FILM_ID].backgroundColor}}>
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={backgroundImage} alt={title} />
+            <img src={activeFilmCard[INDEX_FILM_ID].backgroundImage} alt={activeFilmCard[INDEX_FILM_ID].title} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -52,10 +62,10 @@ function MovieDetailsScreen(props: WelcomeScreenProps): JSX.Element {
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{title}</h2>
+              <h2 className="film-card__title">{activeFilmCard[INDEX_FILM_ID].title}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{genre}</span>
-                <span className="film-card__year">{released}</span>
+                <span className="film-card__genre">{activeFilmCard[INDEX_FILM_ID].genre}</span>
+                <span className="film-card__year">{activeFilmCard[INDEX_FILM_ID].released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -63,15 +73,15 @@ function MovieDetailsScreen(props: WelcomeScreenProps): JSX.Element {
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
-                  <span onClick={() => history.push(AppRoute.Player)}>Play</span>
+                  <span onClick={onCardClickPlayHandler}>Play</span>
                 </button>
                 <button className="btn btn--list film-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
                   </svg>
-                  <span onClick={() => history.push(AppRoute.MyList)}>My list</span>
+                  <span onClick={onCardClickMyListHandler}>My list</span>
                 </button>
-                <Link to={AppRoute.AddReview} className="btn film-card__button">Add review</Link>
+                <Link to={generatePath(AppRoute.AddReview, {id: activeFilmCard[INDEX_FILM_ID].id})} className="btn film-card__button">Add review</Link>
               </div>
             </div>
           </div>
@@ -80,20 +90,20 @@ function MovieDetailsScreen(props: WelcomeScreenProps): JSX.Element {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src={previewImage} alt={title} width="218" height="327" />
+              <img src={activeFilmCard[INDEX_FILM_ID].previewImage} alt={activeFilmCard[INDEX_FILM_ID].title} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
               <nav className="film-nav film-card__nav">
                 <ul className="film-nav__list">
                   <li className="film-nav__item">
-                    <Link to={AppRoute.Film} className="film-nav__link">Overview</Link>
+                    <Link to={generatePath(AppRoute.Film, {id: activeFilmCard[INDEX_FILM_ID].id})} className="film-nav__link">Overview</Link>
                   </li>
                   <li className="film-nav__item film-nav__item--active">
-                    <Link to={AppRoute.FilmDetails} className="film-nav__link">Details</Link>
+                    <Link to={generatePath(AppRoute.FilmDetails, {id: activeFilmCard[INDEX_FILM_ID].id})} className="film-nav__link">Details</Link>
                   </li>
                   <li className="film-nav__item">
-                    <Link to={AppRoute.FilmReviews} className="film-nav__link">Reviews</Link>
+                    <Link to={generatePath(AppRoute.FilmReviews, {id: activeFilmCard[INDEX_FILM_ID].id})} className="film-nav__link">Reviews</Link>
                   </li>
                 </ul>
               </nav>
@@ -101,27 +111,27 @@ function MovieDetailsScreen(props: WelcomeScreenProps): JSX.Element {
                 <div className="film-card__text-col">
                   <p className="film-card__details-item">
                     <strong className="film-card__details-name">Director</strong>
-                    <span className="film-card__details-value">{director}</span>
+                    <span className="film-card__details-value">{activeFilmCard[INDEX_FILM_ID].director}</span>
                   </p>
                   <p className="film-card__details-item">
                     <strong className="film-card__details-name">Starring</strong>
                     <span className="film-card__details-value">
-                      {starring}
+                      {activeFilmCard[INDEX_FILM_ID].starring}
                     </span>
                   </p>
                 </div>
                 <div className="film-card__text-col">
                   <p className="film-card__details-item">
                     <strong className="film-card__details-name">Run Time</strong>
-                    <span className="film-card__details-value">{getTime()}</span>
+                    <span className="film-card__details-value">{getTime(activeFilmCard[INDEX_FILM_ID].runTime)}</span>
                   </p>
                   <p className="film-card__details-item">
                     <strong className="film-card__details-name">Genre</strong>
-                    <span className="film-card__details-value">{genre}</span>
+                    <span className="film-card__details-value">{activeFilmCard[INDEX_FILM_ID].genre}</span>
                   </p>
                   <p className="film-card__details-item">
                     <strong className="film-card__details-name">Released</strong>
-                    <span className="film-card__details-value">{released}</span>
+                    <span className="film-card__details-value">{activeFilmCard[INDEX_FILM_ID].released}</span>
                   </p>
                 </div>
               </div>
@@ -135,7 +145,7 @@ function MovieDetailsScreen(props: WelcomeScreenProps): JSX.Element {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            {smallCardFilm.slice().splice(0, 4).map((film) => (
+            {smallCardFilm.slice().splice(0, COUNT_CARDS_WITH_MORE_LIKES).map((film) => (
               <CardFilmScreen
                 key={film.id}
                 name={film.title}

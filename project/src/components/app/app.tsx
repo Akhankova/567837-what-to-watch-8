@@ -38,16 +38,16 @@ function App({movies}: AppScreenProps): JSX.Element {
           <PlayerScreen />
         </Route>
         <Route exact path={AppRoute.Film}>
-          <MovieScreen movie={firstMovie as SmallFilmCard}/>
+          <MovieScreen />
         </Route>
         <Route exact path={AppRoute.AddReview}>
-          <AddScreen movie={firstMovie as SmallFilmCard}/>
+          <AddScreen />
         </Route>
         <Route exact path={AppRoute.FilmDetails}>
-          <MovieDetailsScreen movie={firstMovie as SmallFilmCard}/>
+          <MovieDetailsScreen />
         </Route>
         <Route exact path={AppRoute.FilmReviews}>
-          <MovieReviewsScreen movie={firstMovie as SmallFilmCard}/>
+          <MovieReviewsScreen />
         </Route>
         <Route>
           <NotFoundScreen />
