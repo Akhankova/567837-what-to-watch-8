@@ -1,22 +1,42 @@
+
 import React from 'react';
 import CardFilmScreen from '../card-film-screen/card-film-screen';
 import Logo from '../logo/logo';
+import LogoFooter from '../logo/logo-footer';
+import {SmallCards, SmallFilmCard} from '../../types/small-film-card';
+import {useHistory} from 'react-router-dom';
+import {AppRoute} from '../../const';
+import { generatePath } from 'react-router-dom';
 
+const COUNT_CARDS_STEP = 8;
 type WelcomeScreenProps = {
-  year: number;
-  genre: string;
-  cardsCount: number;
-  headCardTitle: string;
+  movies: SmallCards;
+  movie: SmallFilmCard;
 }
+const uniqueItems = (items: string[]) => [...new Set(items)];
 
+function WelcomeScreen({movies, movie}: WelcomeScreenProps): JSX.Element {
+  //const {movie} = props;
+  const {released, genre, title, backgroundImage, previewImage, id} = movie;
+  const history = useHistory();
 
-function WelcomeScreen({year, genre, cardsCount, headCardTitle}: WelcomeScreenProps): JSX.Element {
+  const onCardClickPlayHandler = () => {
+    history.push(generatePath(AppRoute.Player, {id: id}));
+  };
+  const onCardClickMyListHandler = () => {
+    history.push(AppRoute.MyList);
+  };
+
+  const genres: string[] = [];
+  movies.filter((element) => genres.push(element.genre));
+  const genresUning: string[]  = uniqueItems(genres);
+
   return (
 
     <React.Fragment>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={backgroundImage} alt={title} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -41,14 +61,14 @@ function WelcomeScreen({year, genre, cardsCount, headCardTitle}: WelcomeScreenPr
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={previewImage} alt={title} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{headCardTitle}</h2>
+              <h2 className="film-card__title">{title}</h2>
               <p className="film-card__meta">
                 <span className="film-card__genre">{genre}</span>
-                <span className="film-card__year">{year}</span>
+                <span className="film-card__year">{released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -56,13 +76,13 @@ function WelcomeScreen({year, genre, cardsCount, headCardTitle}: WelcomeScreenPr
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
-                  <span>Play</span>
+                  <span onClick={onCardClickPlayHandler}>Play</span>
                 </button>
                 <button className="btn btn--list film-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
                   </svg>
-                  <span>My list</span>
+                  <span onClick={onCardClickMyListHandler}>My list</span>
                 </button>
               </div>
             </div>
@@ -78,39 +98,27 @@ function WelcomeScreen({year, genre, cardsCount, headCardTitle}: WelcomeScreenPr
             <li className="catalog__genres-item catalog__genres-item--active">
               <a href="/" className="catalog__genres-link">All genres</a>
             </li>
-            <li className="catalog__genres-item">
-              <a href="/" className="catalog__genres-link">Comedies</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="/" className="catalog__genres-link">Crime</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="/" className="catalog__genres-link">Documentary</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="/" className="catalog__genres-link">Dramas</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="/" className="catalog__genres-link">Horror</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="/" className="catalog__genres-link">Kids & Family</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="/" className="catalog__genres-link">Romance</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="/" className="catalog__genres-link">Sci-Fi</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="/" className="catalog__genres-link">Thrillers</a>
-            </li>
+            {genresUning.map((filmGenre, idGenre) => {
+              const keyValue = `${idGenre}-${filmGenre}`;
+              return (
+                <li key={keyValue} className="catalog__genres-item">
+                  <a href="/" className="catalog__genres-link">{filmGenre}</a>
+                </li>
+              );
+            })}
+
           </ul>
 
           <div className="catalog__films-list">
-            {new Array(cardsCount).fill(CardFilmScreen).map((filmCard, i) => filmCard(i))}
 
-
+            {movies.slice().splice(0, COUNT_CARDS_STEP).map((film) => (
+              <CardFilmScreen
+                key={film.id}
+                name={film.title}
+                imgSrc={film.imgSrc}
+                id={film.id}
+              />
+            ))};
           </div>
 
           <div className="catalog__more">
@@ -120,11 +128,7 @@ function WelcomeScreen({year, genre, cardsCount, headCardTitle}: WelcomeScreenPr
 
         <footer className="page-footer">
           <div className="logo">
-            <a className="logo__link logo__link--light" href="/">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
+            <LogoFooter/>
           </div>
 
           <div className="copyright">

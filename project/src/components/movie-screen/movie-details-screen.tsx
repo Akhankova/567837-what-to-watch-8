@@ -8,28 +8,22 @@ import LogoFooter from '../logo/logo-footer';
 import { generatePath, useParams } from 'react-router-dom';
 import {SmallCards} from '../../types/small-film-card';
 
-const COUNT_CARDS_WITH_MORE_LIKES = 4;
 const INDEX_FILM_ID = 0;
+const MINUTES = 60;
+const COUNT_CARDS_WITH_MORE_LIKES = 4;
 
 type WelcomeScreenProps = {
   movies: SmallCards;
 }
 
-function MovieScreen({movies}: WelcomeScreenProps): JSX.Element {
+const getTime = (time:number) => {
+  const hours: number = Math.floor(time/MINUTES);
+  const minutes: number = time%MINUTES;
+  return hours > 0 ? `${hours}h ${minutes}m` : `$${minutes}m`;
+};
+
+function MovieDetailsScreen({movies}:WelcomeScreenProps): JSX.Element {
   const history = useHistory();
-  const getRatingText = (element:number) => {
-    if (element<3) {
-      return 'Bad';
-    } else if (element < 5) {
-      return 'Normal';
-    } else if (element < 8) {
-      return 'Good';
-    } else if (element < 10) {
-      return 'Very good';
-    } else if (element === 10) {
-      return 'Awesome';
-    }
-  };
 
   const onCardClickPlayHandler = () => {
     history.push(generatePath(AppRoute.Player, {id: activeFilmCard[INDEX_FILM_ID].id}));
@@ -100,16 +94,16 @@ function MovieScreen({movies}: WelcomeScreenProps): JSX.Element {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src={activeFilmCard[0].previewImage} alt={activeFilmCard[INDEX_FILM_ID].title} width="218" height="327" />
+              <img src={activeFilmCard[INDEX_FILM_ID].previewImage} alt={activeFilmCard[INDEX_FILM_ID].title} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
               <nav className="film-nav film-card__nav">
                 <ul className="film-nav__list">
-                  <li className="film-nav__item film-nav__item--active">
+                  <li className="film-nav__item">
                     <Link to={generatePath(AppRoute.Film, {id: activeFilmCard[INDEX_FILM_ID].id})} className="film-nav__link">Overview</Link>
                   </li>
-                  <li className="film-nav__item">
+                  <li className="film-nav__item film-nav__item--active">
                     <Link to={generatePath(AppRoute.FilmDetails, {id: activeFilmCard[INDEX_FILM_ID].id})} className="film-nav__link">Details</Link>
                   </li>
                   <li className="film-nav__item">
@@ -117,21 +111,33 @@ function MovieScreen({movies}: WelcomeScreenProps): JSX.Element {
                   </li>
                 </ul>
               </nav>
-
-              <div className="film-rating">
-                <div className="film-rating__score">{activeFilmCard[INDEX_FILM_ID].rating}</div>
-                <p className="film-rating__meta">
-                  <span className="film-rating__level">{getRatingText(activeFilmCard[INDEX_FILM_ID].rating)}</span>
-                  <span className="film-rating__count">{activeFilmCard[INDEX_FILM_ID].scoresCount} ratings</span>
-                </p>
-              </div>
-
-              <div className="film-card__text">
-                {activeFilmCard[0].description}
-
-                <p className="film-card__director"><strong>Director: {activeFilmCard[INDEX_FILM_ID].director}</strong></p>
-
-                <p className="film-card__starring"><strong>Starring: {activeFilmCard[INDEX_FILM_ID].starring} and other</strong></p>
+              <div className="film-card__text film-card__row">
+                <div className="film-card__text-col">
+                  <p className="film-card__details-item">
+                    <strong className="film-card__details-name">Director</strong>
+                    <span className="film-card__details-value">{activeFilmCard[INDEX_FILM_ID].director}</span>
+                  </p>
+                  <p className="film-card__details-item">
+                    <strong className="film-card__details-name">Starring</strong>
+                    <span className="film-card__details-value">
+                      {activeFilmCard[INDEX_FILM_ID].starring}
+                    </span>
+                  </p>
+                </div>
+                <div className="film-card__text-col">
+                  <p className="film-card__details-item">
+                    <strong className="film-card__details-name">Run Time</strong>
+                    <span className="film-card__details-value">{getTime(activeFilmCard[INDEX_FILM_ID].runTime)}</span>
+                  </p>
+                  <p className="film-card__details-item">
+                    <strong className="film-card__details-name">Genre</strong>
+                    <span className="film-card__details-value">{activeFilmCard[INDEX_FILM_ID].genre}</span>
+                  </p>
+                  <p className="film-card__details-item">
+                    <strong className="film-card__details-name">Released</strong>
+                    <span className="film-card__details-value">{activeFilmCard[INDEX_FILM_ID].released}</span>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -168,4 +174,4 @@ function MovieScreen({movies}: WelcomeScreenProps): JSX.Element {
   );
 }
 
-export default MovieScreen;
+export default MovieDetailsScreen;
