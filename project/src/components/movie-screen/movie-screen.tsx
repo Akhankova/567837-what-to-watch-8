@@ -38,10 +38,11 @@ function MovieScreen({movies}: WelcomeScreenProps): JSX.Element {
     history.push(AppRoute.MyList);
   };
 
-  const filmId: any = useParams();
+  const filmId = useParams<{id?: string}>();
   const currentFilmId = filmId.id;
-  const numberCurrentFilmId = +currentFilmId;
-  const activeFilmCard = movies.filter((element) => element.id === numberCurrentFilmId);
+  const numberCurrentFilmId = currentFilmId;
+  const activeFilmCard = movies.filter((element) => element.id === Number(numberCurrentFilmId));
+  const filmsLike = movies.slice().filter((element) => element.genre === activeFilmCard[INDEX_FILM_ID].genre);
 
   return (
     <React.Fragment>
@@ -143,7 +144,7 @@ function MovieScreen({movies}: WelcomeScreenProps): JSX.Element {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            {movies.slice().splice(0, COUNT_CARDS_WITH_MORE_LIKES).map((film) => (
+            {filmsLike.slice().splice(0, COUNT_CARDS_WITH_MORE_LIKES).map((film) => (
               <CardFilmScreen
                 key={film.id}
                 name={film.title}

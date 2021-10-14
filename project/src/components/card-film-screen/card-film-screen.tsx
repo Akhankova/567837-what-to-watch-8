@@ -15,24 +15,20 @@ function CardFilmScreen(props: Props): JSX.Element {
   const history = useHistory();
   const [filmCardId, setFilmCardId] = useState(0);
 
-  const onSmallCardHandler = (element:number) => {
-    setFilmCardId(element);
-  };
+  const onSmallCardHandler = (element:number) => setFilmCardId(element);
 
-  const onCardMouseOverHandler = () => {
-    onSmallCardHandler(id);
-  };
+  const onCardMouseOverHandler = () => onSmallCardHandler(id);
 
   const onCardClickHandler = () => {
     history.push(generatePath(AppRoute.Film, {id: id}));
   };
-
-  const debounce = <F extends ((...args: any) => any)>(func: F, waitFor: number) => {
+  //const identity = < T extends {} >(arg: T): T => { return arg; }
+  const debounce = <F extends ((args: F) => any)>(func: F, waitFor: number) => {
     let timeout: any;
 
-    return (...args: any) => {
+    return (args: any) => {
       clearTimeout(timeout);
-      timeout= setTimeout(() => func(...args), waitFor);
+      timeout= setTimeout(() => func(args), waitFor);
     };
 
   };
