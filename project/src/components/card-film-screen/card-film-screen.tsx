@@ -1,43 +1,66 @@
 import {useHistory} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import {Link} from 'react-router-dom';
-import {useState} from 'react';
 import { generatePath } from 'react-router-dom';
+import VideoPlayer from '../video-player/video-player';
+import {useState, useEffect, useRef} from 'react';
 
 type Props = {
   name: string;
   imgSrc: string;
   id: number;
+  previewVideoLink: string;
+  previewImage: string;
 }
 
 function CardFilmScreen(props: Props): JSX.Element {
-  const {name, imgSrc, id} = props;
+  const {name, id, previewVideoLink, previewImage} = props;
   const history = useHistory();
   const [filmCardId, setFilmCardId] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isMouseOver, setMouseOver] = useState(false);
 
   const onSmallCardHandler = (element:number) => setFilmCardId(element);
 
-  const onCardMouseOverHandler = () => onSmallCardHandler(id);
+  const timeAfterHover = useRef<NodeJS.Timeout | null>(null);
+
+  const getTime = () => {
+    if (timeAfterHover.current) {
+      clearTimeout(timeAfterHover.current);
+      timeAfterHover.current = null;
+    }
+  };
+
+  useEffect(() => {
+    getTime();
+    if (!isMouseOver) {
+      setIsPlaying(false);
+    }
+    if (isMouseOver) {
+      timeAfterHover.current = setTimeout(() => setIsPlaying(true), 1000);
+    }
+    return getTime;
+  }, [isMouseOver]);
+
+  const onCardMouseOverHandler = () => {
+    (onSmallCardHandler(id)
+    );
+    setMouseOver(true);
+  };
 
   const onCardClickHandler = () => {
     history.push(generatePath(AppRoute.Film, {id: id}));
   };
-  //const identity = < T extends {} >(arg: T): T => { return arg; }
-  const debounce = <F extends ((args: F) => any)>(func: F, waitFor: number) => {
-    let timeout: any;
-
-    return (args: any) => {
-      clearTimeout(timeout);
-      timeout= setTimeout(() => func(args), waitFor);
-    };
-
-  };
 
   return (
-    <article className="small-film-card catalog__films-card" value={filmCardId} {...filmCardId} onClick={onCardClickHandler} onMouseOver={debounce(onCardMouseOverHandler,2000)}>
-      <div className="small-film-card__image">
-        <img src={imgSrc} alt={name} width="280" height="175"/>
-      </div>
+    <article className="small-film-card catalog__films-card" value={filmCardId} {...filmCardId} onClick={onCardClickHandler} onMouseOver={onCardMouseOverHandler} onMouseLeave={() => setMouseOver(false)}>
+      { isPlaying
+        ? <VideoPlayer previewVideoLink={previewVideoLink} imgSrc={previewImage}/>
+        :
+        <div className="small-film-card__image">
+          <img src={previewImage} alt={name} width="280" height="175"/>
+        </div>}
+
       <h3 className="small-film-card__title">
         <Link className="small-film-card__link" to={generatePath(AppRoute.Film, {id: id})}>{name}</Link>
       </h3>

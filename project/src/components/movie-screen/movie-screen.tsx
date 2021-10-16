@@ -17,7 +17,7 @@ type WelcomeScreenProps = {
 
 function MovieScreen({movies}: WelcomeScreenProps): JSX.Element {
   const history = useHistory();
-  const getRatingText = (element:number) => {
+  /*const getRatingText = (element:number) => {
     if (element<3) {
       return 'Bad';
     } else if (element < 5) {
@@ -28,6 +28,20 @@ function MovieScreen({movies}: WelcomeScreenProps): JSX.Element {
       return 'Very good';
     } else if (element === 10) {
       return 'Awesome';
+    }
+  };*/
+  const getRatingText = (element:number) => {
+    switch (true) {
+      case (element<3):
+        return 'Bad';
+      case (element < 5):
+        return 'Normal';
+      case (element < 8):
+        return 'Good';
+      case (element < 10):
+        return 'Very good';
+      case (element === 10):
+        return 'Awesome';
     }
   };
 
@@ -150,6 +164,8 @@ function MovieScreen({movies}: WelcomeScreenProps): JSX.Element {
                 name={film.title}
                 imgSrc={film.imgSrc}
                 id={film.id}
+                previewVideoLink={film.previewVideoLink}
+                previewImage={film.previewImage}
               />
             ))}
           </div>

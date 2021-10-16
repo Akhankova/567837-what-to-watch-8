@@ -116,6 +116,8 @@ function WelcomeScreen({movies, promoMovie}: WelcomeScreenProps): JSX.Element {
                 name={film.title}
                 imgSrc={film.imgSrc}
                 id={film.id}
+                previewVideoLink={film.previewVideoLink}
+                previewImage={film.previewImage}
               />
             ))};
           </div>

@@ -155,6 +155,8 @@ function MovieDetailsScreen({movies}:WelcomeScreenProps): JSX.Element {
                 name={film.title}
                 imgSrc={film.imgSrc}
                 id={film.id}
+                previewVideoLink={film.previewVideoLink}
+                previewImage={film.previewImage}
               />
             ))}
           </div>
