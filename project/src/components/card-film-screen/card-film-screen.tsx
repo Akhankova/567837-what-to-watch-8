@@ -5,6 +5,8 @@ import { generatePath } from 'react-router-dom';
 import VideoPlayer from '../video-player/video-player';
 import {useState, useEffect, useRef} from 'react';
 
+const TIME_FOR_MOUSE_OVER = 1000;
+
 type Props = {
   name: string;
   imgSrc: string;
@@ -37,7 +39,7 @@ function CardFilmScreen(props: Props): JSX.Element {
       setIsPlaying(false);
     }
     if (isMouseOver) {
-      timeAfterHover.current = setTimeout(() => setIsPlaying(true), 1000);
+      timeAfterHover.current = setTimeout(() => setIsPlaying(true), TIME_FOR_MOUSE_OVER);
     }
     return getTime;
   }, [isMouseOver]);
