@@ -36,7 +36,7 @@ function MovieDetailsScreen({movies}:WelcomeScreenProps): JSX.Element {
   const currentFilmId = filmId.id;
   const numberCurrentFilmId = currentFilmId;
   const activeFilmCard = movies.filter((element) => element.id === Number(numberCurrentFilmId));
-  const filmsLike = movies.slice().filter((element) => element.genre === activeFilmCard[INDEX_FILM_ID].genre);
+  const filmsLike = movies.filter((element) => element.genre === activeFilmCard[INDEX_FILM_ID].genre);
   return (
     <React.Fragment>
       <section className="film-card film-card--full" style={{backgroundColor:activeFilmCard[INDEX_FILM_ID].backgroundColor}}>
@@ -149,7 +149,7 @@ function MovieDetailsScreen({movies}:WelcomeScreenProps): JSX.Element {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            {filmsLike.slice().splice(0, COUNT_CARDS_WITH_MORE_LIKES).map((film) => (
+            {filmsLike.splice(0, COUNT_CARDS_WITH_MORE_LIKES).map((film) => (
               <CardFilmScreen
                 key={film.id}
                 name={film.title}

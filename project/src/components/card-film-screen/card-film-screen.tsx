@@ -5,6 +5,7 @@ import { generatePath } from 'react-router-dom';
 import VideoPlayer from '../video-player/video-player';
 import {useState, useEffect, useRef} from 'react';
 
+
 const TIME_FOR_MOUSE_OVER = 1000;
 
 type Props = {
@@ -24,7 +25,7 @@ function CardFilmScreen(props: Props): JSX.Element {
 
   const onSmallCardHandler = (element:number) => setFilmCardId(element);
 
-  const timeAfterHover = useRef<NodeJS.Timeout | null>(null);
+  const timeAfterHover = useRef<number | null>(null);
 
   const getTime = () => {
     if (timeAfterHover.current) {
@@ -38,8 +39,9 @@ function CardFilmScreen(props: Props): JSX.Element {
     if (!isMouseOver) {
       setIsPlaying(false);
     }
+    //если делаю без window то выдает ошибку 'Type 'Timeout' is not assignable to type 'number''
     if (isMouseOver) {
-      timeAfterHover.current = setTimeout(() => setIsPlaying(true), TIME_FOR_MOUSE_OVER);
+      timeAfterHover.current = window.setInterval(() => setIsPlaying(true), TIME_FOR_MOUSE_OVER);
     }
     return getTime;
   }, [isMouseOver]);

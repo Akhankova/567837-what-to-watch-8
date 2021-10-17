@@ -9,10 +9,14 @@ function VideoPlayer({previewVideoLink, imgSrc}: VideoPlayerProps): JSX.Element 
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
-    if (videoRef.current !== null) {
-      videoRef.current.muted = true;
-      videoRef.current.autoplay = true;
+
+    if (!videoRef.current) {
+      return;
     }
+
+    videoRef.current.muted = true;
+    videoRef.current.autoplay = true;
+
   });
 
   return (
