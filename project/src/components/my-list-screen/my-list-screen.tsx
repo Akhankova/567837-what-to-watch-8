@@ -8,7 +8,7 @@ type WelcomeScreenProps = {
 }
 
 function MyListScreen({movies}: WelcomeScreenProps): JSX.Element {
-
+  const isFavoriteMovies = movies.slice().filter((card) => card.isFavorite === true);
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
@@ -34,14 +34,16 @@ function MyListScreen({movies}: WelcomeScreenProps): JSX.Element {
         <h2 className="catalog__title visually-hidden">Catalog</h2>
 
         <div className="catalog__films-list">
-          {movies.map((film) => (
+          {isFavoriteMovies.map((film) => (
             <CardFilmScreen
               key={film.id}
               name={film.title}
               imgSrc={film.imgSrc}
               id={film.id}
+              previewVideoLink={film.previewVideoLink}
+              previewImage={film.previewImage}
             />
-          )).filter((card) => card)}
+          ))}
         </div>
       </section>
 

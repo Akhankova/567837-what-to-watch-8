@@ -14,15 +14,16 @@ import {SmallCards, SmallFilmCard} from '../../types/small-film-card';
 
 type AppScreenProps = {
   movies: SmallCards;
+  promoMovie: SmallFilmCard;
 }
 
-function App({movies}: AppScreenProps): JSX.Element {
-  const [firstMovie] = movies;
+function App({movies, promoMovie}: AppScreenProps): JSX.Element {
+
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Main}>
-          <WelcomeScreen movie={firstMovie as SmallFilmCard} movies={movies}/>
+          <WelcomeScreen promoMovie={promoMovie} movies={movies}/>
         </Route>
         <PrivateRoute
           exact
@@ -41,7 +42,7 @@ function App({movies}: AppScreenProps): JSX.Element {
           <MovieScreen movies={movies}/>
         </Route>
         <Route exact path={AppRoute.AddReview}>
-          <AddScreen />
+          <AddScreen movies={movies} />
         </Route>
         <Route exact path={AppRoute.FilmDetails}>
           <MovieDetailsScreen movies={movies}/>

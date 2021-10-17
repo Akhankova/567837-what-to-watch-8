@@ -1,15 +1,19 @@
 import Logo from '../logo/logo';
 import FormNewComment from '../form-new-comment/form-new-comment';
 import { useParams } from 'react-router-dom';
-import {smallCardFilm} from '../../mocks/films';
+import {SmallCards} from '../../types/small-film-card';
 
 const INDEX_FILM_ID = 0;
 
-function AddScreen(): JSX.Element {
-  const filmId: any = useParams();
+type AddScreenProps = {
+  movies: SmallCards;
+}
+
+function AddScreen({movies}: AddScreenProps): JSX.Element {
+  const filmId = useParams<{id?: string}>();
   const currentFilmId = filmId.id;
-  const numberCurrentFilmId = +currentFilmId;
-  const activeFilmCard = smallCardFilm.filter((element) => element.id === numberCurrentFilmId);
+  const numberCurrentFilmId = currentFilmId;
+  const activeFilmCard = movies.filter((element) => element.id === Number(numberCurrentFilmId));
 
   return (
     <section className="film-card film-card--full">

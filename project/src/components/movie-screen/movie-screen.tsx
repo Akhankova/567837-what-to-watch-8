@@ -18,16 +18,17 @@ type WelcomeScreenProps = {
 function MovieScreen({movies}: WelcomeScreenProps): JSX.Element {
   const history = useHistory();
   const getRatingText = (element:number) => {
-    if (element<3) {
-      return 'Bad';
-    } else if (element < 5) {
-      return 'Normal';
-    } else if (element < 8) {
-      return 'Good';
-    } else if (element < 10) {
-      return 'Very good';
-    } else if (element === 10) {
-      return 'Awesome';
+    switch (true) {
+      case (element<3):
+        return 'Bad';
+      case (element < 5):
+        return 'Normal';
+      case (element < 8):
+        return 'Good';
+      case (element < 10):
+        return 'Very good';
+      case (element === 10):
+        return 'Awesome';
     }
   };
 
@@ -38,10 +39,11 @@ function MovieScreen({movies}: WelcomeScreenProps): JSX.Element {
     history.push(AppRoute.MyList);
   };
 
-  const filmId: any = useParams();
+  const filmId = useParams<{id?: string}>();
   const currentFilmId = filmId.id;
-  const numberCurrentFilmId = +currentFilmId;
-  const activeFilmCard = movies.filter((element) => element.id === numberCurrentFilmId);
+  const numberCurrentFilmId = currentFilmId;
+  const activeFilmCard = movies.filter((element) => element.id === Number(numberCurrentFilmId));
+  const filmsLike = movies.slice().filter((element) => element.genre === activeFilmCard[INDEX_FILM_ID].genre);
 
   return (
     <React.Fragment>
@@ -143,12 +145,14 @@ function MovieScreen({movies}: WelcomeScreenProps): JSX.Element {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            {movies.slice().splice(0, COUNT_CARDS_WITH_MORE_LIKES).map((film) => (
+            {filmsLike.slice().splice(0, COUNT_CARDS_WITH_MORE_LIKES).map((film) => (
               <CardFilmScreen
                 key={film.id}
                 name={film.title}
                 imgSrc={film.imgSrc}
                 id={film.id}
+                previewVideoLink={film.previewVideoLink}
+                previewImage={film.previewImage}
               />
             ))}
           </div>

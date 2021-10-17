@@ -11,13 +11,12 @@ import { generatePath } from 'react-router-dom';
 const COUNT_CARDS_STEP = 8;
 type WelcomeScreenProps = {
   movies: SmallCards;
-  movie: SmallFilmCard;
+  promoMovie: SmallFilmCard;
 }
 const uniqueItems = (items: string[]) => [...new Set(items)];
 
-function WelcomeScreen({movies, movie}: WelcomeScreenProps): JSX.Element {
-  //const {movie} = props;
-  const {released, genre, title, backgroundImage, previewImage, id} = movie;
+function WelcomeScreen({movies, promoMovie}: WelcomeScreenProps): JSX.Element {
+  const {released, genre, title, backgroundImage, previewImage, id} = promoMovie;
   const history = useHistory();
 
   const onCardClickPlayHandler = () => {
@@ -117,6 +116,8 @@ function WelcomeScreen({movies, movie}: WelcomeScreenProps): JSX.Element {
                 name={film.title}
                 imgSrc={film.imgSrc}
                 id={film.id}
+                previewVideoLink={film.previewVideoLink}
+                previewImage={film.previewImage}
               />
             ))};
           </div>

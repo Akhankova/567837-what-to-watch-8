@@ -1,4 +1,34 @@
-import {SmallCards} from '../types/small-film-card';
+import {SmallCards, SmallFilmCard} from '../types/small-film-card';
+
+export const smallCardFilmPromo: SmallFilmCard = {
+  id: 65,
+  title: 'The Grand Budapest Hotel',
+  imgSrc: './img/the-grand-budapest-hotel-poster.jpg',
+  previewImage: './img/bg-the-grand-budapest-hotel.jpg',
+  backgroundImage: './img/bg-the-grand-budapest-hotel.jpg',
+  backgroundColor: '#ffccff',
+  videoLink: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
+  previewVideoLink: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
+  description: 'In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave\'s friend and protege.',
+  rating: 7,
+  scoresCount: 240,
+  director: 'Wes Anderson',
+  starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
+  runTime: 99,
+  genre: 'Comedy',
+  released: 2014,
+  isFavorite: false,
+  comments: [ {
+    id: 45434,
+    user: {
+      id: 1,
+      name: 'Oleg Muir',
+    },
+    rating: 4,
+    value: 'Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the directors funniest and most exquisitely designed movies in years.',
+    date : '2021-01-08T14:13:56.569Z',
+  }],
+};
 
 export const smallCardFilm: SmallCards = [
   {
@@ -9,9 +39,9 @@ export const smallCardFilm: SmallCards = [
     backgroundImage: './img/bg-the-grand-budapest-hotel.jpg',
     backgroundColor: '#ffccff',
     videoLink: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
-    previewVideoLink: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
+    previewVideoLink: 'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4',
     description: 'In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave\'s friend and protege.',
-    rating: 8.9,
+    rating: 2,
     scoresCount: 240,
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
@@ -78,14 +108,14 @@ export const smallCardFilm: SmallCards = [
     backgroundImage: 'img/macbeth.jpg',
     backgroundColor: '#ffe6cc',
     videoLink: 'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4',
-    previewVideoLink: 'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4',
+    previewVideoLink: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
     description: 'In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustaves friend and protege.',
     rating: 5,
     scoresCount: 240,
     director: 'Wes Anderson',
     starring: ['Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
     runTime: 99,
-    genre: 'Comedy',
+    genre: 'Fantasy',
     released: 2014,
     isFavorite: false,
     comments: [ {
@@ -300,7 +330,7 @@ export const smallCardFilm: SmallCards = [
     director: 'Wes Anderson',
     starring: ['Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
     runTime: 99,
-    genre: 'Comedy',
+    genre: 'Fantasy',
     released: 2001,
     isFavorite: false,
     comments: [ {
@@ -388,7 +418,7 @@ export const smallCardFilm: SmallCards = [
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
     runTime: 99,
-    genre: 'Comedy',
+    genre: 'Horror',
     released: 2014,
     isFavorite: false,
     comments: [ {
@@ -457,7 +487,7 @@ export const smallCardFilm: SmallCards = [
     director: 'Wes Anderson',
     starring: ['Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
     runTime: 99,
-    genre: 'Comedy',
+    genre: 'Drama',
     released: 2014,
     isFavorite: false,
     comments: [ {
