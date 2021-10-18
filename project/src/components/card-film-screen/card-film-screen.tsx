@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {useHistory} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import {Link} from 'react-router-dom';
@@ -28,6 +29,7 @@ function CardFilmScreen(props: Props): JSX.Element {
   const timeAfterHover = useRef<number | null>(null);
 
   const getTime = () => {
+    console.log(timeAfterHover.current);
     if (timeAfterHover.current) {
       clearTimeout(timeAfterHover.current);
       timeAfterHover.current = null;
@@ -44,6 +46,7 @@ function CardFilmScreen(props: Props): JSX.Element {
       timeAfterHover.current = window.setInterval(() => setIsPlaying(true), TIME_FOR_MOUSE_OVER);
     }
     return getTime;
+
   }, [isMouseOver]);
 
   const onCardMouseOverHandler = () => {
