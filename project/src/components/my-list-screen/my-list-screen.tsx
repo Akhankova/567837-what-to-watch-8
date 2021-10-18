@@ -8,7 +8,7 @@ type WelcomeScreenProps = {
 }
 
 function MyListScreen({movies}: WelcomeScreenProps): JSX.Element {
-  const isFavoriteMovies = movies.slice().filter((card) => card.isFavorite === true);
+  const isFavoriteMovies = movies.filter((card) => card.isFavorite === true);
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
