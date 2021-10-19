@@ -1,5 +1,6 @@
+/* eslint-disable no-console */
 
-import React from 'react';
+import React, { useRef } from 'react';
 import CardFilmScreen from '../card-film-screen/card-film-screen';
 import Logo from '../logo/logo';
 import LogoFooter from '../logo/logo-footer';
@@ -7,17 +8,35 @@ import {SmallCards, SmallFilmCard} from '../../types/small-film-card';
 import {useHistory} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import { generatePath } from 'react-router-dom';
+//import ShowMoreScreen from '../show-more/show-more';
+import {useState} from 'react';
+
 
 const COUNT_CARDS_STEP = 8;
 type WelcomeScreenProps = {
   movies: SmallCards;
   promoMovie: SmallFilmCard;
 }
+
 const uniqueItems = (items: string[]) => [...new Set(items)];
 
 function WelcomeScreen({movies, promoMovie}: WelcomeScreenProps): JSX.Element {
   const {released, genre, title, backgroundImage, previewImage, id} = promoMovie;
   const history = useHistory();
+  const [visiblyFilmCount, setVisiblyFilmCount] = useState(COUNT_CARDS_STEP );
+  const buttonShowMore = useRef<HTMLButtonElement | null>(null);
+
+  /*const cardCount = movies.length;
+  let renderedCardCount = COUNT_CARDS_STEP;
+  const newRenderedCardCount = Math.min(cardCount, renderedCardCount + COUNT_CARDS_STEP);
+  const cardsToShow = movies.slice(renderedCardCount, newRenderedCardCount);
+
+  this._renderCards(cards);
+
+  renderedCardCount = newRenderedCardCount;
+  if (renderedCardCount >= cardCount) {
+    remove(this._buttonShowMoreComponent);
+  }*/
 
   const onCardClickPlayHandler = () => {
     history.push(generatePath(AppRoute.Player, {id: id}));
@@ -25,6 +44,23 @@ function WelcomeScreen({movies, promoMovie}: WelcomeScreenProps): JSX.Element {
   const onCardClickMyListHandler = () => {
     history.push(AppRoute.MyList);
   };
+
+  const onShowMoreButtonClick = () => {
+    setVisiblyFilmCount(() => {
+      const nextVisCount =  visiblyFilmCount + 8;
+      if (nextVisCount >= movies.length) {
+        buttonShowMore.current?.remove();
+        return movies.length;
+      } else {
+        return nextVisCount;
+      }
+    });
+  };
+
+  /*const onGenreClickHandler = (event: { currentTarget: { innerText: string; }; }) => {
+    const cardsGenre = event.currentTarget.innerText;
+    setGenre(cardsGenre);
+  };*/
 
   const genres: string[] = [];
   movies.filter((element) => genres.push(element.genre));
@@ -110,7 +146,7 @@ function WelcomeScreen({movies, promoMovie}: WelcomeScreenProps): JSX.Element {
 
           <div className="catalog__films-list">
 
-            {movies.slice().splice(0, COUNT_CARDS_STEP).map((film) => (
+            {movies.slice().splice(0, visiblyFilmCount).map((film) => (
               <CardFilmScreen
                 key={film.id}
                 name={film.title}
@@ -119,12 +155,13 @@ function WelcomeScreen({movies, promoMovie}: WelcomeScreenProps): JSX.Element {
                 previewVideoLink={film.previewVideoLink}
                 previewImage={film.previewImage}
               />
-            ))};
+            ))}
           </div>
 
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
+          {movies.length >COUNT_CARDS_STEP ?
+            <div className="catalog__more">
+              <button className="catalog__button" type="button" onClick={onShowMoreButtonClick} ref={buttonShowMore}>Show more</button>
+            </div>: ' '}
         </section>
 
         <footer className="page-footer">
