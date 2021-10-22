@@ -1,4 +1,7 @@
+import {SmallCards, SmallFilmCard} from '../types/small-film-card';
+
 export type State = {
-  genre: number,
-  movies: []
+  genre: string,
+  movies: SmallCards,
+  promoFilm: SmallFilmCard,
 };

@@ -1,42 +1,58 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable no-console */
 
 import React, { useRef } from 'react';
 import CardFilmScreen from '../card-film-screen/card-film-screen';
 import Logo from '../logo/logo';
 import LogoFooter from '../logo/logo-footer';
-import {SmallCards, SmallFilmCard} from '../../types/small-film-card';
+//import {SmallFilmCard, SmallCards} from '../../types/small-film-card';
 import {useHistory} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import { generatePath } from 'react-router-dom';
-//import ShowMoreScreen from '../show-more/show-more';
 import {useState} from 'react';
-
+//import {setGenre} from '../../store/action';
+//import {Dispatch} from 'redux';
+//import {GenreAction} from '../../types/action';
+import {State} from '../../types/state';
+import {connect, ConnectedProps} from 'react-redux';
+import GenresScreen from '../genres-screen/genres-screen';
+//import { stringify } from 'querystring';
 
 const COUNT_CARDS_STEP = 8;
-type WelcomeScreenProps = {
+
+/*type WelcomeScreenProps = {
   movies: SmallCards;
   promoMovie: SmallFilmCard;
-}
+}*/
 
-const uniqueItems = (items: string[]) => [...new Set(items)];
+/*const mapStateToProps = (state: State) => ({
+  movies: state.movies,
+  genres: state.genre,
+});
 
-function WelcomeScreen({movies, promoMovie}: WelcomeScreenProps): JSX.Element {
-  const {released, genre, title, backgroundImage, previewImage, id} = promoMovie;
+const mapDispatchToProps = (dispatch: Dispatch<GenreAction>) => ({
+  onGenreClickHandler(genre: string) {
+    dispatch(setGenre(genre));
+  },
+});*/
+
+const mapStateToProps = (state: State) => ({
+  movies: state.movies,
+  promoMovie: state.promoFilm,
+});
+
+const connector = connect(mapStateToProps);
+
+type MainProps = ConnectedProps<typeof connector>;
+
+function WelcomeScreen(props: MainProps): JSX.Element {
+  const {movies, promoMovie} = props;
+
+
+  const {genre, title, backgroundImage, previewImage, id} = promoMovie;
   const history = useHistory();
   const [visiblyFilmCount, setVisiblyFilmCount] = useState(COUNT_CARDS_STEP );
   const buttonShowMore = useRef<HTMLButtonElement | null>(null);
-
-  /*const cardCount = movies.length;
-  let renderedCardCount = COUNT_CARDS_STEP;
-  const newRenderedCardCount = Math.min(cardCount, renderedCardCount + COUNT_CARDS_STEP);
-  const cardsToShow = movies.slice(renderedCardCount, newRenderedCardCount);
-
-  this._renderCards(cards);
-
-  renderedCardCount = newRenderedCardCount;
-  if (renderedCardCount >= cardCount) {
-    remove(this._buttonShowMoreComponent);
-  }*/
 
   const onCardClickPlayHandler = () => {
     history.push(generatePath(AppRoute.Player, {id: id}));
@@ -56,15 +72,6 @@ function WelcomeScreen({movies, promoMovie}: WelcomeScreenProps): JSX.Element {
       }
     });
   };
-
-  /*const onGenreClickHandler = (event: { currentTarget: { innerText: string; }; }) => {
-    const cardsGenre = event.currentTarget.innerText;
-    setGenre(cardsGenre);
-  };*/
-
-  const genres: string[] = [];
-  movies.filter((element) => genres.push(element.genre));
-  const genresUning: string[]  = uniqueItems(genres);
 
   return (
 
@@ -103,7 +110,7 @@ function WelcomeScreen({movies, promoMovie}: WelcomeScreenProps): JSX.Element {
               <h2 className="film-card__title">{title}</h2>
               <p className="film-card__meta">
                 <span className="film-card__genre">{genre}</span>
-                <span className="film-card__year">{released}</span>
+                <span className="film-card__year">{}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -130,17 +137,7 @@ function WelcomeScreen({movies, promoMovie}: WelcomeScreenProps): JSX.Element {
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
           <ul className="catalog__genres-list">
-            <li className="catalog__genres-item catalog__genres-item--active">
-              <a href="/" className="catalog__genres-link">All genres</a>
-            </li>
-            {genresUning.map((filmGenre, idGenre) => {
-              const keyValue = `${idGenre}-${filmGenre}`;
-              return (
-                <li key={keyValue} className="catalog__genres-item">
-                  <a href="/" className="catalog__genres-link">{filmGenre}</a>
-                </li>
-              );
-            })}
+            <GenresScreen/>
 
           </ul>
 
@@ -178,4 +175,6 @@ function WelcomeScreen({movies, promoMovie}: WelcomeScreenProps): JSX.Element {
   );
 }
 
-export default WelcomeScreen;
+export default connector(WelcomeScreen);
+
+

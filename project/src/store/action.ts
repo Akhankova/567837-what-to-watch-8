@@ -1,5 +1,6 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-export const setGenre = (genre: string) => ({
+/* eslint-disable no-console */
+
+export const setGenre = (genre: string) : any => ({
   type: 'SET_GENRE',
-  payload: genre,
+  payload: { genre },
 });
