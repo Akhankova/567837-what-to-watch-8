@@ -10,20 +10,19 @@ import MovieReviewsScreen from '../movie-screen/movie-reviews-screen';
 import AddScreen from '../add-screen/add-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
-import {SmallCards, SmallFilmCard} from '../../types/small-film-card';
+import {SmallCards} from '../../types/small-film-card';
 
 type AppScreenProps = {
   movies: SmallCards;
-  promoMovie: SmallFilmCard;
+  //promoMovie: SmallFilmCard;
 }
 
-function App({movies, promoMovie}: AppScreenProps): JSX.Element {
-
+function App({movies}: AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Main}>
-          <WelcomeScreen promoMovie={promoMovie} movies={movies}/>
+          <WelcomeScreen/>
         </Route>
         <PrivateRoute
           exact

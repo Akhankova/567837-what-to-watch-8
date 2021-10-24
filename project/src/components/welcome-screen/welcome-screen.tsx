@@ -1,23 +1,36 @@
-
-import React from 'react';
+import React, { useRef } from 'react';
 import CardFilmScreen from '../card-film-screen/card-film-screen';
 import Logo from '../logo/logo';
 import LogoFooter from '../logo/logo-footer';
-import {SmallCards, SmallFilmCard} from '../../types/small-film-card';
 import {useHistory} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import { generatePath } from 'react-router-dom';
+import {useState} from 'react';
+import {State} from '../../types/state';
+import {useDispatch, useSelector} from 'react-redux';
+import GenresScreen from '../genres-screen/genres-screen';
+import { setGenre } from '../../store/action';
+
 
 const COUNT_CARDS_STEP = 8;
-type WelcomeScreenProps = {
-  movies: SmallCards;
-  promoMovie: SmallFilmCard;
-}
 const uniqueItems = (items: string[]) => [...new Set(items)];
 
-function WelcomeScreen({movies, promoMovie}: WelcomeScreenProps): JSX.Element {
-  const {released, genre, title, backgroundImage, previewImage, id} = promoMovie;
+function WelcomeScreen(): JSX.Element {
+  const movies = useSelector((state: State) => state.movies);
+  const moviesWithFilter = useSelector((state: State) => state.filterMovies);
+
+  const genres: string[] = [];
+  movies.filter((element) => genres.push(element.genre));
+  const genresUning: string[]  = uniqueItems(genres);
+
+  const {genre, title, backgroundImage, previewImage, id} = movies[0];
+
   const history = useHistory();
+  const [visiblyFilmCount, setVisiblyFilmCount] = useState(COUNT_CARDS_STEP );
+  const buttonShowMore = useRef<HTMLButtonElement | null>(null);
+
+  const dispatchAction = useDispatch();
+  const genreNew = (newGenre: string) => dispatchAction(setGenre(newGenre));
 
   const onCardClickPlayHandler = () => {
     history.push(generatePath(AppRoute.Player, {id: id}));
@@ -26,9 +39,17 @@ function WelcomeScreen({movies, promoMovie}: WelcomeScreenProps): JSX.Element {
     history.push(AppRoute.MyList);
   };
 
-  const genres: string[] = [];
-  movies.filter((element) => genres.push(element.genre));
-  const genresUning: string[]  = uniqueItems(genres);
+  const onShowMoreButtonClick = () => {
+    setVisiblyFilmCount(() => {
+      const nextVisCount =  visiblyFilmCount + 8;
+      if (nextVisCount >= moviesWithFilter.length) {
+        buttonShowMore.current?.remove();
+        return moviesWithFilter.length;
+      } else {
+        return nextVisCount;
+      }
+    });
+  };
 
   return (
 
@@ -67,7 +88,7 @@ function WelcomeScreen({movies, promoMovie}: WelcomeScreenProps): JSX.Element {
               <h2 className="film-card__title">{title}</h2>
               <p className="film-card__meta">
                 <span className="film-card__genre">{genre}</span>
-                <span className="film-card__year">{released}</span>
+                <span className="film-card__year">{}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -94,23 +115,12 @@ function WelcomeScreen({movies, promoMovie}: WelcomeScreenProps): JSX.Element {
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
           <ul className="catalog__genres-list">
-            <li className="catalog__genres-item catalog__genres-item--active">
-              <a href="/" className="catalog__genres-link">All genres</a>
-            </li>
-            {genresUning.map((filmGenre, idGenre) => {
-              const keyValue = `${idGenre}-${filmGenre}`;
-              return (
-                <li key={keyValue} className="catalog__genres-item">
-                  <a href="/" className="catalog__genres-link">{filmGenre}</a>
-                </li>
-              );
-            })}
-
+            <GenresScreen genre={genresUning} onClick={genreNew}/>
           </ul>
 
           <div className="catalog__films-list">
 
-            {movies.slice().splice(0, COUNT_CARDS_STEP).map((film) => (
+            {moviesWithFilter.slice().splice(0, visiblyFilmCount).map((film) => (
               <CardFilmScreen
                 key={film.id}
                 name={film.title}
@@ -119,12 +129,13 @@ function WelcomeScreen({movies, promoMovie}: WelcomeScreenProps): JSX.Element {
                 previewVideoLink={film.previewVideoLink}
                 previewImage={film.previewImage}
               />
-            ))};
+            ))}
           </div>
 
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
+          {moviesWithFilter.length >COUNT_CARDS_STEP ?
+            <div className="catalog__more">
+              <button className="catalog__button" type="button" onClick={onShowMoreButtonClick} ref={buttonShowMore}>Show more</button>
+            </div>: ' '}
         </section>
 
         <footer className="page-footer">
@@ -142,3 +153,5 @@ function WelcomeScreen({movies, promoMovie}: WelcomeScreenProps): JSX.Element {
 }
 
 export default WelcomeScreen;
+
+
