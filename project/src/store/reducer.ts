@@ -1,24 +1,25 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable no-console */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import {smallCardFilm} from '../mocks/films';
 
+import {smallCardFilm, smallCardFilmPromo} from '../mocks/films';
 import {SmallFilmCard} from '../types/small-film-card';
+import { State } from '../types/state';
 import { setGenre } from './action';
 
 export const initialState = {
   genre: 'All genres',
   movies: smallCardFilm,
+  filterMovies: smallCardFilm,
+  promoFilm: smallCardFilmPromo,
 };
 
-export const reducer = (state = initialState, action: ReturnType<typeof setGenre>) => {
-  switch (action.type) {
-    case 'SET_GENRE':
+export const reducer = (state = initialState, action: ReturnType<typeof setGenre>): State => {
 
+  switch (action.type) {
+
+    case 'SET_GENRE':
       return {
         ...state,
-        genre: action.payload,
-        movies: state.movies.filter((film:SmallFilmCard) => film.genre === action.payload),
+        genre: action.payload.genre,
+        filterMovies: state.movies.filter((film:SmallFilmCard) => film.genre === action.payload.genre),
 
       };
     default:

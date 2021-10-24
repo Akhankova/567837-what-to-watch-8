@@ -1,58 +1,36 @@
-/* eslint-disable @typescript-eslint/no-shadow */
-/* eslint-disable no-console */
-
 import React, { useRef } from 'react';
 import CardFilmScreen from '../card-film-screen/card-film-screen';
 import Logo from '../logo/logo';
 import LogoFooter from '../logo/logo-footer';
-//import {SmallFilmCard, SmallCards} from '../../types/small-film-card';
 import {useHistory} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import { generatePath } from 'react-router-dom';
 import {useState} from 'react';
-//import {setGenre} from '../../store/action';
-//import {Dispatch} from 'redux';
-//import {GenreAction} from '../../types/action';
 import {State} from '../../types/state';
-import {connect, ConnectedProps} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import GenresScreen from '../genres-screen/genres-screen';
-//import { stringify } from 'querystring';
+import { setGenre } from '../../store/action';
+
 
 const COUNT_CARDS_STEP = 8;
+const uniqueItems = (items: string[]) => [...new Set(items)];
 
-/*type WelcomeScreenProps = {
-  movies: SmallCards;
-  promoMovie: SmallFilmCard;
-}*/
+function WelcomeScreen(): JSX.Element {
+  const movies = useSelector((state: State) => state.movies);
+  const moviesWithFilter = useSelector((state: State) => state.filterMovies);
 
-/*const mapStateToProps = (state: State) => ({
-  movies: state.movies,
-  genres: state.genre,
-});
+  const genres: string[] = [];
+  movies.filter((element) => genres.push(element.genre));
+  const genresUning: string[]  = uniqueItems(genres);
 
-const mapDispatchToProps = (dispatch: Dispatch<GenreAction>) => ({
-  onGenreClickHandler(genre: string) {
-    dispatch(setGenre(genre));
-  },
-});*/
+  const {genre, title, backgroundImage, previewImage, id} = movies[0];
 
-const mapStateToProps = (state: State) => ({
-  movies: state.movies,
-  promoMovie: state.promoFilm,
-});
-
-const connector = connect(mapStateToProps);
-
-type MainProps = ConnectedProps<typeof connector>;
-
-function WelcomeScreen(props: MainProps): JSX.Element {
-  const {movies, promoMovie} = props;
-
-
-  const {genre, title, backgroundImage, previewImage, id} = promoMovie;
   const history = useHistory();
   const [visiblyFilmCount, setVisiblyFilmCount] = useState(COUNT_CARDS_STEP );
   const buttonShowMore = useRef<HTMLButtonElement | null>(null);
+
+  const dispatchAction = useDispatch();
+  const genreNew = (newGenre: string) => dispatchAction(setGenre(newGenre));
 
   const onCardClickPlayHandler = () => {
     history.push(generatePath(AppRoute.Player, {id: id}));
@@ -64,9 +42,9 @@ function WelcomeScreen(props: MainProps): JSX.Element {
   const onShowMoreButtonClick = () => {
     setVisiblyFilmCount(() => {
       const nextVisCount =  visiblyFilmCount + 8;
-      if (nextVisCount >= movies.length) {
+      if (nextVisCount >= moviesWithFilter.length) {
         buttonShowMore.current?.remove();
-        return movies.length;
+        return moviesWithFilter.length;
       } else {
         return nextVisCount;
       }
@@ -137,13 +115,12 @@ function WelcomeScreen(props: MainProps): JSX.Element {
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
           <ul className="catalog__genres-list">
-            <GenresScreen/>
-
+            <GenresScreen genre={genresUning} onClick={genreNew}/>
           </ul>
 
           <div className="catalog__films-list">
 
-            {movies.slice().splice(0, visiblyFilmCount).map((film) => (
+            {moviesWithFilter.slice().splice(0, visiblyFilmCount).map((film) => (
               <CardFilmScreen
                 key={film.id}
                 name={film.title}
@@ -155,7 +132,7 @@ function WelcomeScreen(props: MainProps): JSX.Element {
             ))}
           </div>
 
-          {movies.length >COUNT_CARDS_STEP ?
+          {moviesWithFilter.length >COUNT_CARDS_STEP ?
             <div className="catalog__more">
               <button className="catalog__button" type="button" onClick={onShowMoreButtonClick} ref={buttonShowMore}>Show more</button>
             </div>: ' '}
@@ -175,6 +152,6 @@ function WelcomeScreen(props: MainProps): JSX.Element {
   );
 }
 
-export default connector(WelcomeScreen);
+export default WelcomeScreen;
 
 
