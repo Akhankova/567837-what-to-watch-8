@@ -1,9 +1,6 @@
-export type GenresAction = {
-  type: string;
-  payload:  {genre: string};
-};
-
-export const setGenre = (genre: string): GenresAction =>  ({
+export const setGenre = (genre:string) =>  ({
   type: 'SET_GENRE',
   payload: { genre },
-});
+} as const);
+
+

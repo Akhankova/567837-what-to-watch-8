@@ -5,4 +5,5 @@ export type State = {
   movies: SmallCards,
   promoFilm: SmallFilmCard,
   filterMovies: SmallCards,
+  countCardStep: number;
 };

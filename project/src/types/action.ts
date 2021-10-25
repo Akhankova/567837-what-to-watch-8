@@ -1,4 +1,3 @@
-export type GenreAction = {
-  type: string;
-  payload: string;
-};
+import {setGenre} from '../store/action';
+
+export type GenresAction = ReturnType<typeof setGenre>;
