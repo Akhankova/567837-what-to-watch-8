@@ -1,4 +1,5 @@
-import React, { useRef } from 'react';
+/* eslint-disable no-console */
+import React, { useEffect, useRef } from 'react';
 import CardFilmScreen from '../card-film-screen/card-film-screen';
 import Logo from '../logo/logo';
 import LogoFooter from '../logo/logo-footer';
@@ -18,6 +19,7 @@ const uniqueItems = (items: string[]) => [...new Set(items)];
 function WelcomeScreen(): JSX.Element {
   const movies = useSelector((state: State) => state.movies);
   const moviesWithFilter = useSelector((state: State) => state.filterMovies);
+  const genreState = useSelector((state: State) => state.genre);
 
   const genres: string[] = [];
   movies.filter((element) => genres.push(element.genre));
@@ -26,11 +28,15 @@ function WelcomeScreen(): JSX.Element {
   const {genre, title, backgroundImage, previewImage, id} = movies[0];
 
   const history = useHistory();
-  const [visiblyFilmCount, setVisiblyFilmCount] = useState(COUNT_CARDS_STEP );
+  const [visiblyFilmCount, setVisiblyFilmCount] = useState(COUNT_CARDS_STEP);
+  console.log(visiblyFilmCount);
   const buttonShowMore = useRef<HTMLButtonElement | null>(null);
 
   const dispatchAction = useDispatch();
   const genreNew = (newGenre: string) => dispatchAction(setGenre(newGenre));
+  useEffect(() => {
+    setVisiblyFilmCount(8);
+  }, [genreState]);
 
   const onCardClickPlayHandler = () => {
     history.push(generatePath(AppRoute.Player, {id: id}));
@@ -41,7 +47,7 @@ function WelcomeScreen(): JSX.Element {
 
   const onShowMoreButtonClick = () => {
     setVisiblyFilmCount(() => {
-      const nextVisCount =  visiblyFilmCount + 8;
+      const nextVisCount =  visiblyFilmCount + COUNT_CARDS_STEP;
       if (nextVisCount >= moviesWithFilter.length) {
         buttonShowMore.current?.remove();
         return moviesWithFilter.length;
@@ -49,6 +55,7 @@ function WelcomeScreen(): JSX.Element {
         return nextVisCount;
       }
     });
+
   };
 
   return (
@@ -132,10 +139,10 @@ function WelcomeScreen(): JSX.Element {
             ))}
           </div>
 
-          {moviesWithFilter.length >COUNT_CARDS_STEP ?
+          {moviesWithFilter.length > COUNT_CARDS_STEP ?
             <div className="catalog__more">
               <button className="catalog__button" type="button" onClick={onShowMoreButtonClick} ref={buttonShowMore}>Show more</button>
-            </div>: ' '}
+            </div>  : ' '}
         </section>
 
         <footer className="page-footer">

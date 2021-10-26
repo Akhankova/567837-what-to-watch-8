@@ -14,7 +14,6 @@ import {SmallCards} from '../../types/small-film-card';
 
 type AppScreenProps = {
   movies: SmallCards;
-  //promoMovie: SmallFilmCard;
 }
 
 function App({movies}: AppScreenProps): JSX.Element {
