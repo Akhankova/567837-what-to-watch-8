@@ -1,7 +1,7 @@
 export type SmallFilmCard = {
-  id: number;
-  title: string;
-  imgSrc: string;
+  id: number,
+  title: string,
+  imgSrc: string,
   previewImage: string,
   backgroundImage: string,
   backgroundColor: string,
@@ -31,6 +31,27 @@ export type CommentUser = {
   id: number,
   name: string
 };
+
+export type ServerMovie = {
+  ['preview_image']: string,
+  ['poster_image']: string,
+  ['background_image']: string,
+  ['background_color']: string,
+  ['scores_count']: number,
+  ['video_link']: string,
+  ['preview_video_link']: string,
+  ['run_time']: number,
+  ['is_favorite']: boolean,
+  id: number,
+  name: string,
+  genre: string,
+  released: number,
+  rating: number,
+  description: string,
+  director: string,
+  starring: string[],
+  comments: CardComments,
+}
 
 export type CardComments = Comment[];
 

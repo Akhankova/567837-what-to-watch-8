@@ -6,15 +6,14 @@ import {Link} from 'react-router-dom';
 import {useHistory} from 'react-router-dom';
 import LogoFooter from '../logo/logo-footer';
 import { generatePath, useParams } from 'react-router-dom';
-import {SmallCards} from '../../types/small-film-card';
+//import {SmallCards} from '../../types/small-film-card';
+import { useSelector} from 'react-redux';
+import {State} from '../../types/state';
 
 const INDEX_FILM_ID = 0;
 const MINUTES = 60;
 const COUNT_CARDS_WITH_MORE_LIKES = 4;
 
-type WelcomeScreenProps = {
-  movies: SmallCards;
-}
 
 const getTime = (time:number) => {
   const hours: number = Math.floor(time/MINUTES);
@@ -22,7 +21,8 @@ const getTime = (time:number) => {
   return hours > 0 ? `${hours}h ${minutes}m` : `$${minutes}m`;
 };
 
-function MovieDetailsScreen({movies}:WelcomeScreenProps): JSX.Element {
+function MovieDetailsScreen(): JSX.Element {
+  const movies = useSelector((state: State) => state.filterMovies);
   const history = useHistory();
 
   const onCardClickPlayHandler = () => {

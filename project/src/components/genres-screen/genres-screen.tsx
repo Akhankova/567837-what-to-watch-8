@@ -1,9 +1,9 @@
 import { useSelector} from 'react-redux';
 import {State} from '../../types/state';
-import {GenresAction} from '../../types/action';
+
 
 type GenresListProps = {
-  onClick: (genre: string) => GenresAction,
+  onClick: (genre: string) => void,
   genre: string [];
 }
 

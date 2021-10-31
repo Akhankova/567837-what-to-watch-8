@@ -6,17 +6,17 @@ import {Link} from 'react-router-dom';
 import {useHistory} from 'react-router-dom';
 import LogoFooter from '../logo/logo-footer';
 import { generatePath, useParams } from 'react-router-dom';
-import {SmallCards} from '../../types/small-film-card';
+import { useSelector} from 'react-redux';
+import {State} from '../../types/state';
 
 const COUNT_CARDS_WITH_MORE_LIKES = 4;
 const INDEX_FILM_ID = 0;
 
-type WelcomeScreenProps = {
-  movies: SmallCards;
-}
 
-function MovieScreen({movies}: WelcomeScreenProps): JSX.Element {
+export function MovieScreen(): JSX.Element {
+  const movies = useSelector((state: State) => state.filterMovies);
   const history = useHistory();
+
   const getRatingText = (element:number) => {
     switch (true) {
       case (element<3):
@@ -44,6 +44,7 @@ function MovieScreen({movies}: WelcomeScreenProps): JSX.Element {
   const numberCurrentFilmId = currentFilmId;
   const activeFilmCard = movies.filter((element) => element.id === Number(numberCurrentFilmId));
   const filmsLike = movies.filter((element) => element.genre === activeFilmCard[INDEX_FILM_ID].genre);
+
 
   return (
     <React.Fragment>

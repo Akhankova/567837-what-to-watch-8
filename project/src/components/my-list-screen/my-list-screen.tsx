@@ -1,13 +1,12 @@
 import CardFilmScreen from '../card-film-screen/card-film-screen';
 import Logo from '../logo/logo';
 import LogoFooter from '../logo/logo-footer';
-import {SmallCards} from '../../types/small-film-card';
+import { useSelector} from 'react-redux';
+import {State} from '../../types/state';
 
-type WelcomeScreenProps = {
-  movies: SmallCards;
-}
 
-function MyListScreen({movies}: WelcomeScreenProps): JSX.Element {
+function MyListScreen(): JSX.Element {
+  const movies = useSelector((state: State) => state.movies);
   const isFavoriteMovies = movies.filter((card) => card.isFavorite === true);
   return (
     <div className="user-page">

@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable no-console */
+
 import React, { useEffect, useRef } from 'react';
 import CardFilmScreen from '../card-film-screen/card-film-screen';
 import Logo from '../logo/logo';
@@ -10,26 +12,33 @@ import {useState} from 'react';
 import {State} from '../../types/state';
 import {useDispatch, useSelector} from 'react-redux';
 import GenresScreen from '../genres-screen/genres-screen';
-import { setGenre } from '../../store/action';
+import {  setGenre, setMovies, setPromo } from '../../store/action';
+import LoadingScreen from '../loading/loading';
 
 
 const COUNT_CARDS_STEP = 8;
 const uniqueItems = (items: string[]) => [...new Set(items)];
 
 function WelcomeScreen(): JSX.Element {
+  useEffect(() => {
+    if(movies.length === 0) {
+      dispatchAction(setMovies(movies));
+      dispatchAction(setGenre(genreState));
+      dispatchAction(setPromo(promo));
+    }
+  });
   const movies = useSelector((state: State) => state.movies);
   const moviesWithFilter = useSelector((state: State) => state.filterMovies);
   const genreState = useSelector((state: State) => state.genre);
+  const dataPromoLoaded = useSelector((state: State) => state.isDataPromoLoaded);
+  const promo = useSelector((state: State) => state.promoFilm);
 
   const genres: string[] = [];
   movies.filter((element) => genres.push(element.genre));
   const genresUning: string[]  = uniqueItems(genres);
 
-  const {genre, title, backgroundImage, previewImage, id} = movies[0];
-
   const history = useHistory();
   const [visiblyFilmCount, setVisiblyFilmCount] = useState(COUNT_CARDS_STEP);
-  console.log(visiblyFilmCount);
   const buttonShowMore = useRef<HTMLButtonElement | null>(null);
 
   const dispatchAction = useDispatch();
@@ -39,7 +48,7 @@ function WelcomeScreen(): JSX.Element {
   }, [genreState]);
 
   const onCardClickPlayHandler = () => {
-    history.push(generatePath(AppRoute.Player, {id: id}));
+    history.push(generatePath(AppRoute.Player, {id: promo.id}));
   };
   const onCardClickMyListHandler = () => {
     history.push(AppRoute.MyList);
@@ -63,7 +72,7 @@ function WelcomeScreen(): JSX.Element {
     <React.Fragment>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src={backgroundImage} alt={title} />
+          <img src={promo.backgroundImage} alt={promo.title} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -72,7 +81,6 @@ function WelcomeScreen(): JSX.Element {
           <div className="logo">
             <Logo />
           </div>
-
           <ul className="user-block">
             <li className="user-block__item">
               <div className="user-block__avatar">
@@ -84,37 +92,36 @@ function WelcomeScreen(): JSX.Element {
             </li>
           </ul>
         </header>
+        {dataPromoLoaded ?
+          <div className="film-card__wrap">
+            <div className="film-card__info">
+              <div className="film-card__poster">
+                <img src={promo.previewImage} alt={promo.title} width="218" height="327" />
+              </div>
 
-        <div className="film-card__wrap">
-          <div className="film-card__info">
-            <div className="film-card__poster">
-              <img src={previewImage} alt={title} width="218" height="327" />
-            </div>
-
-            <div className="film-card__desc">
-              <h2 className="film-card__title">{title}</h2>
-              <p className="film-card__meta">
-                <span className="film-card__genre">{genre}</span>
-                <span className="film-card__year">{}</span>
-              </p>
-
-              <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
-                  <svg viewBox="0 0 19 19" width="19" height="19">
-                    <use xlinkHref="#play-s"></use>
-                  </svg>
-                  <span onClick={onCardClickPlayHandler}>Play</span>
-                </button>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span onClick={onCardClickMyListHandler}>My list</span>
-                </button>
+              <div className="film-card__desc">
+                <h2 className="film-card__title">{promo.title}</h2>
+                <p className="film-card__meta">
+                  <span className="film-card__genre">{promo.genre}</span>
+                  <span className="film-card__year">{promo.released}</span>
+                </p>
+                <div className="film-card__buttons">
+                  <button className="btn btn--play film-card__button" type="button">
+                    <svg viewBox="0 0 19 19" width="19" height="19">
+                      <use xlinkHref="#play-s"></use>
+                    </svg>
+                    <span onClick={onCardClickPlayHandler}>Play</span>
+                  </button>
+                  <button className="btn btn--list film-card__button" type="button">
+                    <svg viewBox="0 0 19 20" width="19" height="20">
+                      <use xlinkHref="#add"></use>
+                    </svg>
+                    <span onClick={onCardClickMyListHandler}>My list</span>
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+          </div> : ''}
       </section>
 
       <div className="page-content">
@@ -126,17 +133,19 @@ function WelcomeScreen(): JSX.Element {
           </ul>
 
           <div className="catalog__films-list">
+            { moviesWithFilter.length > 0  ?
+              moviesWithFilter.slice().splice(0, visiblyFilmCount).map((film) => (
+                <CardFilmScreen
+                  key={film.id}
+                  name={film.title}
+                  imgSrc={film.imgSrc}
+                  id={film.id}
+                  previewVideoLink={film.previewVideoLink}
+                  previewImage={film.previewImage}
+                />
+              )) : <LoadingScreen/>}
 
-            {moviesWithFilter.slice().splice(0, visiblyFilmCount).map((film) => (
-              <CardFilmScreen
-                key={film.id}
-                name={film.title}
-                imgSrc={film.imgSrc}
-                id={film.id}
-                previewVideoLink={film.previewVideoLink}
-                previewImage={film.previewImage}
-              />
-            ))}
+
           </div>
 
           {moviesWithFilter.length > COUNT_CARDS_STEP ?
