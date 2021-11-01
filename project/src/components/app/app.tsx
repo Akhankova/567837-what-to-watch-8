@@ -10,13 +10,9 @@ import MovieReviewsScreen from '../movie-screen/movie-reviews-screen';
 import AddScreen from '../add-screen/add-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
-import {SmallCards} from '../../types/small-film-card';
 
-type AppScreenProps = {
-  movies: SmallCards;
-}
+function App(): JSX.Element {
 
-function App({movies}: AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
@@ -26,7 +22,7 @@ function App({movies}: AppScreenProps): JSX.Element {
         <PrivateRoute
           exact
           path={AppRoute.MyList}
-          render={() => <MyListScreen movies={movies}/>}
+          render={() => <MyListScreen/>}
           authorizationStatus={AuthorizationStatus.NoAuth}
         >
         </PrivateRoute>
@@ -37,16 +33,16 @@ function App({movies}: AppScreenProps): JSX.Element {
           <PlayerScreen />
         </Route>
         <Route exact path={AppRoute.Film}>
-          <MovieScreen movies={movies}/>
+          <MovieScreen/>
         </Route>
         <Route exact path={AppRoute.AddReview}>
-          <AddScreen movies={movies} />
+          <AddScreen />
         </Route>
         <Route exact path={AppRoute.FilmDetails}>
-          <MovieDetailsScreen movies={movies}/>
+          <MovieDetailsScreen />
         </Route>
         <Route exact path={AppRoute.FilmReviews}>
-          <MovieReviewsScreen movies={movies}/>
+          <MovieReviewsScreen />
         </Route>
         <Route>
           <NotFoundScreen />

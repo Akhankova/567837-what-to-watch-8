@@ -7,16 +7,15 @@ import {useHistory} from 'react-router-dom';
 import dayjs from 'dayjs';
 import LogoFooter from '../logo/logo-footer';
 import { generatePath, useParams } from 'react-router-dom';
-import {SmallCards} from '../../types/small-film-card';
+import { useSelector} from 'react-redux';
+import {State} from '../../types/state';
 
 const COUNT_CARDS_WITH_MORE_LIKES = 4;
 const INDEX_FILM_ID = 0;
 
-type WelcomeScreenProps = {
-  movies: SmallCards;
-}
 
-function MovieReviewsScreen({movies}: WelcomeScreenProps): JSX.Element {
+function MovieReviewsScreen(): JSX.Element {
+  const movies = useSelector((state: State) => state.filterMovies);
   const history = useHistory();
 
   const onCardClickPlayHandler = () => {

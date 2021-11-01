@@ -16,7 +16,7 @@ function VideoPlayer({previewVideoLink, imgSrc}: VideoPlayerProps): JSX.Element 
 
     videoRef.current.muted = true;
     videoRef.current.autoplay = true;
-  });
+  }, [videoRef]);
 
   return (
     <video src={previewVideoLink} className="player__video" poster={imgSrc} ref={videoRef}></video>

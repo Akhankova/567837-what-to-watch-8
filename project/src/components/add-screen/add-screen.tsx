@@ -1,15 +1,14 @@
 import Logo from '../logo/logo';
 import FormNewComment from '../form-new-comment/form-new-comment';
 import { useParams } from 'react-router-dom';
-import {SmallCards} from '../../types/small-film-card';
+import { useSelector} from 'react-redux';
+import {State} from '../../types/state';
 
 const INDEX_FILM_ID = 0;
 
-type AddScreenProps = {
-  movies: SmallCards;
-}
 
-function AddScreen({movies}: AddScreenProps): JSX.Element {
+function AddScreen(): JSX.Element {
+  const movies = useSelector((state: State) => state.movies);
   const filmId = useParams<{id?: string}>();
   const currentFilmId = filmId.id;
   const numberCurrentFilmId = currentFilmId;

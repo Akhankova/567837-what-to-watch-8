@@ -1,4 +1,5 @@
 import {SmallCards, SmallFilmCard} from '../types/small-film-card';
+import {AuthorizationStatus} from '../types/api';
 
 export type State = {
   genre: string,
@@ -6,4 +7,7 @@ export type State = {
   promoFilm: SmallFilmCard,
   filterMovies: SmallCards,
   countCardStep: number;
+  authorizationStatus: AuthorizationStatus,
+  isDataLoaded: boolean,
+  isDataPromoLoaded: boolean,
 };

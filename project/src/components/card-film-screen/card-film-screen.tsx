@@ -41,7 +41,6 @@ function CardFilmScreen(props: Props): JSX.Element {
     if (!isMouseOver) {
       setIsPlaying(false);
     }
-    //если делаю без window то выдает ошибку 'Type 'Timeout' is not assignable to type 'number''
     if (isMouseOver) {
       timeAfterHover.current = window.setInterval(() => setIsPlaying(true), TIME_FOR_MOUSE_OVER);
     }
@@ -50,7 +49,7 @@ function CardFilmScreen(props: Props): JSX.Element {
   }, [isMouseOver]);
 
   const onCardMouseOverHandler = () => {
-    (onSmallCardHandler(id)
+    (onSmallCardHandler(Number(id))
     );
     setMouseOver(true);
   };
