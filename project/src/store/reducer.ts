@@ -11,11 +11,13 @@ export const initialState: State= {
   genre: 'All genres',
   movies: [],
   filterMovies: [],
+  moviesFavorite: [],
   promoFilm: {} as SmallFilmCard || null,
   countCardStep: 8,
   authorizationStatus: AuthorizationStatus.Unknown,
   isDataLoaded: false,
   isDataPromoLoaded: false,
+  isDataPromoLoadedFavorite: false,
 };
 
 export const reducer = (state = initialState, action: Actions): State => {
@@ -37,6 +39,12 @@ export const reducer = (state = initialState, action: Actions): State => {
         movies: action.payload.films,
         isDataLoaded: true,
       };
+    case 'SET_FILMS_FAVORITE':
+      return {
+        ...state,
+        moviesFavorite: action.payload.films,
+        isDataPromoLoadedFavorite: true,
+      };
     case 'SET_PROMO':
       console.log(action.payload);
       return {
@@ -44,6 +52,10 @@ export const reducer = (state = initialState, action: Actions): State => {
         promoFilm: action.payload.promo,
         isDataPromoLoaded: true,
       };
+    case 'AUTORISATION':
+      return {...state, authorizationStatus: action.payload};
+    case 'LOG_OUT':
+      return {...state, authorizationStatus: AuthorizationStatus.NoAuth};
 
     default:
       return state;

@@ -8,6 +8,9 @@ import LogoFooter from '../logo/logo-footer';
 import { generatePath, useParams } from 'react-router-dom';
 import { useSelector} from 'react-redux';
 import {State} from '../../types/state';
+import UserLoggedIn from '../user-info/user-signIn';
+import UserNotLoggedIn from '../user-info/user-signout';
+import { AuthorizationStatus } from '../../const';
 
 const COUNT_CARDS_WITH_MORE_LIKES = 4;
 const INDEX_FILM_ID = 0;
@@ -16,7 +19,7 @@ const INDEX_FILM_ID = 0;
 export function MovieScreen(): JSX.Element {
   const movies = useSelector((state: State) => state.filterMovies);
   const history = useHistory();
-
+  const authStatus = useSelector((state: State) => state.authorizationStatus);
   const getRatingText = (element:number) => {
     switch (true) {
       case (element<3):
@@ -47,6 +50,7 @@ export function MovieScreen(): JSX.Element {
 
 
   return (
+
     <React.Fragment>
       <section className="film-card film-card--full" style={{backgroundColor:activeFilmCard[INDEX_FILM_ID].backgroundColor}}>
         <div className="film-card__hero">
@@ -60,17 +64,7 @@ export function MovieScreen(): JSX.Element {
             <div className="logo">
               <Logo/>
             </div>
-
-            <ul className="user-block">
-              <li className="user-block__item">
-                <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-                </div>
-              </li>
-              <li className="user-block__item">
-                <a className="user-block__link" href='/'>Sign out</a>
-              </li>
-            </ul>
+            {authStatus === AuthorizationStatus.Auth ? <UserLoggedIn /> : <UserNotLoggedIn />}
           </header>
 
           <div className="film-card__wrap">

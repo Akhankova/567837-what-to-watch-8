@@ -30,3 +30,8 @@ export const setPromo = (promo:SmallFilmCard) =>  ({
   type: 'SET_PROMO',
   payload: { promo },
 } as const);
+
+export const setFavorite = (films: SmallCards) => ({
+  type: 'SET_FILMS_FAVORITE',
+  payload: {films},
+} as const);

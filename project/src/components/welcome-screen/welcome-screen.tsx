@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-/* eslint-disable no-console */
-
 import React, { useEffect, useRef } from 'react';
 import CardFilmScreen from '../card-film-screen/card-film-screen';
 import Logo from '../logo/logo';
@@ -14,25 +11,22 @@ import {useDispatch, useSelector} from 'react-redux';
 import GenresScreen from '../genres-screen/genres-screen';
 import {  setGenre, setMovies, setPromo } from '../../store/action';
 import LoadingScreen from '../loading/loading';
+import UserLoggedIn from '../user-info/user-signIn';
+import UserNotLoggedIn from '../user-info/user-signout';
+import { AuthorizationStatus } from '../../const';
 
 
 const COUNT_CARDS_STEP = 8;
 const uniqueItems = (items: string[]) => [...new Set(items)];
 
 function WelcomeScreen(): JSX.Element {
-  useEffect(() => {
-    if(movies.length === 0) {
-      dispatchAction(setMovies(movies));
-      dispatchAction(setGenre(genreState));
-      dispatchAction(setPromo(promo));
-    }
-  });
+
   const movies = useSelector((state: State) => state.movies);
   const moviesWithFilter = useSelector((state: State) => state.filterMovies);
   const genreState = useSelector((state: State) => state.genre);
   const dataPromoLoaded = useSelector((state: State) => state.isDataPromoLoaded);
   const promo = useSelector((state: State) => state.promoFilm);
-
+  const authStatus = useSelector((state: State) => state.authorizationStatus);
   const genres: string[] = [];
   movies.filter((element) => genres.push(element.genre));
   const genresUning: string[]  = uniqueItems(genres);
@@ -42,6 +36,16 @@ function WelcomeScreen(): JSX.Element {
   const buttonShowMore = useRef<HTMLButtonElement | null>(null);
 
   const dispatchAction = useDispatch();
+
+  useEffect(() => {
+    if(movies.length === 0) {
+      dispatchAction(setMovies(movies));
+      dispatchAction(setGenre(genreState));
+      dispatchAction(setPromo(promo));
+    }
+
+  }, [dispatchAction, genreState, movies, promo]);
+
   const genreNew = (newGenre: string) => dispatchAction(setGenre(newGenre));
   useEffect(() => {
     setVisiblyFilmCount(8);
@@ -81,16 +85,7 @@ function WelcomeScreen(): JSX.Element {
           <div className="logo">
             <Logo />
           </div>
-          <ul className="user-block">
-            <li className="user-block__item">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-              </div>
-            </li>
-            <li className="user-block__item">
-              <a className="user-block__link" href="/">Sign out</a>
-            </li>
-          </ul>
+          {authStatus === AuthorizationStatus.Auth ? <UserLoggedIn /> : <UserNotLoggedIn />}
         </header>
         {dataPromoLoaded ?
           <div className="film-card__wrap">

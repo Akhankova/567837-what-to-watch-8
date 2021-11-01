@@ -9,6 +9,9 @@ import { generatePath, useParams } from 'react-router-dom';
 //import {SmallCards} from '../../types/small-film-card';
 import { useSelector} from 'react-redux';
 import {State} from '../../types/state';
+import UserLoggedIn from '../user-info/user-signIn';
+import UserNotLoggedIn from '../user-info/user-signout';
+import { AuthorizationStatus } from '../../const';
 
 const INDEX_FILM_ID = 0;
 const MINUTES = 60;
@@ -24,7 +27,7 @@ const getTime = (time:number) => {
 function MovieDetailsScreen(): JSX.Element {
   const movies = useSelector((state: State) => state.filterMovies);
   const history = useHistory();
-
+  const authStatus = useSelector((state: State) => state.authorizationStatus);
   const onCardClickPlayHandler = () => {
     history.push(generatePath(AppRoute.Player, {id: activeFilmCard[INDEX_FILM_ID].id}));
   };
@@ -52,16 +55,7 @@ function MovieDetailsScreen(): JSX.Element {
               <Logo/>
             </div>
 
-            <ul className="user-block">
-              <li className="user-block__item">
-                <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-                </div>
-              </li>
-              <li className="user-block__item">
-                <a className="user-block__link" href='/'>Sign out</a>
-              </li>
-            </ul>
+            {authStatus === AuthorizationStatus.Auth ? <UserLoggedIn /> : <UserNotLoggedIn />}
           </header>
 
           <div className="film-card__wrap">
