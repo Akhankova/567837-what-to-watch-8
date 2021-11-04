@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+
 
 //import {smallCardFilm} from '../mocks/films';
 import {SmallFilmCard} from '../types/small-film-card';
@@ -46,7 +46,6 @@ export const reducer = (state = initialState, action: Actions): State => {
         isDataPromoLoadedFavorite: true,
       };
     case 'SET_PROMO':
-      console.log(action.payload);
       return {
         ...state,
         promoFilm: action.payload.promo,

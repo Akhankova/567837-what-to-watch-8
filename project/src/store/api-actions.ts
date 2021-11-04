@@ -49,3 +49,5 @@ export const logoutAction = (): ThunkActionResult =>
     dropToken();
     dispatch(requireLogout());
   };
+
+

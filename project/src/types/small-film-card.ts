@@ -23,7 +23,7 @@ export type Comment = {
   id: number,
   user: CommentUser,
   rating: number,
-  value: string,
+  comment: string,
   date : string,
 };
 

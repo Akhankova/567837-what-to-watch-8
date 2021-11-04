@@ -14,7 +14,8 @@ import {requireAuthorization} from './store/action';
 import {ThunkAppDispatch} from './types/action';
 import {loadFilms, loadPromo, checkAuthAction, loadFilmsFavorite} from './store/api-actions';
 
-const api = createAPI(
+
+export const api = createAPI(
   () => store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth)),
 );
 

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import CardFilmScreen from '../card-film-screen/card-film-screen';
 import Logo from '../logo/logo';
 import LogoFooter from '../logo/logo-footer';
@@ -19,7 +18,6 @@ function MyListScreen(): JSX.Element {
       dispatchAction(setFavorite(movies));
     }
   });
-  console.log(movies);
   //const isFavoriteMovies = movies.filter((card) => card.isFavorite === true);
   return (
     <div className="user-page">

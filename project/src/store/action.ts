@@ -35,3 +35,5 @@ export const setFavorite = (films: SmallCards) => ({
   type: 'SET_FILMS_FAVORITE',
   payload: {films},
 } as const);
+
+

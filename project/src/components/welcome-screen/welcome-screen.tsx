@@ -24,7 +24,7 @@ function WelcomeScreen(): JSX.Element {
   const movies = useSelector((state: State) => state.movies);
   const moviesWithFilter = useSelector((state: State) => state.filterMovies);
   const genreState = useSelector((state: State) => state.genre);
-  const dataPromoLoaded = useSelector((state: State) => state.isDataPromoLoaded);
+  //const dataPromoLoaded = useSelector((state: State) => state.isDataPromoLoaded);
   const promo = useSelector((state: State) => state.promoFilm);
   const authStatus = useSelector((state: State) => state.authorizationStatus);
   const genres: string[] = [];
@@ -36,15 +36,15 @@ function WelcomeScreen(): JSX.Element {
   const buttonShowMore = useRef<HTMLButtonElement | null>(null);
 
   const dispatchAction = useDispatch();
-
   useEffect(() => {
     if(movies.length === 0) {
       dispatchAction(setMovies(movies));
       dispatchAction(setGenre(genreState));
       dispatchAction(setPromo(promo));
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  }, [dispatchAction, genreState, movies, promo]);
 
   const genreNew = (newGenre: string) => dispatchAction(setGenre(newGenre));
   useEffect(() => {
@@ -87,7 +87,7 @@ function WelcomeScreen(): JSX.Element {
           </div>
           {authStatus === AuthorizationStatus.Auth ? <UserLoggedIn /> : <UserNotLoggedIn />}
         </header>
-        {dataPromoLoaded ?
+        {promo ?
           <div className="film-card__wrap">
             <div className="film-card__info">
               <div className="film-card__poster">
@@ -128,7 +128,7 @@ function WelcomeScreen(): JSX.Element {
           </ul>
 
           <div className="catalog__films-list">
-            { moviesWithFilter.length > 0  ?
+            { moviesWithFilter  ?
               moviesWithFilter.slice().splice(0, visiblyFilmCount).map((film) => (
                 <CardFilmScreen
                   key={film.id}
