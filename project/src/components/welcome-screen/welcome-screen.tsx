@@ -9,7 +9,7 @@ import {useState} from 'react';
 import {State} from '../../types/state';
 import {useDispatch, useSelector} from 'react-redux';
 import GenresScreen from '../genres-screen/genres-screen';
-import {  setGenre, setMovies, setPromo } from '../../store/action';
+import {  setGenre, setFilmsFilter } from '../../store/action';
 import LoadingScreen from '../loading/loading';
 import UserLoggedIn from '../user-info/user-signIn';
 import UserNotLoggedIn from '../user-info/user-signout';
@@ -24,9 +24,9 @@ function WelcomeScreen(): JSX.Element {
   const movies = useSelector((state: State) => state.movies);
   const moviesWithFilter = useSelector((state: State) => state.filterMovies);
   const genreState = useSelector((state: State) => state.genre);
-  //const dataPromoLoaded = useSelector((state: State) => state.isDataPromoLoaded);
   const promo = useSelector((state: State) => state.promoFilm);
   const authStatus = useSelector((state: State) => state.authorizationStatus);
+
   const genres: string[] = [];
   movies.filter((element) => genres.push(element.genre));
   const genresUning: string[]  = uniqueItems(genres);
@@ -36,14 +36,11 @@ function WelcomeScreen(): JSX.Element {
   const buttonShowMore = useRef<HTMLButtonElement | null>(null);
 
   const dispatchAction = useDispatch();
+
   useEffect(() => {
-    if(movies.length === 0) {
-      dispatchAction(setMovies(movies));
-      dispatchAction(setGenre(genreState));
-      dispatchAction(setPromo(promo));
-    }
+    dispatchAction(setFilmsFilter(moviesWithFilter));
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [genreState]);
 
 
   const genreNew = (newGenre: string) => dispatchAction(setGenre(newGenre));
@@ -128,7 +125,7 @@ function WelcomeScreen(): JSX.Element {
           </ul>
 
           <div className="catalog__films-list">
-            { moviesWithFilter  ?
+            { moviesWithFilter.length > 0  ?
               moviesWithFilter.slice().splice(0, visiblyFilmCount).map((film) => (
                 <CardFilmScreen
                   key={film.id}

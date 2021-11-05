@@ -1,9 +1,5 @@
-
-
-//import {smallCardFilm} from '../mocks/films';
 import {SmallFilmCard} from '../types/small-film-card';
 import { State } from '../types/state';
-//import { setGenre } from './action';
 import {AuthorizationStatus} from '../types/api';
 import {Actions} from '../types/action';
 
@@ -26,18 +22,20 @@ export const reducer = (state = initialState, action: Actions): State => {
       return {
         ...state,
         genre: action.payload.genre,
-        filterMovies: state.movies.filter((film:SmallFilmCard) => action.payload.genre !== 'All genres'? film.genre === action.payload.genre : film),
         countCardStep: 0,
-        promoFilm: state.movies.filter((film:SmallFilmCard) => action.payload.genre !== 'All genres'? film.genre === action.payload.genre : film)[0],
-        movies: state.movies.filter((film:SmallFilmCard) => action.payload.genre === 'All genres'? film : film),
         isDataLoaded: true,
         isDataPromoLoaded: true,
       };
     case 'SET_FILMS':
       return {
         ...state,
-        movies: action.payload.films,
+        movies: action.payload.films.length ? action.payload.films : state.movies,
         isDataLoaded: true,
+      };
+    case 'SET_FILMS_FILTER':
+      return {
+        ...state,
+        filterMovies: state.movies.filter((film:SmallFilmCard) => state.genre !== 'All genres'? film.genre === state.genre : film),
       };
     case 'SET_FILMS_FAVORITE':
       return {

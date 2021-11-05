@@ -1,43 +1,19 @@
-/* eslint-disable no-console */
-import React, {useRef, useState} from 'react';
-import {Comment} from '../../types/small-film-card';
+import React, { useState, useEffect} from 'react';
+import {Comment, CommentServer} from '../../types/small-film-card';
 import {  useHistory, useParams } from 'react-router-dom';
-//import axios from 'axios';
 import {APIRoute} from '../../types/api';
-//import { useEffect } from 'react';
-import {CardComments} from '../../types/small-film-card';
 import { api } from '../../index';
-//import {useDispatch} from 'react-redux';
-import axios from 'axios';
-import { useEffect } from 'react';
-
-const BACKEND_URL = 'https://8.react.pages.academy/wtw';
-type CommentServer = {
-  rating: number,
-  comment: string,
-};
+import { BACKEND_URL } from '../../const';
 
 function FormNewComment(): JSX.Element {
-  const textRef = useRef<HTMLTextAreaElement | null>(null);
-  const filmId = useParams<{id?: string}>();
-  const currentFilmId = filmId.id;
-  const numberCurrentFilmId = currentFilmId;
-  const [ reviews, setReviews ] = useState<CardComments>([]);
-  //const dispatchAction = useDispatch();
-  const [ error, setError ] = useState('');
+  const numberCurrentFilmId = useParams<{id?: string}>().id;
   const [ commentValid, setCommentValid ] = useState(false);
   const [ ratingValid, setRatingValid ] = useState(false);
-  const [ submit, setSubmit ] = useState(false);
 
   const postComment = async (comment: CommentServer): Promise<void> => {
     await api.post<Comment[]>(`${BACKEND_URL}${APIRoute.Comments}/${numberCurrentFilmId}`, comment);
   };
-  console.log(reviews);
-  /*useEffect(() => {
-    axios.get(`${BACKEND_URL}${APIRoute.Comments}/${numberCurrentFilmId}`)
-      .then((response) => setReviews(response.data));
 
-  }, [numberCurrentFilmId]);*/
   const [commentNew, setCommentNew] = useState<Comment>({
     id: 22,
     user: {
@@ -49,45 +25,34 @@ function FormNewComment(): JSX.Element {
     date : '22.10.2021',
 
   });
-  /*const [commentNew, setCommentNew] = useState<CommentServer>({
 
-    rating: 0,
-    comment: '',
-
-  });*/
   const getValidForComment = (textlength: number) => {
     if (textlength < 50 || textlength > 400) {
-      setError('Текст отзыва должен быть не меньше 50 и не больше 400 символов');
       setCommentValid(false);
     } else {
       setCommentValid(true);
-      console.log(error);
     }
 
   };
   const getValidForRating = (rating: number) => {
     if (rating === 0) {
-      setError('Выставите оценку фильму от 1 до 10');
       setRatingValid(false);
     } else {
       setRatingValid(true);
     }
-
   };
-  useEffect(() => {
-    axios.get(`${BACKEND_URL}${APIRoute.Comments}/${numberCurrentFilmId}`)
-      .then((response) => setReviews(response.data));
-
-  }, [numberCurrentFilmId]);
 
   const getCommentText = (event:React.ChangeEvent<HTMLTextAreaElement>) => {
-
     setCommentNew({
       ...commentNew,
       comment: event.target.value,
     });
-    getValidForComment(commentNew.comment.length);
   };
+
+  useEffect(() => {
+    getValidForComment(commentNew.comment.length);
+  }, [commentNew.comment]);
+
   const getRating = (event:React.ChangeEvent<HTMLInputElement>) => {
     setCommentNew({
       ...commentNew,
@@ -95,6 +60,11 @@ function FormNewComment(): JSX.Element {
     });
     getValidForRating(Number(event.target.value));
   };
+
+  useEffect(() => {
+    getValidForRating(commentNew.rating);
+  }, [commentNew.rating]);
+
   const history = useHistory();
   const onAddCommentHandler = (evt: any) => {
     evt.preventDefault();
@@ -103,13 +73,11 @@ function FormNewComment(): JSX.Element {
       .then(() => {
         history.push(`/films/${numberCurrentFilmId}/reviews`);
       })
-      .finally(() => {
-        setSubmit(false);
-      });
-    setReviews([...reviews, commentNew]);
+      .catch(() => history.push('/404'));
+    //.catch(() => {toast.error('Не удалось отправить комментарий');});
   };
-  const validRating = ratingValid === false ? <div style={{color:'black'}}>Выставите оценку фильму от 1 до 10</div> : ' ';
-  const validComment = commentValid === false ? <div style={{color:'red', border: '3px solid black'}}>Текст отзыва должен быть не меньше 50 и не больше 400 символов</div> : ' ';
+  const validRating = !ratingValid ? <div style={{color:'black'}}>Выставите оценку фильму от 1 до 10</div> : ' ';
+  const validComment = !commentValid ? <div style={{color:'red', border: '3px solid black'}}>Текст отзыва должен быть не меньше 50 и не больше 400 символов</div> : ' ';
   return (
     <div className="add-review">
       <form action="#" className="add-review__form" onSubmit={onAddCommentHandler}>
@@ -149,12 +117,12 @@ function FormNewComment(): JSX.Element {
         </div>
 
         <div className="add-review__text">
-          {commentNew.comment.length !== 0 ? validComment : ' '}
-          <textarea className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text"value={commentNew.comment} onChange={getCommentText} ref={textRef}>
+          {commentNew.comment.length ? validComment : ' '}
+          <textarea className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text"value={commentNew.comment} onChange={getCommentText}>
             {commentNew.comment}
           </textarea>
           <div className="add-review__submit">
-            <button className="add-review__btn" type="submit" disabled={!commentValid || !ratingValid || submit}>Post</button>
+            <button className="add-review__btn" type="submit" disabled={!commentValid || !ratingValid}>Post</button>
           </div>
 
         </div>

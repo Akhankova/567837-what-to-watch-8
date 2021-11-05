@@ -1,3 +1,5 @@
+export const BACKEND_URL = 'https://8.react.pages.academy/wtw';
+
 export enum AppRoute {
   SignIn = '/login',
   MyList = '/mylist',

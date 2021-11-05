@@ -53,6 +53,11 @@ export type ServerMovie = {
   comments: CardComments,
 }
 
+export type CommentServer = {
+  rating: number,
+  comment: string,
+};
+
 export type CardComments = Comment[];
 
 export type SmallCards = SmallFilmCard[];

@@ -18,7 +18,6 @@ function MyListScreen(): JSX.Element {
       dispatchAction(setFavorite(movies));
     }
   });
-  //const isFavoriteMovies = movies.filter((card) => card.isFavorite === true);
   return (
     <div className="user-page">
       <header className="page-header user-page__head">

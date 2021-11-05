@@ -1,5 +1,5 @@
 import {ThunkActionResult} from '../types/action';
-import {setFilms, setPromo, requireAuthorization, requireLogout} from './action';
+import {setFilms, setPromo, requireAuthorization, requireLogout, setFilmsFilter} from './action';
 import {APIRoute, AuthorizationStatus} from '../types/api';
 import { ServerMovie } from '../types/small-film-card';
 import {adaptFilmToClientFilms, adaptFilmToClientPromo} from '../services/adapter';
@@ -13,6 +13,11 @@ export const loadFilms = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     const {data} = await api.get<ServerMovie[]>(APIRoute.Films);
     dispatch(setFilms(adaptFilmToClientFilms(data)));
+  };
+export const loadFilmsFilter = (): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const {data} = await api.get<ServerMovie[]>(APIRoute.Films);
+    dispatch(setFilmsFilter(adaptFilmToClientFilms(data)));
   };
 export const loadFilmsFavorite = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {

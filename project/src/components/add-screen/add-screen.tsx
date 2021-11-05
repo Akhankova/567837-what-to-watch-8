@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import Logo from '../logo/logo';
 import FormNewComment from '../form-new-comment/form-new-comment';
 import { useParams } from 'react-router-dom';
@@ -7,32 +6,23 @@ import {State} from '../../types/state';
 import UserLoggedIn from '../user-info/user-signIn';
 import UserNotLoggedIn from '../user-info/user-signout';
 import { AuthorizationStatus } from '../../const';
-import axios from 'axios';
+import { api } from '../../index';
 import {APIRoute} from '../../types/api';
 import {useState} from 'react';
 import {SmallFilmCard} from '../../types/small-film-card';
 import { adaptFilmToClientPromo} from '../../services/adapter';
 import { useEffect } from 'react';
 import {useHistory} from 'react-router-dom';
-//import {CardComments} from '../../types/small-film-card';
-
-const INDEX_FILM_ID = 0;
-const BACKEND_URL = 'https://8.react.pages.academy/wtw';
+import { BACKEND_URL } from '../../const';
 
 function AddScreen(): JSX.Element {
-  const movies = useSelector((state: State) => state.movies);
-  const filmId = useParams<{id?: string}>();
-  const currentFilmId = filmId.id;
-  const numberCurrentFilmId = currentFilmId;
-  const activeFilmCard = movies.filter((element) => element.id === Number(numberCurrentFilmId));
+  const numberCurrentFilmId = useParams<{id?: string}>().id;
   const authStatus = useSelector((state: State) => state.authorizationStatus);
   const history = useHistory();
-  const [ movie, setFilm ] = useState<SmallFilmCard>(activeFilmCard[INDEX_FILM_ID]);
-  //const [ reviews, setReviews ] = useState<CardComments>([]);
-
+  const [ movie, setFilm ] = useState<SmallFilmCard>();
 
   useEffect(() => {
-    axios.get(`${BACKEND_URL}${APIRoute.Films}/${numberCurrentFilmId}`)
+    api.get(`${BACKEND_URL}${APIRoute.Films}/${numberCurrentFilmId}`)
       .then((response) => setFilm(adaptFilmToClientPromo(response.data)))
       .catch(() => history.push('/404'));
 
@@ -42,7 +32,7 @@ function AddScreen(): JSX.Element {
     <section className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src={movie.backgroundImage} alt={movie.title} />
+          <img src={movie?.backgroundImage} alt={movie?.title} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -55,7 +45,7 @@ function AddScreen(): JSX.Element {
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <a href='film-page.html' className="breadcrumbs__link">{movie.title}</a>
+                <a href='film-page.html' className="breadcrumbs__link">{movie?.title}</a>
               </li>
               <li className="breadcrumbs__item">
                 <a className="breadcrumbs__link" href='/'>Add review</a>
@@ -68,7 +58,7 @@ function AddScreen(): JSX.Element {
         </header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src={movie.previewImage} alt={movie.title} width="218" height="327" />
+          <img src={movie?.previewImage} alt={movie?.title} width="218" height="327" />
         </div>
       </div>
 

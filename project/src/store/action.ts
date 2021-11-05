@@ -21,9 +21,9 @@ export const setFilms = (films: SmallCards) => ({
   payload: {films},
 } as const);
 
-export const setMovies = (movies: SmallCards) => ({
-  type: 'SET_MOVIES',
-  payload: {movies},
+export const setFilmsFilter = (moviesFilter: SmallCards) => ({
+  type: 'SET_FILMS_FILTER',
+  payload: {moviesFilter},
 } as const);
 
 export const setPromo = (promo:SmallFilmCard) =>  ({

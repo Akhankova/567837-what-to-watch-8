@@ -1,20 +1,13 @@
-import {setGenre, requireAuthorization, requireLogout, setFilms, setPromo, setFavorite} from '../store/action';
+import {setGenre, requireAuthorization, requireLogout, setFilms, setPromo, setFavorite, setFilmsFilter} from '../store/action';
 import {AxiosInstance} from 'axios';
 import {State} from '../types/state';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
-
-//export type GenresAction = ReturnType<typeof setGenre>;
-
-////export type AutorisationAction = ReturnType<typeof requireAuthorization>;
-
-//export type LogOutAction = ReturnType<typeof requireLogout>;
-
-//export type FilmsAction = ReturnType<typeof setFilms>;
 
 export type Actions =
   | ReturnType<typeof setGenre>
   | ReturnType<typeof requireAuthorization>
   | ReturnType<typeof requireLogout>
+  | ReturnType<typeof setFilmsFilter>
   | ReturnType<typeof setFilms>
   | ReturnType<typeof setFavorite>
   | ReturnType<typeof setPromo>;

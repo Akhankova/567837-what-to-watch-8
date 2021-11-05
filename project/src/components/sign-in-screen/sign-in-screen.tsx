@@ -25,7 +25,6 @@ function SignInScreen(props: PropsFromRedux): JSX.Element {
   const history = useHistory();
 
   const handleSubmit = (): void => {
-    //evt.preventDefault();
 
     if (emailRef.current !== null && passwordRef.current !== null) {
       onSubmit({
