@@ -1,5 +1,5 @@
 import {Switch, Route, BrowserRouter} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {AppRoute} from '../../const';
 import WelcomeScreen from '../welcome-screen/welcome-screen';
 import MyListScreen from '../my-list-screen/my-list-screen';
 import SignInScreen from '../sign-in-screen/sign-in-screen';
@@ -23,7 +23,7 @@ function App(): JSX.Element {
           exact
           path={AppRoute.MyList}
           render={() => <MyListScreen/>}
-          authorizationStatus={AuthorizationStatus.NoAuth}
+
         >
         </PrivateRoute>
         <Route exact path={AppRoute.SignIn}>

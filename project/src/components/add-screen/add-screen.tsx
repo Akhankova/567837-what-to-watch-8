@@ -3,22 +3,36 @@ import FormNewComment from '../form-new-comment/form-new-comment';
 import { useParams } from 'react-router-dom';
 import { useSelector} from 'react-redux';
 import {State} from '../../types/state';
-
-const INDEX_FILM_ID = 0;
-
+import UserLoggedIn from '../user-info/user-signIn';
+import UserNotLoggedIn from '../user-info/user-signout';
+import { AuthorizationStatus } from '../../const';
+import { api } from '../../index';
+import {APIRoute} from '../../types/api';
+import {useState} from 'react';
+import {SmallFilmCard} from '../../types/small-film-card';
+import { adaptFilmToClientPromo} from '../../services/adapter';
+import { useEffect } from 'react';
+import {useHistory} from 'react-router-dom';
+import { BACKEND_URL } from '../../const';
 
 function AddScreen(): JSX.Element {
-  const movies = useSelector((state: State) => state.movies);
-  const filmId = useParams<{id?: string}>();
-  const currentFilmId = filmId.id;
-  const numberCurrentFilmId = currentFilmId;
-  const activeFilmCard = movies.filter((element) => element.id === Number(numberCurrentFilmId));
+  const numberCurrentFilmId = useParams<{id?: string}>().id;
+  const authStatus = useSelector((state: State) => state.authorizationStatus);
+  const history = useHistory();
+  const [ movie, setFilm ] = useState<SmallFilmCard>();
+
+  useEffect(() => {
+    api.get(`${BACKEND_URL}${APIRoute.Films}/${numberCurrentFilmId}`)
+      .then((response) => setFilm(adaptFilmToClientPromo(response.data)))
+      .catch(() => history.push('/404'));
+
+  }, [history, numberCurrentFilmId]);
 
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src={activeFilmCard[INDEX_FILM_ID].backgroundImage} alt={activeFilmCard[INDEX_FILM_ID].title} />
+          <img src={movie?.backgroundImage} alt={movie?.title} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -31,32 +45,24 @@ function AddScreen(): JSX.Element {
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <a href='film-page.html' className="breadcrumbs__link">{activeFilmCard[INDEX_FILM_ID].title}</a>
+                <a href='film-page.html' className="breadcrumbs__link">{movie?.title}</a>
               </li>
               <li className="breadcrumbs__item">
                 <a className="breadcrumbs__link" href='/'>Add review</a>
               </li>
+
             </ul>
           </nav>
 
-          <ul className="user-block">
-            <li className="user-block__item">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-              </div>
-            </li>
-            <li className="user-block__item">
-              <a className="user-block__link" href='/'>Sign out</a>
-            </li>
-          </ul>
+          {authStatus === AuthorizationStatus.Auth ? <UserLoggedIn /> : <UserNotLoggedIn />}
         </header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src={activeFilmCard[INDEX_FILM_ID].previewImage} alt={activeFilmCard[INDEX_FILM_ID].title} width="218" height="327" />
+          <img src={movie?.previewImage} alt={movie?.title} width="218" height="327" />
         </div>
       </div>
 
-      <FormNewComment />
+      <FormNewComment/>
 
     </section>
   );

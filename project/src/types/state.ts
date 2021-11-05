@@ -6,8 +6,10 @@ export type State = {
   movies: SmallCards,
   promoFilm: SmallFilmCard,
   filterMovies: SmallCards,
-  countCardStep: number;
+  countCardStep: number,
   authorizationStatus: AuthorizationStatus,
   isDataLoaded: boolean,
   isDataPromoLoaded: boolean,
+  moviesFavorite: SmallCards,
+  isDataPromoLoadedFavorite: boolean,
 };

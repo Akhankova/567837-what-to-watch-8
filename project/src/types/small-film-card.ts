@@ -23,7 +23,7 @@ export type Comment = {
   id: number,
   user: CommentUser,
   rating: number,
-  value: string,
+  comment: string,
   date : string,
 };
 
@@ -52,6 +52,11 @@ export type ServerMovie = {
   starring: string[],
   comments: CardComments,
 }
+
+export type CommentServer = {
+  rating: number,
+  comment: string,
+};
 
 export type CardComments = Comment[];
 

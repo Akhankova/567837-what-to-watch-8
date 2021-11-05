@@ -3,11 +3,21 @@ import Logo from '../logo/logo';
 import LogoFooter from '../logo/logo-footer';
 import { useSelector} from 'react-redux';
 import {State} from '../../types/state';
+import {useDispatch} from 'react-redux';
+import { useEffect} from 'react';
+import { setFavorite } from '../../store/action';
+import UserLoggedIn from '../user-info/user-signIn';
 
 
 function MyListScreen(): JSX.Element {
-  const movies = useSelector((state: State) => state.movies);
-  const isFavoriteMovies = movies.filter((card) => card.isFavorite === true);
+  const movies = useSelector((state: State) => state.moviesFavorite);
+  const moviesLoaded = useSelector((state: State) => state.isDataPromoLoadedFavorite);
+  const dispatchAction = useDispatch();
+  useEffect(() => {
+    if(movies.length === 0) {
+      dispatchAction(setFavorite(movies));
+    }
+  });
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
@@ -17,33 +27,25 @@ function MyListScreen(): JSX.Element {
 
         <h1 className="page-title user-page__title">My list</h1>
 
-        <ul className="user-block">
-          <li className="user-block__item">
-            <div className="user-block__avatar">
-              <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-            </div>
-          </li>
-          <li className="user-block__item">
-            <a className="user-block__link" href='/'>Sign out</a>
-          </li>
-        </ul>
+        <UserLoggedIn/>
       </header>
 
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-
-        <div className="catalog__films-list">
-          {isFavoriteMovies.map((film) => (
-            <CardFilmScreen
-              key={film.id}
-              name={film.title}
-              imgSrc={film.imgSrc}
-              id={film.id}
-              previewVideoLink={film.previewVideoLink}
-              previewImage={film.previewImage}
-            />
-          ))}
-        </div>
+        {moviesLoaded ?
+          <div className="catalog__films-list">
+            {movies.map((film) => (
+              <CardFilmScreen
+                key={film.id}
+                name={film.title}
+                imgSrc={film.imgSrc}
+                id={film.id}
+                previewVideoLink={film.previewVideoLink}
+                previewImage={film.previewImage}
+              />
+            ))}
+          </div>
+          : ' '}
       </section>
 
       <footer className="page-footer">
