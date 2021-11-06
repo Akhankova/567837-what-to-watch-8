@@ -50,6 +50,7 @@ export function MovieScreen(): JSX.Element {
   const onCardClickMyListHandler = () => {
     history.push(AppRoute.MyList);
   };
+
   useEffect(() => {
     api.get(`${BACKEND_URL}${APIRoute.Films}/${numberCurrentFilmId}`)
       .then((response) => setMovie(adaptFilmToClientPromo(response.data)))
@@ -57,8 +58,8 @@ export function MovieScreen(): JSX.Element {
     api.get(`${BACKEND_URL}${APIRoute.Films}/${numberCurrentFilmId}/${'similar'}`)
       .then((response) => setMoviesSimilar(adaptFilmToClientFilms(response.data)))
       .catch(() => history.push('/404'));
+  }, [ history, numberCurrentFilmId]);
 
-  }, [history, numberCurrentFilmId]);
   return (
 
     <React.Fragment>

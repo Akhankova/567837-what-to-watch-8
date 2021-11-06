@@ -14,16 +14,9 @@ function FormNewComment(): JSX.Element {
     await api.post<Comment[]>(`${BACKEND_URL}${APIRoute.Comments}/${numberCurrentFilmId}`, comment);
   };
 
-  const [commentNew, setCommentNew] = useState<Comment>({
-    id: 22,
-    user: {
-      id: 1,
-      name: 'Alex',
-    },
+  const [commentNew, setCommentNew] = useState<CommentServer>({
     rating: 0,
     comment: '',
-    date : '22.10.2021',
-
   });
 
   const getValidForComment = (textlength: number) => {
@@ -35,7 +28,7 @@ function FormNewComment(): JSX.Element {
 
   };
   const getValidForRating = (rating: number) => {
-    if (rating === 0) {
+    if (!rating) {
       setRatingValid(false);
     } else {
       setRatingValid(true);
@@ -66,7 +59,7 @@ function FormNewComment(): JSX.Element {
   }, [commentNew.rating]);
 
   const history = useHistory();
-  const onAddCommentHandler = (evt: any) => {
+  const onAddCommentHandler = (evt: { preventDefault: () => void; }) => {
     evt.preventDefault();
     const {comment, rating} = commentNew;
     postComment({comment, rating})
@@ -74,8 +67,8 @@ function FormNewComment(): JSX.Element {
         history.push(`/films/${numberCurrentFilmId}/reviews`);
       })
       .catch(() => history.push('/404'));
-    //.catch(() => {toast.error('Не удалось отправить комментарий');});
   };
+
   const validRating = !ratingValid ? <div style={{color:'black'}}>Выставите оценку фильму от 1 до 10</div> : ' ';
   const validComment = !commentValid ? <div style={{color:'red', border: '3px solid black'}}>Текст отзыва должен быть не меньше 50 и не больше 400 символов</div> : ' ';
   return (
