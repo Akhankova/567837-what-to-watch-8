@@ -49,8 +49,8 @@ function MovieDetailsScreen(): JSX.Element {
     api.get(`${BACKEND_URL}${APIRoute.Films}/${numberCurrentFilmId}/${'similar'}`)
       .then((response) => setMoviesSimilar(adaptFilmToClientFilms(response.data)))
       .catch(() => history.push('/404'));
+  }, [ history, numberCurrentFilmId]);
 
-  }, [history, numberCurrentFilmId]);
   return (
     <React.Fragment>
       <section className="film-card film-card--full" style={{backgroundColor: movie?.backgroundColor}}>

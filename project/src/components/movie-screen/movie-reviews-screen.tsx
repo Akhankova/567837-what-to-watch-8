@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+
 import React, { useEffect } from 'react';
 import Logo from '../logo/logo';
 import CardFilmScreen from '../card-film-screen/card-film-screen';
