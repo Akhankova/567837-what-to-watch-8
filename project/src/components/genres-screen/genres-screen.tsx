@@ -1,6 +1,5 @@
 import { useSelector} from 'react-redux';
-import {State} from '../../types/state';
-
+import { getGenre } from '../../store/films-data/selectors';
 
 type GenresListProps = {
   onClick: (genre: string) => void,
@@ -9,7 +8,7 @@ type GenresListProps = {
 
 function GenresScreen(props: GenresListProps): JSX.Element {
   const {genre, onClick} = props;
-  const activGenre = useSelector((state: State) => state.genre);
+  const activGenre = useSelector(getGenre);
   return (
     <ul className="catalog__genres-list">
       <li className={`catalog__genres-item ${'All genres' === activGenre ? 'catalog__genres-item--active' : ''} `}>

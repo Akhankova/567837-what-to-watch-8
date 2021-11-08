@@ -2,35 +2,25 @@ import Logo from '../logo/logo';
 import LogoFooter from '../logo/logo-footer';
 import {useRef} from 'react';
 import {useHistory} from 'react-router-dom';
-import {connect, ConnectedProps} from 'react-redux';
+import { useDispatch} from 'react-redux';
 import {loginAction} from '../../store/api-actions';
-import {ThunkAppDispatch} from '../../types/action';
-import {AuthData} from '../../types/auth-data';
 import {AppRoute} from '../../const';
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onSubmit(authData: AuthData) {
-    dispatch(loginAction(authData));
-  },
-});
-const connector = connect(null, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function SignInScreen(props: PropsFromRedux): JSX.Element {
-  const {onSubmit} = props;
+function SignInScreen(): JSX.Element {
 
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
   const history = useHistory();
-
+  const dispatch = useDispatch();
   const handleSubmit = (): void => {
 
     if (emailRef.current !== null && passwordRef.current !== null) {
-      onSubmit({
+      dispatch(loginAction({
         login: emailRef.current.value,
         password: passwordRef.current.value,
-      });
+      }));
       history.push(AppRoute.Main);
     }
   };
@@ -77,6 +67,4 @@ function SignInScreen(props: PropsFromRedux): JSX.Element {
   );
 }
 
-//export default SignInScreen;
-export {SignInScreen};
-export default connector(SignInScreen);
+export default SignInScreen;

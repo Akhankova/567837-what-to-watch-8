@@ -7,7 +7,6 @@ import {useHistory} from 'react-router-dom';
 import LogoFooter from '../logo/logo-footer';
 import { generatePath, useParams } from 'react-router-dom';
 import { useSelector} from 'react-redux';
-import {State} from '../../types/state';
 import UserLoggedIn from '../user-info/user-signIn';
 import UserNotLoggedIn from '../user-info/user-signout';
 import { AuthorizationStatus } from '../../const';
@@ -18,6 +17,7 @@ import {APIRoute} from '../../types/api';
 import { useEffect } from 'react';
 import { adaptFilmToClientPromo, adaptFilmToClientFilms} from '../../services/adapter';
 import { BACKEND_URL } from '../../const';
+import { getAuthorizationStatus } from '../../store/user-data/selectors';
 
 const MINUTES = 60;
 const COUNT_CARDS_WITH_MORE_LIKES = 4;
@@ -29,7 +29,7 @@ const getTime = (time:number) => {
 };
 
 function MovieDetailsScreen(): JSX.Element {
-  const authStatus = useSelector((state: State) => state.authorizationStatus);
+  const authStatus = useSelector(getAuthorizationStatus);
   const numberCurrentFilmId = useParams<{id?: string}>().id;
   const [ movie, setMovie ] = useState<SmallFilmCard>();
   const [ moviesSimilar, setMoviesSimilar ] = useState<SmallCards>([]);

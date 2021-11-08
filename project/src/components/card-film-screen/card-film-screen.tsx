@@ -1,9 +1,11 @@
+/* eslint-disable no-console */
 import {useHistory} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import {Link} from 'react-router-dom';
 import { generatePath } from 'react-router-dom';
 import VideoPlayer from '../video-player/video-player';
 import {useState, useEffect, useRef} from 'react';
+import React from 'react';
 
 
 const TIME_FOR_MOUSE_OVER = 1000;
@@ -17,6 +19,7 @@ type Props = {
 }
 
 function CardFilmScreen(props: Props): JSX.Element {
+  console.log('render');
   const {name, id, previewVideoLink, previewImage} = props;
   const history = useHistory();
   const [filmCardId, setFilmCardId] = useState(0);

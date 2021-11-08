@@ -1,15 +1,27 @@
 import {SmallCards, SmallFilmCard} from '../types/small-film-card';
 import {AuthorizationStatus} from '../types/api';
+import {RootState} from '../store/root-reducer';
 
-export type State = {
+export type AuthorizationStatusState = {
+  authorizationStatus: AuthorizationStatus,
+};
+
+export type FilmDataState = {
   genre: string,
   movies: SmallCards,
-  promoFilm: SmallFilmCard,
   filterMovies: SmallCards,
   countCardStep: number,
-  authorizationStatus: AuthorizationStatus,
   isDataLoaded: boolean,
-  isDataPromoLoaded: boolean,
-  moviesFavorite: SmallCards,
-  isDataPromoLoadedFavorite: boolean,
 };
+
+export type PromoDateState = {
+  promoFilm: SmallFilmCard,
+  isDataPromoLoaded: boolean,
+};
+
+export type FavoriteDateState = {
+  moviesFavorite: SmallCards,
+  isDataLoadedFavorite: boolean,
+};
+
+export type State = RootState;

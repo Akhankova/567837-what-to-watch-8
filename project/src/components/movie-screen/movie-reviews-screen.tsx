@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import Logo from '../logo/logo';
 import CardFilmScreen from '../card-film-screen/card-film-screen';
@@ -9,7 +8,6 @@ import dayjs from 'dayjs';
 import LogoFooter from '../logo/logo-footer';
 import { generatePath, useParams } from 'react-router-dom';
 import { useSelector} from 'react-redux';
-import {State} from '../../types/state';
 import UserLoggedIn from '../user-info/user-signIn';
 import UserNotLoggedIn from '../user-info/user-signout';
 import { AuthorizationStatus } from '../../const';
@@ -20,11 +18,12 @@ import {SmallFilmCard, SmallCards} from '../../types/small-film-card';
 import { adaptFilmToClientPromo, adaptFilmToClientFilms} from '../../services/adapter';
 import { api } from '../../index';
 import { BACKEND_URL } from '../../const';
+import { getAuthorizationStatus } from '../../store/user-data/selectors';
 
 const COUNT_CARDS_WITH_MORE_LIKES = 4;
 
 function MovieReviewsScreen(): JSX.Element {
-  const authStatus = useSelector((state: State) => state.authorizationStatus);
+  const authStatus = useSelector(getAuthorizationStatus);
   const numberCurrentFilmId = useParams<{id?: string}>().id;
   const [ reviews, setReviews ] = useState<CardComments>([]);
   const [ movie, setMovie ] = useState<SmallFilmCard>();

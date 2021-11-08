@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React from 'react';
 import Logo from '../logo/logo';
 import CardFilmScreen from '../card-film-screen/card-film-screen';
@@ -8,7 +7,6 @@ import {useHistory} from 'react-router-dom';
 import LogoFooter from '../logo/logo-footer';
 import { generatePath, useParams } from 'react-router-dom';
 import { useSelector} from 'react-redux';
-import {State} from '../../types/state';
 import UserLoggedIn from '../user-info/user-signIn';
 import UserNotLoggedIn from '../user-info/user-signout';
 import { AuthorizationStatus } from '../../const';
@@ -19,12 +17,13 @@ import {APIRoute} from '../../types/api';
 import { useEffect } from 'react';
 import { adaptFilmToClientPromo, adaptFilmToClientFilms} from '../../services/adapter';
 import { BACKEND_URL } from '../../const';
+import { getAuthorizationStatus } from '../../store/user-data/selectors';
 
 const COUNT_CARDS_WITH_MORE_LIKES = 4;
 
 export function MovieScreen(): JSX.Element {
   const history = useHistory();
-  const authStatus = useSelector((state: State) => state.authorizationStatus);
+  const authStatus = useSelector(getAuthorizationStatus);
   const getRatingText = (element:number) => {
     switch (true) {
       case (element<3):

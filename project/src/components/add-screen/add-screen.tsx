@@ -2,7 +2,6 @@ import Logo from '../logo/logo';
 import FormNewComment from '../form-new-comment/form-new-comment';
 import { useParams } from 'react-router-dom';
 import { useSelector} from 'react-redux';
-import {State} from '../../types/state';
 import UserLoggedIn from '../user-info/user-signIn';
 import UserNotLoggedIn from '../user-info/user-signout';
 import { AuthorizationStatus } from '../../const';
@@ -14,10 +13,11 @@ import { adaptFilmToClientPromo} from '../../services/adapter';
 import { useEffect } from 'react';
 import {useHistory} from 'react-router-dom';
 import { BACKEND_URL } from '../../const';
+import { getAuthorizationStatus } from '../../store/user-data/selectors';
 
 function AddScreen(): JSX.Element {
   const numberCurrentFilmId = useParams<{id?: string}>().id;
-  const authStatus = useSelector((state: State) => state.authorizationStatus);
+  const authStatus = useSelector(getAuthorizationStatus);
   const history = useHistory();
   const [ movie, setFilm ] = useState<SmallFilmCard>();
 
