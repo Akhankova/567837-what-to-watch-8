@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useState, useEffect} from 'react';
 import {Comment, CommentServer} from '../../types/small-film-card';
 import {  useHistory, useParams } from 'react-router-dom';
@@ -6,6 +7,7 @@ import { api } from '../../index';
 import { BACKEND_URL } from '../../const';
 
 function FormNewComment(): JSX.Element {
+  console.log('Newcomment render');
   const numberCurrentFilmId = useParams<{id?: string}>().id;
   const [ commentValid, setCommentValid ] = useState(false);
   const [ ratingValid, setRatingValid ] = useState(false);
@@ -64,7 +66,7 @@ function FormNewComment(): JSX.Element {
     const {comment, rating} = commentNew;
     postComment({comment, rating})
       .then(() => {
-        history.push(`/films/${numberCurrentFilmId}/reviews`);
+        history.push(`/films/${numberCurrentFilmId}`);
       })
       .catch(() => history.push('/404'));
   };

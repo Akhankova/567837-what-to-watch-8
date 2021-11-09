@@ -6,6 +6,7 @@ import HeaderScreen from '../header/header';
 import React from 'react';
 import { getMovies } from '../../store/films-data/selectors';
 import { getPromoFilm } from '../../store/promo-data/selectors';
+import { FilmCardBg } from './film-card-bg';
 
 function PromoScreen(): JSX.Element {
 
@@ -27,9 +28,7 @@ function PromoScreen(): JSX.Element {
   return (
 
     <section className="film-card">
-      <div className="film-card__bg">
-        <img src={promo.backgroundImage} alt={promo.title} />
-      </div>
+      <FilmCardBg/>
 
       <h1 className="visually-hidden">WTW</h1>
       <HeaderScreen/>

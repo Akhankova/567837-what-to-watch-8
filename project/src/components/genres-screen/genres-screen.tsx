@@ -1,3 +1,4 @@
+import React from 'react';
 import { useSelector} from 'react-redux';
 import { getGenre } from '../../store/films-data/selectors';
 
@@ -26,4 +27,4 @@ function GenresScreen(props: GenresListProps): JSX.Element {
   );
 }
 
-export default GenresScreen;
+export default React.memo(GenresScreen);
