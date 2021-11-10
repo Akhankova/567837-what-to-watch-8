@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import { generatePath } from 'react-router-dom';
 import VideoPlayer from '../video-player/video-player';
 import {useState, useEffect, useRef} from 'react';
+import React from 'react';
 
 
 const TIME_FOR_MOUSE_OVER = 1000;

@@ -2,16 +2,17 @@ import CardFilmScreen from '../card-film-screen/card-film-screen';
 import Logo from '../logo/logo';
 import LogoFooter from '../logo/logo-footer';
 import { useSelector} from 'react-redux';
-import {State} from '../../types/state';
 import {useDispatch} from 'react-redux';
 import { useEffect} from 'react';
 import { setFavorite } from '../../store/action';
 import UserLoggedIn from '../user-info/user-signIn';
+import { getFavoriteFilms } from '../../store/favorite-data/selectors';
+import { getIsDataFilmsLoadedStatus } from '../../store/films-data/selectors';
 
 
 function MyListScreen(): JSX.Element {
-  const movies = useSelector((state: State) => state.moviesFavorite);
-  const moviesLoaded = useSelector((state: State) => state.isDataPromoLoadedFavorite);
+  const movies = useSelector(getFavoriteFilms);
+  const moviesLoaded = useSelector(getIsDataFilmsLoadedStatus);
   const dispatchAction = useDispatch();
   useEffect(() => {
     if(movies.length === 0) {

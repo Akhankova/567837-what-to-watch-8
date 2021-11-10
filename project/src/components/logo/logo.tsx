@@ -1,3 +1,4 @@
+import React from 'react';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
 
@@ -11,4 +12,4 @@ function Logo(): JSX.Element {
   );
 }
 
-export default Logo;
+export default React.memo(Logo);

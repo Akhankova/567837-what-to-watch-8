@@ -4,7 +4,7 @@ import WelcomeScreen from '../welcome-screen/welcome-screen';
 import MyListScreen from '../my-list-screen/my-list-screen';
 import SignInScreen from '../sign-in-screen/sign-in-screen';
 import PlayerScreen from '../player-screen/player-screen';
-import MovieScreen from '../movie-screen/movie-screen';
+import FilmBigCard from '../big-card-film/big-card.film';
 import MovieDetailsScreen from '../movie-screen/movie-details-screen';
 import MovieReviewsScreen from '../movie-screen/movie-reviews-screen';
 import AddScreen from '../add-screen/add-screen';
@@ -33,7 +33,7 @@ function App(): JSX.Element {
           <PlayerScreen />
         </Route>
         <Route exact path={AppRoute.Film}>
-          <MovieScreen/>
+          <FilmBigCard/>
         </Route>
         <Route exact path={AppRoute.AddReview}>
           <AddScreen />
