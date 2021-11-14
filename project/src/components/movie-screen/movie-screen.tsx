@@ -12,6 +12,9 @@ import React from 'react';
 
 export function MovieScreen(): JSX.Element {
   const history = useHistory();
+  const numberCurrentFilmId = useParams<{id?: string}>().id;
+  const [ movie, setMovie ] = useState<SmallFilmCard>();
+
   const getRatingText = (element:number) => {
     switch (true) {
       case (element<3):
@@ -26,9 +29,6 @@ export function MovieScreen(): JSX.Element {
         return 'Awesome';
     }
   };
-
-  const numberCurrentFilmId = useParams<{id?: string}>().id;
-  const [ movie, setMovie ] = useState<SmallFilmCard>();
 
   useEffect(() => {
     api.get(`${BACKEND_URL}${APIRoute.Films}/${numberCurrentFilmId}`)

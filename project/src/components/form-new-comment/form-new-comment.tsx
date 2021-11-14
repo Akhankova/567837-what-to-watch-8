@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { useState, useEffect} from 'react';
 import {Comment, CommentServer} from '../../types/small-film-card';
 import {  useHistory, useParams } from 'react-router-dom';
@@ -7,10 +6,10 @@ import { api } from '../../index';
 import { BACKEND_URL } from '../../const';
 
 function FormNewComment(): JSX.Element {
-  console.log('Newcomment render');
   const numberCurrentFilmId = useParams<{id?: string}>().id;
   const [ commentValid, setCommentValid ] = useState(false);
   const [ ratingValid, setRatingValid ] = useState(false);
+  const history = useHistory();
 
   const postComment = async (comment: CommentServer): Promise<void> => {
     await api.post<Comment[]>(`${BACKEND_URL}${APIRoute.Comments}/${numberCurrentFilmId}`, comment);
@@ -27,8 +26,8 @@ function FormNewComment(): JSX.Element {
     } else {
       setCommentValid(true);
     }
-
   };
+
   const getValidForRating = (rating: number) => {
     if (!rating) {
       setRatingValid(false);
@@ -53,14 +52,12 @@ function FormNewComment(): JSX.Element {
       ...commentNew,
       rating: Number(event.target.value),
     });
-    getValidForRating(Number(event.target.value));
   };
 
   useEffect(() => {
     getValidForRating(commentNew.rating);
   }, [commentNew.rating]);
 
-  const history = useHistory();
   const onAddCommentHandler = (evt: { preventDefault: () => void; }) => {
     evt.preventDefault();
     const {comment, rating} = commentNew;
