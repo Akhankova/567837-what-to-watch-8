@@ -7,14 +7,7 @@ import {APIRoute} from '../../types/api';
 import { useEffect } from 'react';
 import { adaptFilmToClientPromo} from '../../services/adapter';
 import { BACKEND_URL } from '../../const';
-
-const MINUTES = 60;
-
-const getTime = (time:number) => {
-  const hours: number = Math.floor(time/MINUTES);
-  const minutes: number = time%MINUTES;
-  return hours > 0 ? `${hours}h ${minutes}m` : `$${minutes}m`;
-};
+import { getTime } from '../../utils';
 
 export function MovieDetailsScreen(): JSX.Element {
   const numberCurrentFilmId = useParams<{id?: string}>().id;

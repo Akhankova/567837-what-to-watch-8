@@ -3,7 +3,7 @@ import {AppRoute} from '../../const';
 import WelcomeScreen from '../welcome-screen/welcome-screen';
 import MyListScreen from '../my-list-screen/my-list-screen';
 import SignInScreen from '../sign-in-screen/sign-in-screen';
-import PlayerScreen from '../player-screen/player-screen';
+import PlayerScreen from '../player-screen/video-player-screen';
 import FilmBigCard from '../big-card-film/big-card.film';
 import MovieDetailsScreen from '../movie-screen/movie-details-screen';
 import MovieReviewsScreen from '../movie-screen/movie-reviews-screen';
@@ -23,7 +23,6 @@ function App(): JSX.Element {
           exact
           path={AppRoute.MyList}
           render={() => <MyListScreen/>}
-
         >
         </PrivateRoute>
         <Route exact path={AppRoute.SignIn}>

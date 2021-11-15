@@ -59,11 +59,9 @@ function WelcomeScreen(): JSX.Element {
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
-
           <ul className="catalog__genres-list">
             <GenresScreen genre={genresUning} onClick={genreNew}/>
           </ul>
-
           <div className="catalog__films-list">
             { moviesWithFilter.length > 0  ?
               moviesWithFilter.slice().splice(0, visiblyFilmCount).map((film) => (
@@ -76,16 +74,12 @@ function WelcomeScreen(): JSX.Element {
                   previewImage={film.previewImage}
                 />
               )) : <LoadingScreen/>}
-
-
           </div>
-
           {moviesWithFilter.length > COUNT_CARDS_STEP ?
             <div className="catalog__more">
               <button className="catalog__button" type="button" onClick={onShowMoreButtonClick} ref={buttonShowMore}>Show more</button>
             </div>  : ' '}
         </section>
-
         <footer className="page-footer">
           <div className="logo">
             <LogoFooter/>

@@ -8,20 +8,15 @@ import {useState} from 'react';
 import { api } from '../../index';
 import { BACKEND_URL } from '../../const';
 
-
 export function MovieReviewsScreen(): JSX.Element {
   const numberCurrentFilmId = useParams<{id?: string}>().id;
   const [ reviews, setReviews ] = useState<CardComments>([]);
-
   const history = useHistory();
-
 
   useEffect(() => {
     api.get(`${BACKEND_URL}${APIRoute.Comments}/${numberCurrentFilmId}`)
       .then((response) => setReviews(response.data))
       .catch(() => history.push('/404'));
-
-
   }, [history, numberCurrentFilmId]);
 
   return (

@@ -1,12 +1,13 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { logoutAction } from '../../store/api-actions';
-import {useHistory} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import {AppRoute} from '../../const';
 
 function UserLoggedIn(): JSX.Element {
   const history = useHistory();
   const dispatch = useDispatch();
+
   const logoutButtonClickHandler = (evt: React.MouseEvent) => {
     evt.preventDefault();
     dispatch(logoutAction());
@@ -17,7 +18,9 @@ function UserLoggedIn(): JSX.Element {
     <ul className="user-block">
       <li className="user-block__item">
         <div className="user-block__avatar">
-          <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+          <Link to={AppRoute.MyList} className="user-block__link">
+            <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
+          </Link>
         </div>
       </li>
       <li className="user-block__item">

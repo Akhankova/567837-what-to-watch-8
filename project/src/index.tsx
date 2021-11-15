@@ -5,7 +5,7 @@ import {Provider} from 'react-redux';
 import {createAPI} from './services/api';
 import {AuthorizationStatus} from './types/api';
 import {requireAuthorization} from './store/action';
-import { loadFilms, loadPromo, loadFilmsFilter} from './store/api-actions';
+import { loadFilms, loadFilmsFilter, loadPromo} from './store/api-actions';
 import {rootReducer} from '../../project/src/store/root-reducer';
 import {configureStore} from '@reduxjs/toolkit';
 

@@ -11,7 +11,6 @@ import { getAuthorizationStatus } from '../../store/user-data/selectors';
 function PrivateRoute(props: PrivateRouteProps): JSX.Element {
   const authorizationStatus = useSelector(getAuthorizationStatus);
   const {exact, path, render} = props;
-
   return (
     <Route
       exact={exact}
