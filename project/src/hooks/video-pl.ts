@@ -1,15 +1,32 @@
-import { useEffect, useState } from 'react';
+import { RefObject, useEffect, useState } from 'react';
 
-export const useVideoPlayer = (videoElement: any)  => {
+type VideoPlayer = {
+  playerState: {
+    playerTime: number,
+    isPlaying: boolean,
+    loading: boolean,
+    duration: number,
+    timeStart: number,
+    progress: number,
+  }
+  togglePlay: () => void,
+  videoLoaded: () => void,
+  handleOnTimeUpdate: () => void,
+  handleFullClick: () => void,
+  handleVideoProgress: (evt: React.ChangeEvent<HTMLProgressElement>) => void,
+}
+
+export const useVideoPlayer = (videoElement: RefObject<HTMLVideoElement>): VideoPlayer  => {
+  const FOR_PERCENT = 100;
+  const INITIAL_VALUE = 0;
+
   const [playerState, setPlayerState] = useState({
-    playerTime: 0,
-    duration: 0,
-    isPlaying: true,
-    progress: 0,
-    speed: 0,
+    playerTime: INITIAL_VALUE,
+    duration: INITIAL_VALUE,
+    isPlaying: false,
+    progress: INITIAL_VALUE,
     loading: false,
-    timeStart: 0,
-    autoplay: 'autoPlay',
+    timeStart: INITIAL_VALUE,
   });
 
   const togglePlay = () => {
@@ -20,13 +37,13 @@ export const useVideoPlayer = (videoElement: any)  => {
   };
 
   useEffect(() => {
-    if (playerState.loading) {
-      playerState.isPlaying
-        ? videoElement.current.play()
-        : videoElement.current.pause();
+    if (!videoElement.current) {
+      return;
     }
-
-  }, [playerState, playerState.isPlaying, playerState.loading, videoElement]);
+    playerState.isPlaying
+      ? videoElement?.current.play()
+      : videoElement?.current.pause();
+  }, [playerState.isPlaying, videoElement]);
 
   const videoLoaded = () => {
     setPlayerState({
@@ -36,7 +53,10 @@ export const useVideoPlayer = (videoElement: any)  => {
   };
 
   const handleOnTimeUpdate = () => {
-    const progress = (videoElement.current.currentTime / videoElement.current.duration) * 100;
+    if (!videoElement.current) {
+      return;
+    }
+    const progress = (videoElement.current.currentTime / videoElement.current.duration) * FOR_PERCENT;
     const playerTime = videoElement.current.duration - videoElement.current.currentTime;
     const duration = progress;
     const timeStart = videoElement.current.currentTime;
@@ -58,8 +78,11 @@ export const useVideoPlayer = (videoElement: any)  => {
   };
 
   const handleVideoProgress = (evt: React.ChangeEvent<HTMLProgressElement>) => {
+    if (!videoElement.current) {
+      return;
+    }
     const manualChange = Number(evt.target.value);
-    videoElement.current.currentTime = (videoElement.current.duration / 100) * manualChange;
+    videoElement.current.currentTime = (videoElement.current.duration / FOR_PERCENT) * manualChange;
     setPlayerState({
       ...playerState,
       progress: manualChange,

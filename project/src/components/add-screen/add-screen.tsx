@@ -10,7 +10,7 @@ import { APIRoute } from '../../types/api';
 import { useState, useEffect } from 'react';
 import { SmallFilmCard } from '../../types/small-film-card';
 import { adaptFilmToClientPromo } from '../../services/adapter';
-import { BACKEND_URL } from '../../const';
+import { BACKEND_URL, ERROR_ROUTE } from '../../const';
 import { getAuthorizationStatus } from '../../store/user-data/selectors';
 
 function AddScreen(): JSX.Element {
@@ -22,7 +22,7 @@ function AddScreen(): JSX.Element {
   useEffect(() => {
     api.get(`${BACKEND_URL}${APIRoute.Films}/${numberCurrentFilmId}`)
       .then((response) => setFilm(adaptFilmToClientPromo(response.data)))
-      .catch(() => history.push('/404'));
+      .catch(() => history.push(`/${ERROR_ROUTE}`));
   }, [history, numberCurrentFilmId]);
 
   return (

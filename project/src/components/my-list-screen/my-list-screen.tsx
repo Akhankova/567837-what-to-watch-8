@@ -1,13 +1,13 @@
 import CardFilmScreen from '../card-film-screen/card-film-screen';
 import Logo from '../logo/logo';
 import LogoFooter from '../logo/logo-footer';
-import { useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import UserLoggedIn from '../user-info/user-signIn';
 import { getIsDataFilmsLoadedStatus } from '../../store/films-data/selectors';
 import { useEffect, useState } from 'react';
 import {  SmallFilmCard} from '../../types/small-film-card';
 import { APIRoute } from '../../types/api';
-import { BACKEND_URL } from '../../const';
+import { BACKEND_URL, ERROR_ROUTE } from '../../const';
 import { api } from '../../index';
 import { useHistory } from 'react-router-dom';
 import { adaptFilmToClientFilms } from '../../services/adapter';
@@ -20,7 +20,7 @@ function MyListScreen(): JSX.Element {
   useEffect(() => {
     api.get(`${BACKEND_URL}${APIRoute.Favorite}`)
       .then((response) => setFavouriteMovies(adaptFilmToClientFilms(response.data)))
-      .catch(() => history.push('/404'));
+      .catch(() => history.push(`/${ERROR_ROUTE}`));
   }, [history]);
 
   return (
