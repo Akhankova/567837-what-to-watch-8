@@ -1,14 +1,16 @@
 import { useEffect } from 'react';
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { useParams } from 'react-router-dom';
-import {APIRoute} from '../../types/api';
-import {CardComments} from '../../types/small-film-card';
-import {useState} from 'react';
+import { APIRoute } from '../../types/api';
+import { CardComments } from '../../types/small-film-card';
+import { useState } from 'react';
 import { api } from '../../index';
-import { BACKEND_URL } from '../../const';
+import { BACKEND_URL, ERROR_ROUTE } from '../../const';
 
 export function MovieReviewsScreen(): JSX.Element {
+  const REVIEWS_MIN_LENGTH = 0;
+
   const numberCurrentFilmId = useParams<{id?: string}>().id;
   const [ reviews, setReviews ] = useState<CardComments>([]);
   const history = useHistory();
@@ -16,13 +18,13 @@ export function MovieReviewsScreen(): JSX.Element {
   useEffect(() => {
     api.get(`${BACKEND_URL}${APIRoute.Comments}/${numberCurrentFilmId}`)
       .then((response) => setReviews(response.data))
-      .catch(() => history.push('/404'));
+      .catch(() => history.push(`/${ERROR_ROUTE}`));
   }, [history, numberCurrentFilmId]);
 
   return (
     <div className="film-card__reviews film-card__row">
       <div className="film-card__reviews-col">
-        {reviews.length > 0 ? reviews.map((comment) => {
+        {reviews.length > REVIEWS_MIN_LENGTH ? reviews.map((comment) => {
           const keyValue = comment.id;
           return (
             <div key={keyValue} className="review">

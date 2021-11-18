@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { logoutAction } from '../../store/api-actions';
-import {Link, useHistory} from 'react-router-dom';
-import {AppRoute} from '../../const';
+import { Link, useHistory } from 'react-router-dom';
+import { AppRoute } from '../../const';
 
 function UserLoggedIn(): JSX.Element {
   const history = useHistory();

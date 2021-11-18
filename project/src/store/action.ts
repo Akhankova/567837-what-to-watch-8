@@ -1,16 +1,17 @@
 import { createAction } from '@reduxjs/toolkit';
-import {AuthorizationStatus} from '../types/api';
-import {SmallCards, SmallFilmCard} from '../types/small-film-card';
+import { AuthorizationStatus } from '../types/api';
+import { ActionType } from '../types/action';
+import { SmallCards, SmallFilmCard } from '../types/small-film-card';
 
 export const setGenre = createAction(
-  'SET_GENRE',
+  ActionType.SetGenre,
   (genre:string) => ({
     payload: { genre},
   }),
 );
 
 export const requireAuthorization = createAction(
-  'AUTORISATION',
+  ActionType.RequireAuthorization,
   (authStatus: AuthorizationStatus) => ({
     payload: authStatus,
   }),
@@ -19,30 +20,37 @@ export const requireAuthorization = createAction(
 export const requireLogout = createAction('LOG_OUT');
 
 export const setFilms = createAction(
-  'SET_FILMS',
+  ActionType.SetFilms,
   (films: SmallCards) => ({
     payload: {films},
   }),
 );
 
 export const setFilmsFilter = createAction(
-  'SET_FILMS_FILTER',
+  ActionType.SetFilmsFilter,
   (moviesFilter: SmallCards) => ({
     payload: {moviesFilter},
   }),
 );
 
 export const setPromo = createAction(
-  'SET_PROMO',
+  ActionType.SetPromo,
   (promo:SmallFilmCard) => ({
     payload: { promo },
   }),
 );
 
 export const setFavorite = createAction(
-  'SET_FILMS_FAVORITE',
+  ActionType.SetFavorite,
   (films: SmallCards) => ({
     payload: {films},
+  }),
+);
+
+export const setFilm = createAction(
+  ActionType.SetFilm,
+  (film: SmallFilmCard) => ({
+    payload: {film},
   }),
 );
 

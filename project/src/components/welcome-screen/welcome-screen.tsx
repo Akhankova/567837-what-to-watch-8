@@ -1,19 +1,20 @@
 import React, { useEffect, useRef } from 'react';
 import CardFilmScreen from '../card-film-screen/card-film-screen';
 import LogoFooter from '../logo/logo-footer';
-import {useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import GenresScreen from '../genres-screen/genres-screen';
-import {  setGenre, setFilmsFilter } from '../../store/action';
+import { setGenre } from '../../store/action';
 import LoadingScreen from '../loading/loading';
 import PromoScreen from '../promo/promo';
 import { getFilterMovies, getGenre, getMovies } from '../../store/films-data/selectors';
-
-
-const COUNT_CARDS_STEP = 8;
-const uniqueItems = (items: string[]) => [...new Set(items)];
+import { loadFilmsFilter } from '../../store/api-actions';
+import { getUniqueItems } from '../../utils';
+import { COUNT_CARDS_STEP } from '../../const';
 
 function WelcomeScreen(): JSX.Element {
+  const INIT_VALUE = 0;
+  const START_COUNT_FILMS = 8;
 
   const movies = useSelector(getMovies);
   const moviesWithFilter = useSelector(getFilterMovies);
@@ -21,7 +22,7 @@ function WelcomeScreen(): JSX.Element {
 
   const genres: string[] = [];
   movies.filter((element) => genres.push(element.genre));
-  const genresUning: string[]  = uniqueItems(genres);
+  const genresUning: string[]  = getUniqueItems(genres);
 
   const [visiblyFilmCount, setVisiblyFilmCount] = useState(COUNT_CARDS_STEP);
   const buttonShowMore = useRef<HTMLButtonElement | null>(null);
@@ -29,14 +30,13 @@ function WelcomeScreen(): JSX.Element {
   const dispatchAction = useDispatch();
 
   useEffect(() => {
-    dispatchAction(setFilmsFilter(moviesWithFilter));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genreState]);
+    dispatchAction(loadFilmsFilter());
+  }, [dispatchAction, genreState]);
 
 
   const genreNew = (newGenre: string) => dispatchAction(setGenre(newGenre));
   useEffect(() => {
-    setVisiblyFilmCount(8);
+    setVisiblyFilmCount(START_COUNT_FILMS);
   }, [genreState]);
 
   const onShowMoreButtonClick = () => {
@@ -63,8 +63,8 @@ function WelcomeScreen(): JSX.Element {
             <GenresScreen genre={genresUning} onClick={genreNew}/>
           </ul>
           <div className="catalog__films-list">
-            { moviesWithFilter.length > 0  ?
-              moviesWithFilter.slice().splice(0, visiblyFilmCount).map((film) => (
+            { moviesWithFilter.length > INIT_VALUE  ?
+              moviesWithFilter.slice().splice(INIT_VALUE, visiblyFilmCount).map((film) => (
                 <CardFilmScreen
                   key={film.id}
                   name={film.title}

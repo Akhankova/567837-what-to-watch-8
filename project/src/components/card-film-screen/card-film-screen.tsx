@@ -53,13 +53,12 @@ function CardFilmScreen(props: Props): JSX.Element {
 
   return (
     <article className="small-film-card catalog__films-card" value={filmCardId} {...filmCardId} onClick={onCardClickHandler} onMouseOver={onCardMouseOverHandler} onMouseLeave={() => setMouseOver(false)}>
-      { isPlaying
-        ? <VideoPlayer previewVideoLink={previewVideoLink} imgSrc={previewImage}/>
-        :
-        <div className="small-film-card__image">
-          <img src={previewImage} alt={name} width="280" height="175"/>
-        </div>}
-
+      <div className="small-film-card__image">
+        { isPlaying
+          ? <VideoPlayer previewVideoLink={previewVideoLink} imgSrc={previewImage}/>
+          :
+          <img src={previewImage} alt={name} width="280" height="175"/>}
+      </div>
       <h3 className="small-film-card__title">
         <Link className="small-film-card__link" to={generatePath(AppRoute.Film, {id: id})}>{name}</Link>
       </h3>

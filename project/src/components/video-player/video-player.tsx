@@ -1,4 +1,4 @@
-import {useRef, useEffect} from 'react';
+import { useRef, useEffect } from 'react';
 
  type VideoPlayerProps = {
    previewVideoLink: string;
@@ -15,7 +15,7 @@ function VideoPlayer({previewVideoLink, imgSrc}: VideoPlayerProps): JSX.Element 
     videoRef.current.autoplay = true;
   }, [videoRef]);
   return (
-    <video src={previewVideoLink} className="player__video" poster={imgSrc} ref={videoRef}></video>
+    <video src={previewVideoLink} className="player__video" poster={imgSrc} ref={videoRef} width="280" height="175"></video>
   );
 }
 
