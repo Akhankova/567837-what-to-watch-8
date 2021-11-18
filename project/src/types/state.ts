@@ -10,18 +10,19 @@ export type FilmDataState = {
   genre: string,
   movies: SmallCards,
   filterMovies: SmallCards,
-  countCardStep: number,
   isDataLoaded: boolean,
 };
 
 export type PromoDateState = {
   promoFilm: SmallFilmCard,
-  isDataPromoLoaded: boolean,
+};
+
+export type FilmDateState = {
+  film: SmallFilmCard,
 };
 
 export type FavoriteDateState = {
   moviesFavorite: SmallCards,
-  isDataLoadedFavorite: boolean,
 };
 
 export type State = RootState;

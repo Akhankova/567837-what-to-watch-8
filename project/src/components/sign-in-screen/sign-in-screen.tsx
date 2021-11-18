@@ -1,12 +1,13 @@
 import Logo from '../logo/logo';
 import LogoFooter from '../logo/logo-footer';
-import { useEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginAction } from '../../store/api-actions';
-import { AppRoute, REGULAR_EXPRESSION } from '../../const';
+import { AppRoute, REGULAR_EXPRESSION, REGULAR_EXPRESSION_EMAIL } from '../../const';
 
 function SignInScreen(): JSX.Element {
+
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const history = useHistory();
@@ -25,7 +26,7 @@ function SignInScreen(): JSX.Element {
   const validPassword = !passwordValid ? <div style={{color:'red', border: '3px solid black'}}>В поле «пароль» должен вводится валидный пароль. Под валидным паролем подразумевается пароль, который состоит минимум из одной буквы и цифры.</div> : ' ';
 
   const getValidForEmail = (text: string) => {
-    if (text.length < 3 || !text.includes('@') || !text.includes('.')) {
+    if (!REGULAR_EXPRESSION_EMAIL.test(text)) {
       setEmailValid(false);
     } else {
       setEmailValid(true);
@@ -58,12 +59,15 @@ function SignInScreen(): JSX.Element {
     }
   };
 
-  const handleSubmit = (): void => {
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
     if (emailRef.current !== null && passwordRef.current !== null) {
-      dispatch(loginAction({
-        login: emailRef.current.value,
-        password: passwordRef.current.value,
-      }));
+      dispatch(
+        loginAction({
+          login: emailRef.current.value,
+          password: passwordRef.current.value,
+        }),
+      );
       history.push(AppRoute.Main);
     }
   };
@@ -86,7 +90,7 @@ function SignInScreen(): JSX.Element {
         <h1 className="page-title user-page__title">Sign in</h1>
       </header>
       <div className="sign-in user-page__content">
-        <form action="#" className="sign-in__form">
+        <form className="sign-in__form" onSubmit={handleSubmit}>
           <div className="sign-in__fields">
             {emailRef.current ? validLogin : ' '}
             <div className="sign-in__field">
@@ -100,7 +104,7 @@ function SignInScreen(): JSX.Element {
             </div>
           </div>
           <div className="sign-in__submit">
-            <button className="sign-in__btn" type="submit" onClick={handleSubmit} disabled={!emailValid || !passwordValid}>Sign in</button>
+            <button className="sign-in__btn" type="submit" disabled={!emailValid || !passwordValid}>Sign in</button>
           </div>
         </form>
       </div>

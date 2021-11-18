@@ -1,15 +1,16 @@
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import {useState} from 'react';
-import {SmallFilmCard} from '../../types/small-film-card';
+import { useState } from 'react';
+import { SmallFilmCard } from '../../types/small-film-card';
 import { api } from '../../index';
-import {APIRoute} from '../../types/api';
+import { APIRoute} from '../../types/api';
 import { useEffect } from 'react';
-import { adaptFilmToClientPromo} from '../../services/adapter';
-import { BACKEND_URL } from '../../const';
+import { adaptFilmToClientPromo } from '../../services/adapter';
+import { BACKEND_URL, ERROR_ROUTE } from '../../const';
 import { getTime } from '../../utils';
 
 export function MovieDetailsScreen(): JSX.Element {
+
   const numberCurrentFilmId = useParams<{id?: string}>().id;
   const [ movie, setMovie ] = useState<SmallFilmCard>();
 
@@ -18,7 +19,7 @@ export function MovieDetailsScreen(): JSX.Element {
   useEffect(() => {
     api.get(`${BACKEND_URL}${APIRoute.Films}/${numberCurrentFilmId}`)
       .then((response) => setMovie(adaptFilmToClientPromo(response.data)))
-      .catch(() => history.push('/404'));
+      .catch(() => history.push(`/${ERROR_ROUTE}`));
   }, [ history, numberCurrentFilmId]);
 
   return (

@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app/app';
-import {Provider} from 'react-redux';
-import {createAPI} from './services/api';
-import {AuthorizationStatus} from './types/api';
-import {requireAuthorization} from './store/action';
-import { loadFilms, loadFilmsFilter, loadPromo} from './store/api-actions';
-import {rootReducer} from '../../project/src/store/root-reducer';
-import {configureStore} from '@reduxjs/toolkit';
+import { Provider } from 'react-redux';
+import { createAPI } from './services/api';
+import { AuthorizationStatus } from './types/api';
+import { requireAuthorization } from './store/action';
+import { loadFilms, loadFilmsFilter, loadPromo } from './store/api-actions';
+import { rootReducer } from '../../project/src/store/root-reducer';
+import { configureStore } from '@reduxjs/toolkit';
 
 export const api = createAPI(
   () => store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth)),

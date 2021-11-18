@@ -1,6 +1,6 @@
 import { AuthorizationStatusState } from '../../types/state';
-import {AuthorizationStatus} from '../../types/api';
-import {requireAuthorization, requireLogout} from '../action';
+import { AuthorizationStatus } from '../../types/api';
+import { requireAuthorization, requireLogout } from '../action';
 import { createReducer } from '@reduxjs/toolkit';
 
 export const initialState: AuthorizationStatusState= {

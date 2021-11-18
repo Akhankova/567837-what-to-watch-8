@@ -1,5 +1,5 @@
-import {Switch, Route, BrowserRouter} from 'react-router-dom';
-import {AppRoute} from '../../const';
+import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import { AppRoute } from '../../const';
 import WelcomeScreen from '../welcome-screen/welcome-screen';
 import MyListScreen from '../my-list-screen/my-list-screen';
 import SignInScreen from '../sign-in-screen/sign-in-screen';
