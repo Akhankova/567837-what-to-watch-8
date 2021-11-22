@@ -1,12 +1,11 @@
 import { useHistory, Link } from 'react-router-dom';
-import { AppRoute, TIME_FOR_MOUSE_OVER } from '../../const';
+import { AppRoute, Time } from '../../const';
 import { generatePath } from 'react-router-dom';
 import VideoPlayer from '../video-player/video-player';
 import { useState, useEffect, useRef } from 'react';
 
 type Props = {
   name: string;
-  imgSrc: string;
   id: number;
   previewVideoLink: string;
   previewImage: string;
@@ -36,23 +35,23 @@ function CardFilmScreen(props: Props): JSX.Element {
       setIsPlaying(false);
     }
     if (isMouseOver) {
-      timeAfterHover.current = window.setInterval(() => setIsPlaying(true), TIME_FOR_MOUSE_OVER);
+      timeAfterHover.current = window.setInterval(() => setIsPlaying(true), Time.TimeForMouseOver);
     }
     return getTime;
   }, [isMouseOver]);
 
-  const onCardMouseOverHandler = () => {
+  const handleCardMouseOver = () => {
     (onSmallCardHandler(Number(id))
     );
     setMouseOver(true);
   };
 
-  const onCardClickHandler = () => {
+  const handleCardClick = () => {
     history.push(generatePath(AppRoute.Film, {id: id}));
   };
 
   return (
-    <article className="small-film-card catalog__films-card" value={filmCardId} {...filmCardId} onClick={onCardClickHandler} onMouseOver={onCardMouseOverHandler} onMouseLeave={() => setMouseOver(false)}>
+    <article className="small-film-card catalog__films-card" id={String(filmCardId)} onClick={handleCardClick} onMouseOver={handleCardMouseOver} onMouseLeave={() => setMouseOver(false)}>
       <div className="small-film-card__image">
         { isPlaying
           ? <VideoPlayer previewVideoLink={previewVideoLink} imgSrc={previewImage}/>

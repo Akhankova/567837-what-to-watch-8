@@ -7,7 +7,7 @@ import { getIsDataFilmsLoadedStatus } from '../../store/films-data/selectors';
 import { useEffect, useState } from 'react';
 import {  SmallFilmCard} from '../../types/small-film-card';
 import { APIRoute } from '../../types/api';
-import { BACKEND_URL, ERROR_ROUTE } from '../../const';
+import { BACKEND_URL, ErrorRoute } from '../../const';
 import { api } from '../../index';
 import { useHistory } from 'react-router-dom';
 import { adaptFilmToClientFilms } from '../../services/adapter';
@@ -20,7 +20,7 @@ function MyListScreen(): JSX.Element {
   useEffect(() => {
     api.get(`${BACKEND_URL}${APIRoute.Favorite}`)
       .then((response) => setFavouriteMovies(adaptFilmToClientFilms(response.data)))
-      .catch(() => history.push(`/${ERROR_ROUTE}`));
+      .catch(() => history.push(`/${ErrorRoute.PageNotFound}`));
   }, [history]);
 
   return (
@@ -40,7 +40,6 @@ function MyListScreen(): JSX.Element {
               <CardFilmScreen
                 key={film.id}
                 name={film.title}
-                imgSrc={film.imgSrc}
                 id={film.id}
                 previewVideoLink={film.previewVideoLink}
                 previewImage={film.previewImage}

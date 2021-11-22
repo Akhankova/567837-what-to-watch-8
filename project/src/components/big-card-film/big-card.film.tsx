@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AppRoute, BACKEND_URL, AuthorizationStatus, ERROR_ROUTE, COUNT_CARDS_WITH_MORE_LIKES, AUTH_STATUS_UNKNOWN, AUTH_STATUS_NO_AUTH } from '../../const';
+import { AppRoute, BACKEND_URL, AuthorizationStatus, ErrorRoute, FilmsCount } from '../../const';
 import { generatePath, useParams, Link, useHistory } from 'react-router-dom';
 import {  useDispatch, useSelector } from 'react-redux';
 import { SmallCards, SmallFilmCard } from '../../types/small-film-card';
@@ -18,15 +18,14 @@ import CardFilmScreen from '../card-film-screen/card-film-screen';
 import HeaderScreen from '../header/header';
 
 export function FilmBigCard(): JSX.Element {
-  const START_FILM_COUNT = 0;
   const history = useHistory();
   const authStatus = useSelector(getAuthorizationStatus);
   const numberCurrentFilmId = useParams<{id?: string}>().id;
   const filmCard = useSelector(getFilm);
-  const [activTab, onClick] = useState('Overview');
+  const [activeTab, onClick] = useState('Overview');
   const [ moviesSimilar, setMoviesSimilar ] = useState<SmallCards>([]);
 
-  const onCardClickPlayHandler = () => {
+  const handlePlayButtonClick = () => {
     history.push(generatePath(AppRoute.Player, {id: Number(filmCard?.id)}));
   };
 
@@ -37,13 +36,13 @@ export function FilmBigCard(): JSX.Element {
   }, [dispatchAction, numberCurrentFilmId]);
 
   useEffect(() => {
-    api.get(`${BACKEND_URL}${APIRoute.Films}/${numberCurrentFilmId}/${'similar'}`)
+    api.get(`${BACKEND_URL}${APIRoute.Films}/${numberCurrentFilmId}/similar`)
       .then((response) => setMoviesSimilar(adaptFilmToClientFilms(response.data)))
-      .catch(() => history.push(`/${ERROR_ROUTE}`));
+      .catch(() => history.push(`/${ErrorRoute.PageNotFound}`));
   }, [history, numberCurrentFilmId]);
 
-  const onCardClickMyListHandler = async () => {
-    if (authStatus === AUTH_STATUS_UNKNOWN || authStatus === AUTH_STATUS_NO_AUTH) {
+  const handleMyListButtonClick = async () => {
+    if (authStatus === AuthorizationStatus.Unknown || authStatus === AuthorizationStatus.NoAuth) {
       return history.push(AppRoute.SignIn);
     }
     api.post<SmallFilmCard>(`${BACKEND_URL}${APIRoute.Favorite}/${numberCurrentFilmId}/${+!filmCard?.isFavorite}`)
@@ -70,13 +69,13 @@ export function FilmBigCard(): JSX.Element {
                 <span className="film-card__year">{filmCard?.released}</span>
               </p>
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button" onClick={onCardClickPlayHandler}>
+                <button className="btn btn--play film-card__button" type="button" onClick={handlePlayButtonClick}>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list film-card__button" type="button" onClick={onCardClickMyListHandler}>
+                <button className="btn btn--list film-card__button" type="button" onClick={handleMyListButtonClick}>
                   {filmCard?.isFavorite && authStatus !== 'UNKNOWN' ?
                     <svg viewBox="0 0 18 14" width="18" height="14">
                       <use xlinkHref="#in-list"></use>
@@ -99,11 +98,11 @@ export function FilmBigCard(): JSX.Element {
 
             <div className="film-card__desc">
               <nav className="film-nav film-card__nav">
-                <FilmCardTabs activTab={activTab} onClick={onClick}/>
+                <FilmCardTabs activeTab={activeTab} onClick={onClick}/>
               </nav>
-              { (activTab === 'Overview') && <MovieScreen/>}
-              { (activTab === 'Reviews') && <MovieReviewsScreen/>}
-              { (activTab === 'Details') && <MovieDetailsScreen/>}
+              { (activeTab === 'Overview') && <MovieScreen/>}
+              { (activeTab === 'Reviews') && <MovieReviewsScreen/>}
+              { (activeTab === 'Details') && <MovieDetailsScreen/>}
             </div>
           </div>
         </div>
@@ -112,11 +111,11 @@ export function FilmBigCard(): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
           <div className="catalog__films-list">
-            {moviesSimilar.slice(START_FILM_COUNT, COUNT_CARDS_WITH_MORE_LIKES).map((film) => (
+            {moviesSimilar.slice(FilmsCount.StartFilmsCount, FilmsCount.CountFilmsWithLikes).map((film) => (
               <CardFilmScreen
                 key={film.id}
                 name={film.title}
-                imgSrc={film.imgSrc}
+                //imgSrc={film.imgSrc}
                 id={film.id}
                 previewVideoLink={film.previewVideoLink}
                 previewImage={film.previewImage}

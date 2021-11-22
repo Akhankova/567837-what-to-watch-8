@@ -1,9 +1,11 @@
-import {SmallCards, SmallFilmCard} from '../types/small-film-card';
-import {AuthorizationStatus} from '../types/api';
+import {SmallCards, SmallFilmCard} from './small-film-card';
+import {AuthorizationStatus} from './api';
 import {RootState} from '../store/root-reducer';
+import { User } from './user';
 
 export type AuthorizationStatusState = {
   authorizationStatus: AuthorizationStatus,
+  userUrl: User,
 };
 
 export type FilmDataState = {

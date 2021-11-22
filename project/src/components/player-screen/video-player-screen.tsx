@@ -3,7 +3,7 @@ import { generatePath, useHistory, useParams } from 'react-router-dom';
 import { useVideoPlayer } from '../../hooks/video-pl';
 import { SmallFilmCard } from '../../types/small-film-card';
 import { api } from '../../index';
-import { AppRoute, BACKEND_URL, ERROR_ROUTE} from '../../const';
+import { AppRoute, BACKEND_URL, ErrorRoute} from '../../const';
 import { getVideoTime } from '../../utils';
 import { APIRoute } from '../../types/api';
 import { adaptFilmToClientPromo } from '../../services/adapter';
@@ -28,10 +28,10 @@ export function PlayerScreen(): JSX.Element {
   useEffect(() => {
     api.get(`${BACKEND_URL}${APIRoute.Films}/${numberCurrentFilmId}`)
       .then((response) => setMovie(adaptFilmToClientPromo(response.data)))
-      .catch(() => history.push(`${ERROR_ROUTE}`));
+      .catch(() => history.push(`${ErrorRoute.PageNotFound}`));
   }, [history, numberCurrentFilmId]);
 
-  const onExitClickHandler = () => {
+  const handleExitClick = () => {
     history.push(generatePath(AppRoute.Film, {id: Number(movie?.id)}));
   };
 
@@ -45,7 +45,7 @@ export function PlayerScreen(): JSX.Element {
         onTimeUpdate={handleOnTimeUpdate}
       >
       </video>
-      <button type="button" className="player__exit" onClick={onExitClickHandler}>Exit</button>
+      <button type="button" className="player__exit" onClick={handleExitClick}>Exit</button>
       <div className="player__controls">
         <div className="player__controls-row">
           <div className="player__time">

@@ -1,10 +1,14 @@
 import {ThunkActionResult} from '../types/action';
-import {setFilms, setPromo, requireAuthorization, requireLogout, setFilmsFilter, setFilm} from './action';
+import {setFilms, setPromo, requireAuthorization, setFilmsFilter, setFilm, requireLogout, changeUser} from './action';
 import {APIRoute, AuthorizationStatus} from '../types/api';
 import { ServerMovie } from '../types/small-film-card';
-import {adaptFilmToClientFilms, adaptFilmToClientPromo} from '../services/adapter';
+import {adaptFilmToClientFilms, adaptFilmToClientPromo, adaptToClientUser} from '../services/adapter';
 import { AuthData } from '../types/auth-data';
-import {saveToken, dropToken, Token} from '../services/token';
+import {dropToken, saveToken} from '../services/token';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+import { UserFromServer } from '../types/user';
+import { LOGIN_ERROR, ErrorRoute } from '../const';
 
 export const loadFilms = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -28,14 +32,6 @@ export const loadPromo = (): ThunkActionResult =>
     dispatch(setPromo(adaptFilmToClientPromo(data)));
   };
 
-export const loginAction = ({login: email, password}: AuthData): ThunkActionResult =>
-  async (dispatch, _getState, api) => {
-    const {data: {token}} = await api.post<{token: Token}>(APIRoute.Login, {email, password});
-    saveToken(token);
-    dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    dispatch(loadPromo());
-  };
-
 export const logoutAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     api.delete(APIRoute.Logout);
@@ -49,3 +45,31 @@ export const loadFavoriteStatus = (id: string | undefined): ThunkActionResult =>
     const {data} = await api.get(`${APIRoute.Films}/${id}`);
     dispatch(setFilm(adaptFilmToClientPromo(data)));
   };
+
+export const loginAction = ({login: email, password}: AuthData): ThunkActionResult =>
+  async (dispatch, _getState, api) => {
+    try {
+      const {data} = await api.post<UserFromServer>(APIRoute.Login, {email, password});
+      saveToken(data.token);
+      dispatch(changeUser(adaptToClientUser(data)));
+      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      dispatch(loadPromo());
+      checkAuthAction();
+    } catch {
+      toast.info(LOGIN_ERROR);
+    }
+  };
+
+export const checkAuthAction = (): ThunkActionResult =>
+  async (dispatch, _getState, api) => {
+    await api.get(APIRoute.Login)
+      .then(({status, data}) => {
+        if (status && status !== ErrorRoute.ErrorNoAuth) {
+          dispatch(requireAuthorization(AuthorizationStatus.Auth));
+          dispatch(changeUser(adaptToClientUser(data)));
+          return;
+        }
+        dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+      });
+  };
+

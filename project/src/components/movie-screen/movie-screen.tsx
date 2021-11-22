@@ -6,7 +6,7 @@ import { api } from '../../index';
 import {APIRoute} from '../../types/api';
 import { useEffect } from 'react';
 import { adaptFilmToClientPromo} from '../../services/adapter';
-import { BACKEND_URL, ERROR_ROUTE, getRatingText } from '../../const';
+import { BACKEND_URL, ErrorRoute, getRatingText } from '../../const';
 import React from 'react';
 
 
@@ -19,7 +19,7 @@ export function MovieScreen(): JSX.Element {
   useEffect(() => {
     api.get(`${BACKEND_URL}${APIRoute.Films}/${numberCurrentFilmId}`)
       .then((response) => setMovie(adaptFilmToClientPromo(response.data)))
-      .catch(() => history.push(`/${ERROR_ROUTE}`));
+      .catch(() => history.push(`/${ErrorRoute.PageNotFound}`));
   }, [ history, numberCurrentFilmId]);
 
   return (
@@ -42,4 +42,3 @@ export function MovieScreen(): JSX.Element {
   );
 }
 
-export default MovieScreen;

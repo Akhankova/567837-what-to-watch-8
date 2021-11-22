@@ -2,6 +2,7 @@ import { createAction } from '@reduxjs/toolkit';
 import { AuthorizationStatus } from '../types/api';
 import { ActionType } from '../types/action';
 import { SmallCards, SmallFilmCard } from '../types/small-film-card';
+import { User } from '../types/user';
 
 export const setGenre = createAction(
   ActionType.SetGenre,
@@ -51,6 +52,13 @@ export const setFilm = createAction(
   ActionType.SetFilm,
   (film: SmallFilmCard) => ({
     payload: {film},
+  }),
+);
+
+export const changeUser = createAction(
+  ActionType.ChangeUser,
+  (user: User) => ({
+    payload: user,
   }),
 );
 

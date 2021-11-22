@@ -18,13 +18,13 @@ function PromoScreen(): JSX.Element {
   const authStatus = useSelector(getAuthorizationStatus);
   const history = useHistory();
 
-  const onCardClickPlayHandler = () => {
+  const handlePlayClick = () => {
     history.push(generatePath(AppRoute.Player, {id: promo.id}));
   };
 
   const dispatchAction = useDispatch();
 
-  const onClickAddToMyListHandler = () => {
+  const handleAddToMyListClick = () => {
     if (authStatus === 'UNKNOWN' || authStatus === 'NO_AUTH') {
       return history.push(AppRoute.SignIn);
     }
@@ -32,7 +32,7 @@ function PromoScreen(): JSX.Element {
       .then(()=> {dispatchAction(loadPromo());});
   };
 
-  const onCardClickHandler = () => {
+  const handleCardClick = () => {
     history.push(generatePath(AppRoute.Film, {id: promo.id}));
   };
 
@@ -44,7 +44,7 @@ function PromoScreen(): JSX.Element {
       {promo ?
         <div className="film-card__wrap">
           <div className="film-card__info">
-            <div className="film-card__poster" onClick={onCardClickHandler}>
+            <div className="film-card__poster" onClick={handleCardClick}>
               <img src={promo.previewImage} alt={promo.title} width="218" height="327" />
             </div>
             <div className="film-card__desc">
@@ -54,13 +54,13 @@ function PromoScreen(): JSX.Element {
                 <span className="film-card__year">{promo.released}</span>
               </p>
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button" onClick={onCardClickPlayHandler}>
+                <button className="btn btn--play film-card__button" type="button" onClick={handlePlayClick}>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list film-card__button" type="button" onClick={onClickAddToMyListHandler}>
+                <button className="btn btn--list film-card__button" type="button" onClick={handleAddToMyListClick}>
                   {promo.isFavorite && authStatus !== 'UNKNOWN'?
                     <svg viewBox="0 0 18 14" width="18" height="14">
                       <use xlinkHref="#in-list"></use>

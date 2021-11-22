@@ -1,18 +1,18 @@
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError} from 'axios';
 import {getToken} from './token';
-import { BACKEND_URL, REQUEST_TIMEOUT, ERROR_ROUTE_NO_AUTH } from '../const';
+import { BACKEND_URL, Time, ErrorRoute } from '../const';
 
 type UnauthorizedCallback = () => void;
 
 
 enum HttpCode {
-  Unauthorized = ERROR_ROUTE_NO_AUTH,
+  Unauthorized = ErrorRoute.ErrorNoAuth,
 }
 
 export const createAPI = (onUnauthorized: UnauthorizedCallback): AxiosInstance => {
   const api = axios.create({
     baseURL: BACKEND_URL,
-    timeout: REQUEST_TIMEOUT,
+    timeout: Time.RequestTimeout,
   });
 
   api.interceptors.response.use(

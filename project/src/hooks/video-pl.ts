@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useState } from 'react';
+import React, { RefObject, useEffect, useState } from 'react';
 
 type VideoPlayer = {
   playerState: {
@@ -100,4 +100,4 @@ export const useVideoPlayer = (videoElement: RefObject<HTMLVideoElement>): Video
 
 };
 
-export default useVideoPlayer;
+

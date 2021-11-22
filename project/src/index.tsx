@@ -6,8 +6,9 @@ import { createAPI } from './services/api';
 import { AuthorizationStatus } from './types/api';
 import { requireAuthorization } from './store/action';
 import { loadFilms, loadFilmsFilter, loadPromo } from './store/api-actions';
-import { rootReducer } from '../../project/src/store/root-reducer';
+import { rootReducer } from './store/root-reducer';
 import { configureStore } from '@reduxjs/toolkit';
+import { ToastContainer } from 'react-toastify';
 
 export const api = createAPI(
   () => store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth)),
@@ -27,9 +28,11 @@ store.dispatch(loadFilms());
 store.dispatch(loadFilmsFilter());
 store.dispatch(loadPromo());
 
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store = {store}>
+      <ToastContainer/>
       <App/>
     </Provider>
   </React.StrictMode>,

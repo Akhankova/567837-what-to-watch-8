@@ -1,6 +1,6 @@
 import Logo from '../logo/logo';
 import FormNewComment from '../form-new-comment/form-new-comment';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useHistory, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import UserLoggedIn from '../user-info/user-signIn';
 import UserNotLoggedIn from '../user-info/user-signout';
@@ -10,7 +10,7 @@ import { APIRoute } from '../../types/api';
 import { useState, useEffect } from 'react';
 import { SmallFilmCard } from '../../types/small-film-card';
 import { adaptFilmToClientPromo } from '../../services/adapter';
-import { BACKEND_URL, ERROR_ROUTE } from '../../const';
+import { BACKEND_URL, ErrorRoute } from '../../const';
 import { getAuthorizationStatus } from '../../store/user-data/selectors';
 
 function AddScreen(): JSX.Element {
@@ -22,7 +22,7 @@ function AddScreen(): JSX.Element {
   useEffect(() => {
     api.get(`${BACKEND_URL}${APIRoute.Films}/${numberCurrentFilmId}`)
       .then((response) => setFilm(adaptFilmToClientPromo(response.data)))
-      .catch(() => history.push(`/${ERROR_ROUTE}`));
+      .catch(() => history.push(`/${ErrorRoute.PageNotFound}`));
   }, [history, numberCurrentFilmId]);
 
   return (
@@ -39,10 +39,10 @@ function AddScreen(): JSX.Element {
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <a href='film-page.html' className="breadcrumbs__link">{movie?.title}</a>
+                <Link to={`${APIRoute.Films}/${numberCurrentFilmId}`} className="breadcrumbs__link">{movie?.title}</Link>
               </li>
               <li className="breadcrumbs__item">
-                <a className="breadcrumbs__link" href='/'>Add review</a>
+                <Link to={`${APIRoute.Films}/${numberCurrentFilmId}/review`} className="breadcrumbs__link" href='./'>Add review</Link>
               </li>
             </ul>
           </nav>

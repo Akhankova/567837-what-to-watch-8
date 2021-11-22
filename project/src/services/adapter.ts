@@ -1,4 +1,5 @@
 import { SmallFilmCard, ServerMovie } from '../types/small-film-card';
+import { User, UserFromServer } from '../types/user';
 
 export const adaptFilmToClient = (film: ServerMovie): SmallFilmCard => {
   const {
@@ -34,6 +35,20 @@ export const adaptFilmToClient = (film: ServerMovie): SmallFilmCard => {
     comments: film['comments'],
   };
 };
+
+export function adaptToClientUser(user: UserFromServer): User {
+  const adaptedUser = Object.assign(
+    {},
+    user,
+    {
+      avatarUrl: user.avatar_url,
+    },
+  );
+
+  delete adaptedUser.avatar_url;
+
+  return adaptedUser as User;
+}
 
 export const adaptFilmToClientPromo = (film: ServerMovie): SmallFilmCard  =>  adaptFilmToClient(film);
 

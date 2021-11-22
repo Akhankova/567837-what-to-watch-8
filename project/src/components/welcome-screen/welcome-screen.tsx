@@ -10,11 +10,9 @@ import PromoScreen from '../promo/promo';
 import { getFilterMovies, getGenre, getMovies } from '../../store/films-data/selectors';
 import { loadFilmsFilter } from '../../store/api-actions';
 import { getUniqueItems } from '../../utils';
-import { COUNT_CARDS_STEP } from '../../const';
+import { FilmsCount } from '../../const';
 
 function WelcomeScreen(): JSX.Element {
-  const INIT_VALUE = 0;
-  const START_COUNT_FILMS = 8;
 
   const movies = useSelector(getMovies);
   const moviesWithFilter = useSelector(getFilterMovies);
@@ -22,9 +20,9 @@ function WelcomeScreen(): JSX.Element {
 
   const genres: string[] = [];
   movies.filter((element) => genres.push(element.genre));
-  const genresUning: string[]  = getUniqueItems(genres);
+  const genresUnique: string[]  = getUniqueItems(genres);
 
-  const [visiblyFilmCount, setVisiblyFilmCount] = useState(COUNT_CARDS_STEP);
+  const [visiblyFilmCount, setVisiblyFilmCount] = useState(FilmsCount.CountFilmsStep);
   const buttonShowMore = useRef<HTMLButtonElement | null>(null);
 
   const dispatchAction = useDispatch();
@@ -34,14 +32,15 @@ function WelcomeScreen(): JSX.Element {
   }, [dispatchAction, genreState]);
 
 
-  const genreNew = (newGenre: string) => dispatchAction(setGenre(newGenre));
+  const getGenreNew = (newGenre: string) => dispatchAction(setGenre(newGenre));
+
   useEffect(() => {
-    setVisiblyFilmCount(START_COUNT_FILMS);
+    setVisiblyFilmCount(FilmsCount.StartFilmsCount);
   }, [genreState]);
 
-  const onShowMoreButtonClick = () => {
+  const handleShowMoreButtonClick = () => {
     setVisiblyFilmCount(() => {
-      const nextVisCount =  visiblyFilmCount + COUNT_CARDS_STEP;
+      const nextVisCount =  visiblyFilmCount + FilmsCount.CountFilmsStep;
       if (nextVisCount >= moviesWithFilter.length) {
         buttonShowMore.current?.remove();
         return moviesWithFilter.length;
@@ -60,24 +59,23 @@ function WelcomeScreen(): JSX.Element {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
           <ul className="catalog__genres-list">
-            <GenresScreen genre={genresUning} onClick={genreNew}/>
+            <GenresScreen genre={genresUnique} onClick={getGenreNew}/>
           </ul>
           <div className="catalog__films-list">
-            { moviesWithFilter.length > INIT_VALUE  ?
-              moviesWithFilter.slice().splice(INIT_VALUE, visiblyFilmCount).map((film) => (
+            { moviesWithFilter.length > FilmsCount.InitValueMoviesWithFilter  ?
+              moviesWithFilter.slice().splice(FilmsCount.InitValueMoviesWithFilter, visiblyFilmCount).map((film) => (
                 <CardFilmScreen
                   key={film.id}
                   name={film.title}
-                  imgSrc={film.imgSrc}
                   id={film.id}
                   previewVideoLink={film.previewVideoLink}
                   previewImage={film.previewImage}
                 />
               )) : <LoadingScreen/>}
           </div>
-          {moviesWithFilter.length > COUNT_CARDS_STEP ?
+          {moviesWithFilter.length > FilmsCount.CountFilmsStep ?
             <div className="catalog__more">
-              <button className="catalog__button" type="button" onClick={onShowMoreButtonClick} ref={buttonShowMore}>Show more</button>
+              <button className="catalog__button" type="button" onClick={handleShowMoreButtonClick} ref={buttonShowMore}>Show more</button>
             </div>  : ' '}
         </section>
         <footer className="page-footer">

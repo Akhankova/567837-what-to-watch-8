@@ -6,10 +6,9 @@ import { APIRoute } from '../../types/api';
 import { CardComments } from '../../types/small-film-card';
 import { useState } from 'react';
 import { api } from '../../index';
-import { BACKEND_URL, ERROR_ROUTE } from '../../const';
+import { BACKEND_URL, ErrorRoute, ReviewsInfo } from '../../const';
 
 export function MovieReviewsScreen(): JSX.Element {
-  const REVIEWS_MIN_LENGTH = 0;
 
   const numberCurrentFilmId = useParams<{id?: string}>().id;
   const [ reviews, setReviews ] = useState<CardComments>([]);
@@ -18,13 +17,13 @@ export function MovieReviewsScreen(): JSX.Element {
   useEffect(() => {
     api.get(`${BACKEND_URL}${APIRoute.Comments}/${numberCurrentFilmId}`)
       .then((response) => setReviews(response.data))
-      .catch(() => history.push(`/${ERROR_ROUTE}`));
+      .catch(() => history.push(`/${ErrorRoute.PageNotFound}`));
   }, [history, numberCurrentFilmId]);
 
   return (
     <div className="film-card__reviews film-card__row">
       <div className="film-card__reviews-col">
-        {reviews.length > REVIEWS_MIN_LENGTH ? reviews.map((comment) => {
+        {reviews.length > ReviewsInfo.ReviewsMinLength ? reviews.map((comment) => {
           const keyValue = comment.id;
           return (
             <div key={keyValue} className="review">

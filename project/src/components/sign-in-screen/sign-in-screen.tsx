@@ -4,10 +4,9 @@ import { FormEvent, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginAction } from '../../store/api-actions';
-import { AppRoute, REGULAR_EXPRESSION, REGULAR_EXPRESSION_EMAIL } from '../../const';
+import { AppRoute, RegularExpression} from '../../const';
 
 function SignInScreen(): JSX.Element {
-
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const history = useHistory();
@@ -22,11 +21,11 @@ function SignInScreen(): JSX.Element {
     password: '',
   });
 
-  const validLogin = !emailValid ? <div style={{color:'red', border: '3px solid black'}}>В поле «логин» должен вводиться корректный email. Пример: info@info.com</div> : ' ';
+  const validLogin = !emailValid ? <div style={{color:'red', border: '3px solid black'}}>В поле «логин» должен вводиться корректный домен. Пример: info@info.com</div> : ' ';
   const validPassword = !passwordValid ? <div style={{color:'red', border: '3px solid black'}}>В поле «пароль» должен вводится валидный пароль. Под валидным паролем подразумевается пароль, который состоит минимум из одной буквы и цифры.</div> : ' ';
 
   const getValidForEmail = (text: string) => {
-    if (!REGULAR_EXPRESSION_EMAIL.test(text)) {
+    if (!RegularExpression.RegularExpressionEmail.test(text)) {
       setEmailValid(false);
     } else {
       setEmailValid(true);
@@ -34,7 +33,7 @@ function SignInScreen(): JSX.Element {
   };
 
   const getValidForPassword = (text: string) => {
-    if (!REGULAR_EXPRESSION.test(text)) {
+    if (!RegularExpression.RegularExpressionPassword.test(text)) {
       setPasswordValid(false);
     } else {
       setPasswordValid(true);
@@ -59,7 +58,7 @@ function SignInScreen(): JSX.Element {
     }
   };
 
-  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if (emailRef.current !== null && passwordRef.current !== null) {
       dispatch(
@@ -90,7 +89,7 @@ function SignInScreen(): JSX.Element {
         <h1 className="page-title user-page__title">Sign in</h1>
       </header>
       <div className="sign-in user-page__content">
-        <form className="sign-in__form" onSubmit={handleSubmit}>
+        <form className="sign-in__form" onSubmit={handleFormSubmit}>
           <div className="sign-in__fields">
             {emailRef.current ? validLogin : ' '}
             <div className="sign-in__field">
