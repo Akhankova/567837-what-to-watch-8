@@ -12,7 +12,6 @@ import NotFoundScreen from '../not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
 
 function App(): JSX.Element {
-
   return (
     <BrowserRouter>
       <Switch>
@@ -34,9 +33,12 @@ function App(): JSX.Element {
         <Route exact path={AppRoute.Film}>
           <FilmBigCard/>
         </Route>
-        <Route exact path={AppRoute.AddReview}>
-          <AddScreen />
-        </Route>
+        <PrivateRoute
+          exact
+          path={AppRoute.AddReview}
+          render={() => <AddScreen/>}
+        >
+        </PrivateRoute>
         <Route exact path={AppRoute.FilmDetails}>
           <MovieDetailsScreen />
         </Route>

@@ -8,7 +8,7 @@ import { getPromoFilm } from '../../store/promo-data/selectors';
 import { FilmCardBg } from './film-card-bg';
 import { BACKEND_URL } from '../../const';
 import { api } from '../../index';
-import {APIRoute} from '../../types/api';
+import { APIRoute } from '../../types/api';
 import { getAuthorizationStatus } from '../../store/user-data/selectors';
 import { SmallFilmCard } from '../../types/small-film-card';
 import { loadPromo } from '../../store/api-actions';

@@ -1,4 +1,5 @@
 import React, { RefObject, useEffect, useState } from 'react';
+import { INITIAL_VALUE, FOR_PERCENT } from '../const';
 
 type VideoPlayer = {
   playerState: {
@@ -17,8 +18,6 @@ type VideoPlayer = {
 }
 
 export const useVideoPlayer = (videoElement: RefObject<HTMLVideoElement>): VideoPlayer  => {
-  const FOR_PERCENT = 100;
-  const INITIAL_VALUE = 0;
 
   const [playerState, setPlayerState] = useState({
     playerTime: INITIAL_VALUE,

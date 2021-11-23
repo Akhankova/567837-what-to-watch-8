@@ -12,8 +12,6 @@ export const adaptFilmToClient = (film: ServerMovie): SmallFilmCard => {
     id,
     starring,
   } = film;
-
-
   return {
     id,
     title: name,
@@ -32,7 +30,6 @@ export const adaptFilmToClient = (film: ServerMovie): SmallFilmCard => {
     genre,
     released,
     isFavorite: film['is_favorite'],
-    comments: film['comments'],
   };
 };
 

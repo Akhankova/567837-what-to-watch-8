@@ -10,7 +10,6 @@ export enum ActionType {
   SetFilms = 'dataFilms/setFilms',
   SetFilmsFilter = 'data/setFilmsFilter',
   SetPromo = 'dataPromo/setPromo',
-  SetFavorite = 'dataFavorite/setFavorite',
   SetFilm = 'dataFilm/setFilm',
   ChangeUser = 'dataUser/changeUser',
 }

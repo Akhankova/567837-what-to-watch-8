@@ -2,12 +2,7 @@ import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError} fro
 import {getToken} from './token';
 import { BACKEND_URL, Time, ErrorRoute } from '../const';
 
-type UnauthorizedCallback = () => void;
-
-
-enum HttpCode {
-  Unauthorized = ErrorRoute.ErrorNoAuth,
-}
+export type UnauthorizedCallback = () => void;
 
 export const createAPI = (onUnauthorized: UnauthorizedCallback): AxiosInstance => {
   const api = axios.create({
@@ -21,7 +16,7 @@ export const createAPI = (onUnauthorized: UnauthorizedCallback): AxiosInstance =
     (error: AxiosError) => {
       const {response} = error;
 
-      if (response?.status === HttpCode.Unauthorized) {
+      if (response?.status === ErrorRoute.ErrorNoAuth) {
         onUnauthorized();
       }
 

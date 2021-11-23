@@ -20,7 +20,7 @@ function CardFilmScreen(props: Props): JSX.Element {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMouseOver, setMouseOver] = useState(false);
 
-  const onSmallCardHandler = (element:number) => setFilmCardId(element);
+  const getFilmId = (element:number) => setFilmCardId(element);
 
   const getTime = () => {
     if (timeAfterHover.current) {
@@ -41,7 +41,7 @@ function CardFilmScreen(props: Props): JSX.Element {
   }, [isMouseOver]);
 
   const handleCardMouseOver = () => {
-    (onSmallCardHandler(Number(id))
+    (getFilmId(Number(id))
     );
     setMouseOver(true);
   };
@@ -51,7 +51,7 @@ function CardFilmScreen(props: Props): JSX.Element {
   };
 
   return (
-    <article className="small-film-card catalog__films-card" id={String(filmCardId)} onClick={handleCardClick} onMouseOver={handleCardMouseOver} onMouseLeave={() => setMouseOver(false)}>
+    <article className="small-film-card catalog__films-card" id={String(filmCardId)} {...filmCardId} onClick={handleCardClick} onMouseOver={handleCardMouseOver} onMouseLeave={() => setMouseOver(false)}>
       <div className="small-film-card__image">
         { isPlaying
           ? <VideoPlayer previewVideoLink={previewVideoLink} imgSrc={previewImage}/>
@@ -64,4 +64,5 @@ function CardFilmScreen(props: Props): JSX.Element {
     </article>
   );
 }
+
 export default CardFilmScreen;

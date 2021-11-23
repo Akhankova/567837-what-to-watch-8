@@ -1,9 +1,9 @@
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import {useState} from 'react';
-import {SmallFilmCard} from '../../types/small-film-card';
+import { useState } from 'react';
+import { SmallFilmCard } from '../../types/small-film-card';
 import { api } from '../../index';
-import {APIRoute} from '../../types/api';
+import { APIRoute } from '../../types/api';
 import { useEffect } from 'react';
 import { adaptFilmToClientPromo} from '../../services/adapter';
 import { BACKEND_URL, ErrorRoute, getRatingText } from '../../const';
@@ -11,7 +11,6 @@ import React from 'react';
 
 
 export function MovieScreen(): JSX.Element {
-
   const history = useHistory();
   const numberCurrentFilmId = useParams<{id?: string}>().id;
   const [ movie, setMovie ] = useState<SmallFilmCard>();
@@ -23,7 +22,6 @@ export function MovieScreen(): JSX.Element {
   }, [ history, numberCurrentFilmId]);
 
   return (
-
     <React.Fragment>
       <div className="film-rating">
         <div className="film-rating__score">{movie?.rating}</div>
@@ -32,7 +30,6 @@ export function MovieScreen(): JSX.Element {
           <span className="film-rating__count">{movie?.scoresCount} ratings</span>
         </p>
       </div>
-
       <div className="film-card__text">
         {movie?.description}
         <p className="film-card__director"><strong>Director: {movie?.director}</strong></p>

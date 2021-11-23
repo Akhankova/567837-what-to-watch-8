@@ -1,11 +1,18 @@
 export const BACKEND_URL = 'https://8.react.pages.academy/wtw';
 export const AUTH_TOKEN_KEY_NAME = 'wtw-token';
 export const LOGIN_ERROR = 'Произошла ошибка регистрации. В поле «логин» должен вводиться корректный домен. Повторите попытку';
+export const FOR_PERCENT = 100;
+export const INITIAL_VALUE = 0;
 
 export const RegularExpression = {
   RegularExpressionPassword: /(?=[A-Za-z0-9])(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9]+/,
   RegularExpressionEmail: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])+/,
 } as const;
+
+export enum GenresLengthValue {
+  MinValue = 0,
+  MaxValue = 9,
+}
 
 export enum ErrorRoute {
   PageNotFound = 404,

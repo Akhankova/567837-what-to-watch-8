@@ -1,9 +1,10 @@
 import React, { useState, useEffect} from 'react';
 import {Comment, CommentServer} from '../../types/small-film-card';
 import {  useHistory, useParams } from 'react-router-dom';
-import {APIRoute} from '../../types/api';
+import { APIRoute } from '../../types/api';
 import { api } from '../../index';
 import { BACKEND_URL, ErrorRoute, Rating, ReviewsInfo } from '../../const';
+import { toast } from 'react-toastify';
 
 function FormNewComment(): JSX.Element {
 
@@ -61,6 +62,9 @@ function FormNewComment(): JSX.Element {
 
   const handleFormSubmit = (evt: { preventDefault: () => void; }) => {
     evt.preventDefault();
+    if (!commentValid || !ratingValid) {
+      return toast.info('Oба поля обязательны для заполнения. Выставите оценку фильму от 1 до 10. Текст отзыва должен быть не меньше 50 и не больше 400 символов.');
+    }
     const {comment, rating} = commentNew;
     postComment({comment, rating})
       .then(() => {
@@ -115,7 +119,7 @@ function FormNewComment(): JSX.Element {
             {commentNew.comment}
           </textarea>
           <div className="add-review__submit">
-            <button className="add-review__btn" type="submit" disabled={!commentValid || !ratingValid}>Post</button>
+            <button className="add-review__btn" type="submit">Post</button>
           </div>
 
         </div>

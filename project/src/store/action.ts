@@ -41,13 +41,6 @@ export const setPromo = createAction(
   }),
 );
 
-export const setFavorite = createAction(
-  ActionType.SetFavorite,
-  (films: SmallCards) => ({
-    payload: {films},
-  }),
-);
-
 export const setFilm = createAction(
   ActionType.SetFilm,
   (film: SmallFilmCard) => ({

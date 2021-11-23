@@ -5,10 +5,10 @@ import { ServerMovie } from '../types/small-film-card';
 import {adaptFilmToClientFilms, adaptFilmToClientPromo, adaptToClientUser} from '../services/adapter';
 import { AuthData } from '../types/auth-data';
 import {dropToken, saveToken} from '../services/token';
-import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 import { UserFromServer } from '../types/user';
 import { LOGIN_ERROR, ErrorRoute } from '../const';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const loadFilms = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -19,11 +19,6 @@ export const loadFilmsFilter = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     const {data} = await api.get<ServerMovie[]>(APIRoute.Films);
     dispatch(setFilmsFilter(adaptFilmToClientFilms(data)));
-  };
-export const loadFilmsFavorite = (): ThunkActionResult =>
-  async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<ServerMovie[]>(APIRoute.Favorite);
-    dispatch(setFilms(adaptFilmToClientFilms(data)));
   };
 
 export const loadPromo = (): ThunkActionResult =>

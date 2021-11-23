@@ -16,7 +16,6 @@ export type SmallFilmCard = {
   genre: string,
   released: number,
   isFavorite: boolean,
-  comments: CardComments,
 };
 
 export type Comment = {
@@ -50,7 +49,6 @@ export type ServerMovie = {
   description: string,
   director: string,
   starring: string[],
-  comments: CardComments,
 }
 
 export type CommentServer = {

@@ -22,7 +22,6 @@ export function PlayerScreen(): JSX.Element {
     handleOnTimeUpdate,
     handleFullClick,
     handleVideoProgress,
-
   } = useVideoPlayer(videoElement);
 
   useEffect(() => {

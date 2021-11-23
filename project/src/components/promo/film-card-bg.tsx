@@ -1,4 +1,3 @@
-
 import { useSelector} from 'react-redux';
 import React from 'react';
 import { getPromoFilm } from '../../store/promo-data/selectors';

@@ -4,7 +4,7 @@ import { generatePath, useParams, Link, useHistory } from 'react-router-dom';
 import {  useDispatch, useSelector } from 'react-redux';
 import { SmallCards, SmallFilmCard } from '../../types/small-film-card';
 import { api } from '../../index';
-import {APIRoute} from '../../types/api';
+import { APIRoute } from '../../types/api';
 import { adaptFilmToClientFilms } from '../../services/adapter';
 import { getAuthorizationStatus } from '../../store/user-data/selectors';
 import { MovieScreen } from '../movie-screen/movie-screen';
@@ -30,7 +30,6 @@ export function FilmBigCard(): JSX.Element {
   };
 
   const dispatchAction = useDispatch();
-
   useEffect(() => {
     dispatchAction(loadFavoriteStatus(numberCurrentFilmId));
   }, [dispatchAction, numberCurrentFilmId]);
@@ -111,11 +110,10 @@ export function FilmBigCard(): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
           <div className="catalog__films-list">
-            {moviesSimilar.slice(FilmsCount.StartFilmsCount, FilmsCount.CountFilmsWithLikes).map((film) => (
+            {moviesSimilar.slice(FilmsCount.InitValueMoviesWithFilter, FilmsCount.CountFilmsWithLikes).map((film) => (
               <CardFilmScreen
                 key={film.id}
                 name={film.title}
-                //imgSrc={film.imgSrc}
                 id={film.id}
                 previewVideoLink={film.previewVideoLink}
                 previewImage={film.previewImage}

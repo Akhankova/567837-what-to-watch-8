@@ -17,11 +17,11 @@ function AddScreen(): JSX.Element {
   const numberCurrentFilmId = useParams<{id?: string}>().id;
   const authStatus = useSelector(getAuthorizationStatus);
   const history = useHistory();
-  const [ movie, setFilm ] = useState<SmallFilmCard>();
+  const [ movie, setMovie ] = useState<SmallFilmCard>();
 
   useEffect(() => {
     api.get(`${BACKEND_URL}${APIRoute.Films}/${numberCurrentFilmId}`)
-      .then((response) => setFilm(adaptFilmToClientPromo(response.data)))
+      .then((response) => setMovie(adaptFilmToClientPromo(response.data)))
       .catch(() => history.push(`/${ErrorRoute.PageNotFound}`));
   }, [history, numberCurrentFilmId]);
 

@@ -23,8 +23,4 @@ export type FilmDateState = {
   film: SmallFilmCard,
 };
 
-export type FavoriteDateState = {
-  moviesFavorite: SmallCards,
-};
-
 export type State = RootState;

@@ -13,7 +13,6 @@ import { getUniqueItems } from '../../utils';
 import { FilmsCount } from '../../const';
 
 function WelcomeScreen(): JSX.Element {
-
   const movies = useSelector(getMovies);
   const moviesWithFilter = useSelector(getFilterMovies);
   const genreState = useSelector(getGenre);

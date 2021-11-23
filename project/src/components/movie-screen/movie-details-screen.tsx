@@ -13,7 +13,6 @@ export function MovieDetailsScreen(): JSX.Element {
 
   const numberCurrentFilmId = useParams<{id?: string}>().id;
   const [ movie, setMovie ] = useState<SmallFilmCard>();
-
   const history = useHistory();
 
   useEffect(() => {
