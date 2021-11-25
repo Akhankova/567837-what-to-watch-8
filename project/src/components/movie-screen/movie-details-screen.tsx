@@ -30,8 +30,8 @@ export function MovieDetailsScreen(): JSX.Element {
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Starring</strong>
-          <span className="film-card__details-value">
-            {movie?.starring}
+          <span className="film-card__details-value" style={{whiteSpace: 'pre-line'}}>
+            {movie?.starring.join(', \n')}
           </span>
         </p>
       </div>

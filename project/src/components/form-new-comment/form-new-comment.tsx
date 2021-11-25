@@ -3,7 +3,7 @@ import {Comment, CommentServer} from '../../types/small-film-card';
 import {  useHistory, useParams } from 'react-router-dom';
 import { APIRoute } from '../../types/api';
 import { api } from '../../index';
-import { BACKEND_URL, ErrorRoute, Rating, ReviewsInfo } from '../../const';
+import { BACKEND_URL, Rating, ReviewsInfo } from '../../const';
 import { toast } from 'react-toastify';
 
 function FormNewComment(): JSX.Element {
@@ -63,14 +63,14 @@ function FormNewComment(): JSX.Element {
   const handleFormSubmit = (evt: { preventDefault: () => void; }) => {
     evt.preventDefault();
     if (!commentValid || !ratingValid) {
-      return toast.info('Oба поля обязательны для заполнения. Выставите оценку фильму от 1 до 10. Текст отзыва должен быть не меньше 50 и не больше 400 символов.');
+      return;
     }
     const {comment, rating} = commentNew;
     postComment({comment, rating})
       .then(() => {
         history.push(`/films/${numberCurrentFilmId}`);
       })
-      .catch(() => history.push(`/${ErrorRoute.PageNotFound}`));
+      .catch(() => toast.info('Произошла ошибка при отпрвке комментария. Повторите попытку'));
   };
 
   const validRating = !ratingValid ? <div style={{color:'black'}}>Выставите оценку фильму от 1 до 10</div> : ' ';
@@ -80,7 +80,7 @@ function FormNewComment(): JSX.Element {
       <form action="#" className="add-review__form" onSubmit={handleFormSubmit}>
         {validRating}
         <div className="rating">
-          <div className="rating__stars">{commentNew.rating}
+          <div className="rating__stars">
             <input className="rating__input" id="star-10" type="radio" name="rating" value={Rating.RatingMax} onChange={getRating}/>
             <label className="rating__label" htmlFor="star-10">Rating 10</label>
 
@@ -119,7 +119,7 @@ function FormNewComment(): JSX.Element {
             {commentNew.comment}
           </textarea>
           <div className="add-review__submit">
-            <button className="add-review__btn" type="submit">Post</button>
+            <button className="add-review__btn" type="submit" disabled={!commentValid || !ratingValid}>Post</button>
           </div>
 
         </div>

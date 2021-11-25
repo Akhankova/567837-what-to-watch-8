@@ -4,13 +4,13 @@ import { useParams, useHistory, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import UserLoggedIn from '../user-info/user-signIn';
 import UserNotLoggedIn from '../user-info/user-signout';
-import { AuthorizationStatus } from '../../const';
+import { AuthorizationStatus, ErrorRoute } from '../../const';
 import { api } from '../../index';
 import { APIRoute } from '../../types/api';
 import { useState, useEffect } from 'react';
 import { SmallFilmCard } from '../../types/small-film-card';
 import { adaptFilmToClientPromo } from '../../services/adapter';
-import { BACKEND_URL, ErrorRoute } from '../../const';
+import { BACKEND_URL } from '../../const';
 import { getAuthorizationStatus } from '../../store/user-data/selectors';
 
 function AddScreen(): JSX.Element {
@@ -18,7 +18,8 @@ function AddScreen(): JSX.Element {
   const authStatus = useSelector(getAuthorizationStatus);
   const history = useHistory();
   const [ movie, setMovie ] = useState<SmallFilmCard>();
-
+  // eslint-disable-next-line no-console
+  console.log(authStatus);
   useEffect(() => {
     api.get(`${BACKEND_URL}${APIRoute.Films}/${numberCurrentFilmId}`)
       .then((response) => setMovie(adaptFilmToClientPromo(response.data)))

@@ -7,8 +7,10 @@ import { AuthData } from '../types/auth-data';
 import {dropToken, saveToken} from '../services/token';
 import { toast } from 'react-toastify';
 import { UserFromServer } from '../types/user';
-import { LOGIN_ERROR, ErrorRoute } from '../const';
+import { LOGIN_ERROR } from '../const';
 import 'react-toastify/dist/ReactToastify.css';
+
+const AUTH_FAIL_MESSAGE = 'Не забудьте авторизоваться';
 
 export const loadFilms = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -49,7 +51,6 @@ export const loginAction = ({login: email, password}: AuthData): ThunkActionResu
       dispatch(changeUser(adaptToClientUser(data)));
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
       dispatch(loadPromo());
-      checkAuthAction();
     } catch {
       toast.info(LOGIN_ERROR);
     }
@@ -57,14 +58,15 @@ export const loginAction = ({login: email, password}: AuthData): ThunkActionResu
 
 export const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    await api.get(APIRoute.Login)
-      .then(({status, data}) => {
-        if (status && status !== ErrorRoute.ErrorNoAuth) {
-          dispatch(requireAuthorization(AuthorizationStatus.Auth));
-          dispatch(changeUser(adaptToClientUser(data)));
-          return;
-        }
-        dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-      });
+    try {
+      const {data} = await api.get(APIRoute.Login);
+      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      dispatch(changeUser(adaptToClientUser(data)));
+      return;
+
+    } catch {
+      toast.info(AUTH_FAIL_MESSAGE);
+    }
   };
+
 

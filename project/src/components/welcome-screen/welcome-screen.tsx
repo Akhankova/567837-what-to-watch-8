@@ -31,7 +31,7 @@ function WelcomeScreen(): JSX.Element {
   }, [dispatchAction, genreState]);
 
 
-  const getGenreNew = (newGenre: string) => dispatchAction(setGenre(newGenre));
+  const handleGenreClick = (newGenre: string) => dispatchAction(setGenre(newGenre));
 
   useEffect(() => {
     setVisiblyFilmCount(FilmsCount.StartFilmsCount);
@@ -58,7 +58,7 @@ function WelcomeScreen(): JSX.Element {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
           <ul className="catalog__genres-list">
-            <GenresScreen genre={genresUnique} onClick={getGenreNew}/>
+            <GenresScreen genre={genresUnique} onClick={handleGenreClick}/>
           </ul>
           <div className="catalog__films-list">
             { moviesWithFilter.length > FilmsCount.InitValueMoviesWithFilter  ?
