@@ -11,7 +11,6 @@ import AddScreen from '../add-screen/add-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
 
-
 function App(): JSX.Element {
   return (
     <BrowserRouter>

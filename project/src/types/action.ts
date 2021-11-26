@@ -12,6 +12,7 @@ export enum ActionType {
   SetPromo = 'dataPromo/setPromo',
   SetFilm = 'dataFilm/setFilm',
   ChangeUser = 'dataUser/changeUser',
+  StartRequest = 'dataFilm/startRequest',
 }
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Action>;

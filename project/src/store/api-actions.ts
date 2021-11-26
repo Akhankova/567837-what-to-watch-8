@@ -10,13 +10,13 @@ import { UserFromServer } from '../types/user';
 import { LOGIN_ERROR } from '../const';
 import 'react-toastify/dist/ReactToastify.css';
 
-const AUTH_FAIL_MESSAGE = 'Не забудьте авторизоваться';
 
 export const loadFilms = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     const {data} = await api.get<ServerMovie[]>(APIRoute.Films);
     dispatch(setFilms(adaptFilmToClientFilms(data)));
   };
+
 export const loadFilmsFilter = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     const {data} = await api.get<ServerMovie[]>(APIRoute.Films);
@@ -56,17 +56,20 @@ export const loginAction = ({login: email, password}: AuthData): ThunkActionResu
     }
   };
 
+/*export const checkAuthAction = (): ThunkActionResult =>
+  async (dispatch, _getState, api) => {
+    const {data} = await api.get(APIRoute.Login);
+    dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    dispatch(changeUser(adaptToClientUser(data)));
+  };*/
+
 export const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     try {
       const {data} = await api.get(APIRoute.Login);
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
       dispatch(changeUser(adaptToClientUser(data)));
-      return;
-
     } catch {
-      toast.info(AUTH_FAIL_MESSAGE);
+      return void 0;
     }
   };
-
-

@@ -1,6 +1,6 @@
 export const BACKEND_URL = 'https://8.react.pages.academy/wtw';
 export const AUTH_TOKEN_KEY_NAME = 'wtw-token';
-export const LOGIN_ERROR = 'Произошла ошибка регистрации. В поле «логин» должен вводиться корректный домен. Повторите попытку';
+export const LOGIN_ERROR = 'Произошла ошибка регистрации. Повторите попытку';
 export const FOR_PERCENT = 100;
 export const INITIAL_VALUE = 0;
 

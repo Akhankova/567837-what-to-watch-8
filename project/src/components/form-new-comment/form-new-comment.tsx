@@ -11,8 +11,9 @@ function FormNewComment(): JSX.Element {
   const numberCurrentFilmId = useParams<{id?: string}>().id;
   const [ commentValid, setCommentValid ] = useState(false);
   const [ ratingValid, setRatingValid ] = useState(false);
-  const history = useHistory();
+  const [ formDisabled, setFormDisabled ] = useState(false);
 
+  const history = useHistory();
   const postComment = async (comment: CommentServer): Promise<void> => {
     await api.post<Comment[]>(`${BACKEND_URL}${APIRoute.Comments}/${numberCurrentFilmId}`, comment);
   };
@@ -62,15 +63,17 @@ function FormNewComment(): JSX.Element {
 
   const handleFormSubmit = (evt: { preventDefault: () => void; }) => {
     evt.preventDefault();
+    setFormDisabled(true);
     if (!commentValid || !ratingValid) {
       return;
     }
     const {comment, rating} = commentNew;
     postComment({comment, rating})
       .then(() => {
+        setFormDisabled(false);
         history.push(`/films/${numberCurrentFilmId}`);
       })
-      .catch(() => toast.info('Произошла ошибка при отпрвке комментария. Повторите попытку'));
+      .catch(() => {toast.info('Произошла ошибка при отпрвке комментария. Повторите попытку'); setFormDisabled(false);});
   };
 
   const validRating = !ratingValid ? <div style={{color:'black'}}>Выставите оценку фильму от 1 до 10</div> : ' ';
@@ -115,11 +118,11 @@ function FormNewComment(): JSX.Element {
 
         <div className="add-review__text">
           {commentNew.comment.length ? validComment : ' '}
-          <textarea className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text" value={commentNew.comment} onChange={getCommentText}>
+          <textarea className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text" value={commentNew.comment} onChange={getCommentText} disabled={formDisabled}>
             {commentNew.comment}
           </textarea>
           <div className="add-review__submit">
-            <button className="add-review__btn" type="submit" disabled={!commentValid || !ratingValid}>Post</button>
+            <button className="add-review__btn" type="submit" disabled={!commentValid || !ratingValid || formDisabled}>Post</button>
           </div>
 
         </div>
