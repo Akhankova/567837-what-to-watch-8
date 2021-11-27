@@ -10,46 +10,54 @@ import MovieReviewsScreen from '../movie-screen/movie-reviews-screen';
 import AddScreen from '../add-screen/add-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
+import { useSelector } from 'react-redux';
+import { getAuthorizationStatus } from '../../store/user-data/selectors';
+import { AuthorizationStatus } from '../../types/api';
+import LoadingScreen from '../loading/loading';
 
 function App(): JSX.Element {
+  const authStatus = useSelector(getAuthorizationStatus);
+
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route exact path={AppRoute.Main}>
-          <WelcomeScreen/>
-        </Route>
-        <PrivateRoute
-          exact
-          path={AppRoute.MyList}
-          render={() => <MyListScreen/>}
-        >
-        </PrivateRoute>
-        <Route exact path={AppRoute.SignIn}>
-          <SignInScreen />
-        </Route>
-        <Route exact path={AppRoute.Player}>
-          <PlayerScreen />
-        </Route>
-        <Route exact path={AppRoute.Film}>
-          <FilmBigCard/>
-        </Route>
-        <PrivateRoute
-          exact
-          path={AppRoute.AddReview}
-          render={() => <AddScreen/>}
-        >
-        </PrivateRoute>
-        <Route exact path={AppRoute.FilmDetails}>
-          <MovieDetailsScreen />
-        </Route>
-        <Route exact path={AppRoute.FilmReviews}>
-          <MovieReviewsScreen />
-        </Route>
-        <Route>
-          <NotFoundScreen />
-        </Route>
-      </Switch>
-    </BrowserRouter>
+    authStatus === AuthorizationStatus.Unknown ?
+      <LoadingScreen /> :
+      <BrowserRouter>
+        <Switch>
+          <Route exact path={AppRoute.Main}>
+            <WelcomeScreen />
+          </Route>
+          <PrivateRoute
+            exact
+            path={AppRoute.MyList}
+            render={() => <MyListScreen />}
+          >
+          </PrivateRoute>
+          <Route exact path={AppRoute.SignIn}>
+            <SignInScreen />
+          </Route>
+          <Route exact path={AppRoute.Player}>
+            <PlayerScreen />
+          </Route>
+          <Route exact path={AppRoute.Film}>
+            <FilmBigCard />
+          </Route>
+          <PrivateRoute
+            exact
+            path={AppRoute.AddReview}
+            render={() => <AddScreen />}
+          >
+          </PrivateRoute>
+          <Route exact path={AppRoute.FilmDetails}>
+            <MovieDetailsScreen />
+          </Route>
+          <Route exact path={AppRoute.FilmReviews}>
+            <MovieReviewsScreen />
+          </Route>
+          <Route>
+            <NotFoundScreen />
+          </Route>
+        </Switch>
+      </BrowserRouter>
   );
 }
 
