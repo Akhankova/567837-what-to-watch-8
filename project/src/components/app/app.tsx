@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 import { getAuthorizationStatus } from '../../store/user-data/selectors';
 import { AuthorizationStatus } from '../../types/api';
 import LoadingScreen from '../loading/loading';
+import SignInPrivateRoute from '../private-route/sign-in-private-route';
 
 function App(): JSX.Element {
   const authStatus = useSelector(getAuthorizationStatus);
@@ -32,9 +33,12 @@ function App(): JSX.Element {
             render={() => <MyListScreen />}
           >
           </PrivateRoute>
-          <Route exact path={AppRoute.SignIn}>
-            <SignInScreen />
-          </Route>
+          <SignInPrivateRoute
+            exact
+            path={AppRoute.SignIn}
+            render={() => <SignInScreen />}
+          >
+          </SignInPrivateRoute>
           <Route exact path={AppRoute.Player}>
             <PlayerScreen />
           </Route>
