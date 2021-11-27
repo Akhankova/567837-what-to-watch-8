@@ -11,7 +11,6 @@ export type AuthorizationStatusState = {
 export type FilmDataState = {
   genre: string,
   movies: SmallCards,
-  filterMovies: SmallCards,
   isDataLoaded: boolean,
 };
 

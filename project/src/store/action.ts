@@ -27,13 +27,6 @@ export const setFilms = createAction(
   }),
 );
 
-export const setFilmsFilter = createAction(
-  ActionType.SetFilmsFilter,
-  (moviesFilter: SmallCards) => ({
-    payload: {moviesFilter},
-  }),
-);
-
 export const setPromo = createAction(
   ActionType.SetPromo,
   (promo:SmallFilmCard) => ({

@@ -8,7 +8,6 @@ import { setGenre } from '../../store/action';
 import LoadingScreen from '../loading/loading';
 import PromoScreen from '../promo/promo';
 import { getFilterMovies, getGenre, getMovies } from '../../store/films-data/selectors';
-import { loadFilmsFilter } from '../../store/api-actions';
 import { getUniqueItems } from '../../utils';
 import { FilmsCount } from '../../const';
 
@@ -26,11 +25,6 @@ function WelcomeScreen(): JSX.Element {
 
   const dispatchAction = useDispatch();
 
-  useEffect(() => {
-    dispatchAction(loadFilmsFilter());
-  }, [dispatchAction, genreState]);
-
-
   const handleGenreClick = (newGenre: string) => dispatchAction(setGenre(newGenre));
 
   useEffect(() => {
@@ -47,11 +41,9 @@ function WelcomeScreen(): JSX.Element {
         return nextVisCount;
       }
     });
-
   };
 
   return (
-
     <React.Fragment>
       <PromoScreen/>
       <div className="page-content">

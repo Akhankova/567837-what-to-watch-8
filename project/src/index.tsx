@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { createAPI } from './services/api';
 import { AuthorizationStatus } from './types/api';
 import { requireAuthorization } from './store/action';
-import { checkAuthAction, loadFilms, loadFilmsFilter, loadPromo } from './store/api-actions';
+import { checkAuthAction, loadFilms, loadPromo } from './store/api-actions';
 import { rootReducer } from './store/root-reducer';
 import { configureStore } from '@reduxjs/toolkit';
 import { ToastContainer } from 'react-toastify';
@@ -25,7 +25,6 @@ const store = configureStore({
 });
 
 store.dispatch(loadFilms());
-store.dispatch(loadFilmsFilter());
 store.dispatch(loadPromo());
 store.dispatch(checkAuthAction());
 
