@@ -1,6 +1,6 @@
-import {NameSpace} from '../root-reducer';
-import {State} from '../../types/state';
-import {SmallCards} from '../../types/small-film-card';
+import { NameSpace } from '../root-reducer';
+import { State } from '../../types/state';
+import { SmallCards } from '../../types/small-film-card';
 import { createSelector } from 'reselect';
 
 export const getGenre = (state: State): string => state[NameSpace.DataFilms].genre;

@@ -7,10 +7,11 @@ import { getIsDataFilmsLoadedStatus } from '../../store/films-data/selectors';
 import { useEffect, useState } from 'react';
 import {  SmallFilmCard} from '../../types/small-film-card';
 import { APIRoute } from '../../types/api';
-import { BACKEND_URL, ErrorRoute } from '../../const';
+import { BACKEND_URL, ErrorText } from '../../const';
 import { api } from '../../index';
 import { useHistory } from 'react-router-dom';
 import { adaptFilmToClientFilms } from '../../services/adapter';
+import { toast } from 'react-toastify';
 
 function MyListScreen(): JSX.Element {
   const moviesLoaded = useSelector(getIsDataFilmsLoadedStatus);
@@ -20,7 +21,7 @@ function MyListScreen(): JSX.Element {
   useEffect(() => {
     api.get(`${BACKEND_URL}${APIRoute.Favorite}`)
       .then((response) => setFavouriteMovies(adaptFilmToClientFilms(response.data)))
-      .catch(() => history.push(`/${ErrorRoute.PageNotFound}`));
+      .catch(() => toast.info(ErrorText.LoadingError));
   }, [history]);
 
   return (

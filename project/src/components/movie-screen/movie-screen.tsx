@@ -6,8 +6,9 @@ import { api } from '../../index';
 import { APIRoute } from '../../types/api';
 import { useEffect } from 'react';
 import { adaptFilmToClientPromo} from '../../services/adapter';
-import { BACKEND_URL, ErrorRoute, getRatingText } from '../../const';
+import { BACKEND_URL, getRatingText, ErrorText, ErrorRoute } from '../../const';
 import React from 'react';
+import { toast } from 'react-toastify';
 
 
 export function MovieScreen(): JSX.Element {
@@ -18,7 +19,11 @@ export function MovieScreen(): JSX.Element {
   useEffect(() => {
     api.get(`${BACKEND_URL}${APIRoute.Films}/${numberCurrentFilmId}`)
       .then((response) => setMovie(adaptFilmToClientPromo(response.data)))
-      .catch(() => history.push(`/${ErrorRoute.PageNotFound}`));
+      .catch((error) => {
+        if (error.response?.status === ErrorRoute.PageNotFound)
+        {history.push(`/${ErrorRoute.PageNotFound}`);}
+        else {toast.info(ErrorText.LoadingErrorFilmInfo);}
+      });
   }, [ history, numberCurrentFilmId]);
 
   return (

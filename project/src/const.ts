@@ -1,8 +1,8 @@
 export const BACKEND_URL = 'https://8.react.pages.academy/wtw';
 export const AUTH_TOKEN_KEY_NAME = 'wtw-token';
-export const LOGIN_ERROR = 'Произошла ошибка регистрации. Повторите попытку';
 export const FOR_PERCENT = 100;
 export const INITIAL_VALUE = 0;
+export const ERROR_HANDLER_VALUE = 0;
 
 export const RegularExpression = {
   RegularExpressionPassword: /(?=[A-Za-z0-9])(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9]+/,
@@ -17,6 +17,15 @@ export enum GenresLengthValue {
 export enum ErrorRoute {
   PageNotFound = 404,
   ErrorNoAuth = 401,
+}
+
+export enum ErrorText {
+  AddError = 'Произошла ошибка добавления в My list. Повторите попытку',
+  LoginError = 'Произошла ошибка регистрации. Повторите попытку',
+  LoadingError = 'Произошла ошибка загрузки',
+  LoadingErrorComments = 'Произошла ошибка при отпрвке комментария. Повторите попытку',
+  LoadingErrorSimilar = 'Произошла ошибка загрузки похожих фильмов',
+  LoadingErrorFilmInfo = 'Произошла ошибка загрузки информации по выбранному фильму',
 }
 
 export enum FilmsCount {

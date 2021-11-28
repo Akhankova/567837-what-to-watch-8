@@ -3,12 +3,13 @@ import { generatePath, useHistory, useParams } from 'react-router-dom';
 import { useVideoPlayer } from '../../hooks/video-pl';
 import { SmallFilmCard } from '../../types/small-film-card';
 import { api } from '../../index';
-import { AppRoute, BACKEND_URL, ErrorRoute} from '../../const';
+import { AppRoute, BACKEND_URL, ErrorText } from '../../const';
 import { getVideoTime } from '../../utils';
 import { APIRoute } from '../../types/api';
 import { adaptFilmToClientPromo } from '../../services/adapter';
 import LoadingVideoScreen from '../loading/loading-video';
 import React from 'react';
+import { toast } from 'react-toastify';
 
 export function PlayerScreen(): JSX.Element {
   const numberCurrentFilmId = useParams<{id?: string}>().id;
@@ -27,7 +28,7 @@ export function PlayerScreen(): JSX.Element {
   useEffect(() => {
     api.get(`${BACKEND_URL}${APIRoute.Films}/${numberCurrentFilmId}`)
       .then((response) => setMovie(adaptFilmToClientPromo(response.data)))
-      .catch(() => history.push(`${ErrorRoute.PageNotFound}`));
+      .catch(() => toast.info(ErrorText.LoadingError));
   }, [history, numberCurrentFilmId]);
 
   const handleExitClick = () => {

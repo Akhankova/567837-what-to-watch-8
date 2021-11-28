@@ -8,7 +8,6 @@ export function FilmCardBg(): JSX.Element {
     <div className="film-card__bg">
       <img src={promo.backgroundImage} alt={promo.title} />
     </div>
-
   );
 }
 

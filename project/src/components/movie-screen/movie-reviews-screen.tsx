@@ -6,7 +6,8 @@ import { APIRoute } from '../../types/api';
 import { CardComments } from '../../types/small-film-card';
 import { useState } from 'react';
 import { api } from '../../index';
-import { BACKEND_URL, ErrorRoute, ReviewsInfo } from '../../const';
+import { BACKEND_URL, ErrorRoute, ErrorText, ReviewsInfo } from '../../const';
+import { toast } from 'react-toastify';
 
 export function MovieReviewsScreen(): JSX.Element {
 
@@ -17,7 +18,11 @@ export function MovieReviewsScreen(): JSX.Element {
   useEffect(() => {
     api.get(`${BACKEND_URL}${APIRoute.Comments}/${numberCurrentFilmId}`)
       .then((response) => setReviews(response.data))
-      .catch(() => history.push(`/${ErrorRoute.PageNotFound}`));
+      .catch((error) => {
+        if (error.response?.status === ErrorRoute.PageNotFound)
+        {history.push(`/${ErrorRoute.PageNotFound}`);}
+        else {toast.info(ErrorText.LoadingErrorFilmInfo);}
+      });
   }, [history, numberCurrentFilmId]);
 
   return (

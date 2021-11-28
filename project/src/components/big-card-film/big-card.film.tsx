@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AppRoute, BACKEND_URL, AuthorizationStatus, ErrorRoute, FilmsCount } from '../../const';
+import { AppRoute, BACKEND_URL, AuthorizationStatus, FilmsCount, ErrorText, ErrorRoute } from '../../const';
 import { generatePath, useParams, Link, useHistory } from 'react-router-dom';
 import {  useDispatch, useSelector } from 'react-redux';
 import { SmallCards, SmallFilmCard } from '../../types/small-film-card';
@@ -16,6 +16,7 @@ import { getFilm } from '../../store/film-data/selectors';
 import LogoFooter from '../logo/logo-footer';
 import CardFilmScreen from '../card-film-screen/card-film-screen';
 import HeaderScreen from '../header/header';
+import { toast } from 'react-toastify';
 
 export function FilmBigCard(): JSX.Element {
   const history = useHistory();
@@ -23,7 +24,7 @@ export function FilmBigCard(): JSX.Element {
   const numberCurrentFilmId = useParams<{id?: string}>().id;
   const filmCard = useSelector(getFilm);
   const [activeTab, onClick] = useState('Overview');
-  const [ moviesSimilar, setMoviesSimilar ] = useState<SmallCards>([]);
+  const [moviesSimilar, setMoviesSimilar] = useState<SmallCards>([]);
 
   const handlePlayButtonClick = () => {
     history.push(generatePath(AppRoute.Player, {id: Number(filmCard?.id)}));
@@ -37,7 +38,11 @@ export function FilmBigCard(): JSX.Element {
   useEffect(() => {
     api.get(`${BACKEND_URL}${APIRoute.Films}/${numberCurrentFilmId}/similar`)
       .then((response) => setMoviesSimilar(adaptFilmToClientFilms(response.data)))
-      .catch(() => history.push(`/${ErrorRoute.PageNotFound}`));
+      .catch((error) => {
+        if (error.response?.status === ErrorRoute.PageNotFound)
+        {history.push(`/${ErrorRoute.PageNotFound}`);}
+        else {toast.info(ErrorText.LoadingErrorSimilar);}
+      });
   }, [history, numberCurrentFilmId]);
 
   const handleMyListButtonClick = async () => {
@@ -48,7 +53,8 @@ export function FilmBigCard(): JSX.Element {
       .then(()=> {
         dispatchAction(loadFavoriteStatus(numberCurrentFilmId));
         dispatchAction(loadPromo());
-      });
+      })
+      .catch(() => toast.info(ErrorText.AddError));
   };
 
   return (

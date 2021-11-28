@@ -1,5 +1,5 @@
 import { useHistory } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, ErrorText } from '../../const';
 import { generatePath } from 'react-router-dom';
 import { useDispatch, useSelector} from 'react-redux';
 import HeaderScreen from '../header/header';
@@ -12,6 +12,7 @@ import { APIRoute } from '../../types/api';
 import { getAuthorizationStatus } from '../../store/user-data/selectors';
 import { SmallFilmCard } from '../../types/small-film-card';
 import { loadPromo } from '../../store/api-actions';
+import { toast } from 'react-toastify';
 
 function PromoScreen(): JSX.Element {
   const promo = useSelector(getPromoFilm);
@@ -29,7 +30,8 @@ function PromoScreen(): JSX.Element {
       return history.push(AppRoute.SignIn);
     }
     api.post<SmallFilmCard>(`${BACKEND_URL}${APIRoute.Favorite}/${promo.id}/${+!promo.isFavorite}`)
-      .then(()=> {dispatchAction(loadPromo());});
+      .then(()=> {dispatchAction(loadPromo());})
+      .catch(() => toast.info(ErrorText.AddError));
   };
 
   const handleCardClick = () => {

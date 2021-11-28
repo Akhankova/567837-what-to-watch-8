@@ -7,19 +7,27 @@ import { AuthData } from '../types/auth-data';
 import {dropToken, saveToken} from '../services/token';
 import { toast } from 'react-toastify';
 import { UserFromServer } from '../types/user';
-import { LOGIN_ERROR } from '../const';
+import { ErrorText, ERROR_HANDLER_VALUE } from '../const';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const loadFilms = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<ServerMovie[]>(APIRoute.Films);
-    dispatch(setFilms(adaptFilmToClientFilms(data)));
+    try {
+      const {data} = await api.get<ServerMovie[]>(APIRoute.Films);
+      dispatch(setFilms(adaptFilmToClientFilms(data)));
+    } catch {
+      toast.info(ErrorText.LoginError);
+    }
   };
 
 export const loadPromo = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<ServerMovie>(APIRoute.Promo);
-    dispatch(setPromo(adaptFilmToClientPromo(data)));
+    try {
+      const {data} = await api.get<ServerMovie>(APIRoute.Promo);
+      dispatch(setPromo(adaptFilmToClientPromo(data)));
+    } catch {
+      toast.info(ErrorText.LoginError);
+    }
   };
 
 export const logoutAction = (): ThunkActionResult =>
@@ -45,7 +53,7 @@ export const loginAction = ({login: email, password}: AuthData): ThunkActionResu
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
       dispatch(loadPromo());
     } catch {
-      toast.info(LOGIN_ERROR);
+      toast.info(ErrorText.LoginError);
     }
   };
 
@@ -56,6 +64,6 @@ export const checkAuthAction = (): ThunkActionResult =>
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
       dispatch(changeUser(adaptToClientUser(data)));
     } catch {
-      return void 0;
+      return void ERROR_HANDLER_VALUE;
     }
   };

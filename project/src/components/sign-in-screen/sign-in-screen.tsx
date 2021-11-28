@@ -40,7 +40,7 @@ function SignInScreen(): JSX.Element {
     }
   };
 
-  const getEmail = () => {
+  const handleEmailChange = () => {
     if (emailRef.current) {
       setEmail({
         ...email,
@@ -49,7 +49,7 @@ function SignInScreen(): JSX.Element {
     }
   };
 
-  const getPassword = () => {
+  const handlePasswordChange = () => {
     if (passwordRef.current ) {
       setPassword({
         ...password,
@@ -93,12 +93,12 @@ function SignInScreen(): JSX.Element {
           <div className="sign-in__fields">
             {emailRef.current ? validLogin : ' '}
             <div className="sign-in__field">
-              <input className="sign-in__input"  type="email" placeholder="Email address" name="user-email" id="user-email" ref={emailRef} onChange={getEmail}/>
+              <input className="sign-in__input"  type="email" placeholder="Email address" name="user-email" id="user-email" ref={emailRef} onChange={handleEmailChange}/>
               <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
             </div>
             {passwordRef.current ? validPassword : ' '}
             <div className="sign-in__field">
-              <input className="sign-in__input"  type="password" placeholder="Password" name="user-password" id="user-password" ref={passwordRef} onChange={getPassword}/>
+              <input className="sign-in__input"  type="password" placeholder="Password" name="user-password" id="user-password" ref={passwordRef} onChange={handlePasswordChange}/>
               <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
             </div>
           </div>

@@ -8,7 +8,6 @@ export enum ActionType {
   SetGenre = 'dataFilms/setGenre',
   RequireAuthorization = 'dataUser/requireAuthorization',
   SetFilms = 'dataFilms/setFilms',
-  SetFilmsFilter = 'data/setFilmsFilter',
   SetPromo = 'dataPromo/setPromo',
   SetFilm = 'dataFilm/setFilm',
   ChangeUser = 'dataUser/changeUser',
