@@ -1,7 +1,7 @@
 Project "What To Watch"
 
 Watch new movies in the best quality. Leave reviews, rate and choose only the best from the world of big cinema.
-
+This project was bootstrapped with [Create React App]. In the project directory, you can run: npm start npm test
 Description
 
 The application consists of several pages: Home, User Authorization, Favorite Movies List, Movie, Add Review, Player;
